@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Find Game</title>
   <style>
     body {
@@ -10,7 +10,6 @@
       padding: 0;
       background-color: #f8edc2;
       font-family: 'Poppins', sans-serif;
-      overflow-x: hidden;
     }
 
     .container {
@@ -20,8 +19,6 @@
       padding: 20px;
       border-radius: 40px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      position: relative;
-      overflow: hidden;
     }
 
     .header {
@@ -32,9 +29,12 @@
       color: #5b5132;
     }
 
-    .back {
+    .header .back {
       cursor: pointer;
-      z-index: 20;
+    }
+
+    .header .time {
+      font-size: 16px;
     }
 
     .title {
@@ -112,32 +112,20 @@
       text-align: center;
     }
 
-    /* Slide-in detail panel */
-    .game-detail-panel {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 100%;
-      max-width: 400px;
-      height: 100%;
+    .game-detail {
+      margin-top: 20px;
       background: #fff4dc;
-      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
-      transition: right 0.3s ease;
-      padding: 20px;
-      z-index: 10;
+      padding: 10px;
+      border-radius: 16px;
     }
 
-    .game-detail-panel.active {
-      right: 0;
-    }
-
-    .game-detail-panel img {
+    .game-detail img {
       width: 100%;
       border-radius: 10px;
       margin-bottom: 10px;
     }
 
-    .game-detail-panel h3 {
+    .game-detail h3 {
       margin: 0;
     }
 
@@ -191,20 +179,19 @@
 <body>
   <div class="container">
     <div class="header">
-      <div class="back" onclick="closeGameDetail()">⬅ back</div>
-      <div id="clock">--:--</div>
-      <div>User</div>
+      <div class="back" onclick="goBack()">⬅ kembali</div>
+      <div id="clock" class="time">--:--</div>
+      <div>Pengguna</div>
     </div>
-
-    <div class="title" onclick="scrollToGames()">Find Game</div>
+    <div class="title" onclick="scrollToGames()">Cari Game</div>
 
     <div class="search-bar">
       <div>🔍</div>
-      <input type="text" placeholder="Search" oninput="filterGames(this.value)">
+      <input type="text" placeholder="Cari" oninput="filterGames(this.value)">
     </div>
 
     <div class="tags">
-      <div class="tag active" data-tag="all">All</div>
+      <div class="tag active" data-tag="all">Semua</div>
       <div class="tag" data-tag="918kiss">918kiss</div>
       <div class="tag" data-tag="mega888">Mega888</div>
       <div class="tag" data-tag="pussy888">Pussy888</div>
@@ -212,16 +199,28 @@
 
     <ul class="game-list" id="gameList">
       <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Wolf Run')"><i>🎰</i> Wolf Run</li>
+      <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Sticky Bandits Wild Return')"><i>🎰</i> Sticky Bandits Wild Return</li>
       <li class="game-item" data-tag="mega888" onclick="showGameDetail('Six Acrobats')"><i>🎰</i> Six Acrobats</li>
+      <li class="game-item" data-tag="mega888" onclick="showGameDetail('Great88')"><i>🎰</i> Great88</li>
+      <li class="game-item" data-tag="pussy888" onclick="showGameDetail('Wild Fireworks')"><i>🎰</i> Wild Fireworks</li>
       <li class="game-item" data-tag="pussy888" onclick="showGameDetail('Conan')"><i>🎰</i> Conan</li>
+      <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Floating Dragon')"><i>🎰</i> Floating Dragon</li>
+      <li class="game-item" data-tag="mega888" onclick="showGameDetail('Fortune Tiger')"><i>🎰</i> Fortune Tiger</li>
     </ul>
 
-    <div class="footer">On Hold Development<br>May be unstable.</div>
+    <div id="gameDetail" class="game-detail" style="display:none"></div>
+
+    <div class="footer">
+      Dalam Pengembangan<br>
+      Bisa tidak stabil.
+    </div>
   </div>
 
-  <div id="gameDetailPanel" class="game-detail-panel"></div>
-
   <script>
+    function goBack() {
+      document.getElementById('gameDetail').style.display = 'none';
+    }
+
     function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
@@ -230,11 +229,6 @@
     }
     setInterval(updateClock, 1000);
     updateClock();
-
-    function scrollToGames() {
-      const list = document.getElementById('gameList');
-      if (list) list.scrollIntoView({ behavior: 'smooth' });
-    }
 
     function filterGames(keyword) {
       const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
@@ -255,50 +249,50 @@
       });
     });
 
+    function scrollToGames() {
+      const list = document.getElementById('gameList');
+      if (list) list.scrollIntoView({ behavior: 'smooth' });
+    }
+
     function showGameDetail(name) {
-      const panel = document.getElementById('gameDetailPanel');
-      panel.innerHTML = `
+      const detailBox = document.getElementById('gameDetail');
+      const gameLines = 40;
+      detailBox.innerHTML = `
         <img src="https://placehold.co/600x200" alt="Game Banner">
         <h3>${name}</h3>
-        <p><strong>GameName:</strong> ${name.replace(/ /g, '')}</p>
+        <p><strong>Nama Game:</strong> ${name.replace(/ /g, '')}</p>
         <div class="game-section">
           <div class="box">
-            <strong>Game Info</strong><br>
-            Type: Slot<br>
-            Payline: 40<br>
-            Adjustable Payline: Yes
+            <strong>Info Game</strong><br>
+            Jenis: Slot<br>
+            Payline: <span id="lineCount">${gameLines}</span><br>
+            Payline Bisa Diubah: Ya
           </div>
           <div class="box">
-            <strong>Platforms</strong><br>
-            <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">🎰 ${getPlatform(name)}</span>
+            <strong>Platform</strong><br>
+            <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">🎰 Mega888</span>
           </div>
         </div>
         <div class="bet-section">
-          <strong>Game Bet</strong><br>
+          <strong>Bet Game</strong><br>
           <div class="bet-values">
-            <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span>
-            <span>4.00</span><span>8.00</span><span>12.00</span><span>20.00</span>
-            <span>40.00</span><span>80.00</span><span>120.00</span>
+            <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span><span>8.00</span>
+            <span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
           </div>
           <div class="line-control">
-            <button>-</button>
-            <span>40 lines</span>
-            <button>+</button>
+            <button onclick="adjustLines(-1)">-</button>
+            <span id="lineDisplay">${gameLines} lines</span>
+            <button onclick="adjustLines(1)">+</button>
           </div>
         </div>`;
-      panel.classList.add('active');
+      detailBox.style.display = 'block';
+      window.currentLines = gameLines;
     }
 
-    function closeGameDetail() {
-      const panel = document.getElementById('gameDetailPanel');
-      panel.classList.remove('active');
-    }
-
-    function getPlatform(name) {
-      if (name === "Wolf Run") return "918kiss";
-      if (name === "Six Acrobats") return "Mega888";
-      if (name === "Conan") return "Pussy888";
-      return "Unknown";
+    function adjustLines(amount) {
+      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
+      document.getElementById('lineCount').textContent = window.currentLines;
+      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
     }
   </script>
 </body>
