@@ -4,14 +4,15 @@
   <meta charset="UTF-8">
   <title>Game Log Generator</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { padding: 8px; border: 1px solid #ccc; text-align: center; }
-    th { background-color: #0073e6; color: white; }
-    button { padding: 8px 15px; font-size: 16px; margin-top: 10px; margin-right: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    button:hover { background-color: #218838; }
-    select, input { padding: 6px 10px; font-size: 16px; margin-left: 10px; }
-    #nowTime { font-weight: bold; margin-left: 10px; color: #0073e6; }
+    body { font-family: Arial, sans-serif; padding:20px; }
+    table{ width:100%; border-collapse:collapse; margin-top:10px;}
+    th,td{ padding:8px; border:1px solid #ccc; text-align:center;}
+    th{ background:#0073e6; color:#fff;}
+    button{ padding:8px 15px; font-size:16px; margin-top:10px; margin-right:10px;
+            background:#28a745; color:#fff; border:none; border-radius:5px; cursor:pointer;}
+    button:hover{ background:#218838;}
+    select,input{ padding:6px 10px; font-size:16px; margin-left:10px;}
+    #nowTime{ font-weight:bold; margin-left:10px; color:#0073e6;}
   </style>
 </head>
 <body>
@@ -49,70 +50,73 @@
     </tr>
   </thead>
   <tbody>
+    <!-- baris Set Score -->
     <tr>
       <td>-</td>
-      <td colspan="1" id="setScoreCell" style="color: red; font-weight: bold;">Set score: -0.00</td>
+      <td id="setScoreCell" style="color:red;font-weight:bold;">Set score: -0.00</td>
       <td colspan="5"></td>
     </tr>
   </tbody>
 </table>
 
 <script>
-  let globalTime = null;
+  let globalTime = null;          // diset bila tekan Now
 
-  function setNow() {
+  function setNow(){
     const now = new Date();
-    globalTime = now.toISOString().replace("T", " ").substring(0, 19);
+    globalTime = now.toISOString().replace("T"," ").substring(0,19);
     document.getElementById("nowTime").innerText = globalTime;
   }
 
-  function getRandomFloat(min, max, decimals = 2) {
-    return parseFloat((Math.random() * (max - min) + min).toFixed(decimals));
+  // nombor rawak helper
+  function rnd(min,max,dec=2){
+    return parseFloat((Math.random()*(max-min)+min).toFixed(dec));
   }
 
-  function generateLog() {
-    const gameName = document.getElementById("gameSelect").value;
-    const bet = parseFloat(document.getElementById("betValue").value);
-    const tbody = document.querySelector("#gameLog tbody");
+  function generateLog(){
+    const game     = document.getElementById("gameSelect").value;
+    const bet      = parseFloat(document.getElementById("betValue").value);
+    const tbody    = document.querySelector("#gameLog tbody");
 
+    // reset, tapi pertahankan baris Set Score (baris pertama)
     tbody.innerHTML = `
       <tr>
         <td>-</td>
-        <td colspan="1" id="setScoreCell" style="color: red; font-weight: bold;">Set score: -0.00</td>
+        <td id="setScoreCell" style="color:red;font-weight:bold;">Set score: -0.00</td>
         <td colspan="5"></td>
       </tr>
     `;
 
-    let currentMoney = getRandomFloat(3000, 4000);
-    const beginMoneyFirst = currentMoney;
-    let lastEndMoney = currentMoney;
+    // mula wang rawak
+    let balance = rnd(3000,4000);
+    let lastEndMoney = balance;
 
-    for (let i = 0; i < 10; i++) {
-      const winChance = Math.random();
-      const win = winChance > 0.7 ? getRandomFloat(0, bet * 3) : 0.00;
-      const beginMoney = currentMoney;
-      const endMoney = beginMoney - bet + win;
-      currentMoney = endMoney;
-      lastEndMoney = endMoney;
+    for(let i=0;i<10;i++){
+      const win = Math.random()>0.7 ? rnd(0,bet*3) : 0.00;
+      const beginMoney = balance;
+      const endMoney   = beginMoney - bet + win;
+      balance          = endMoney;              // kemaskini baki
+      lastEndMoney     = endMoney;
 
-      const dateTime = globalTime || new Date().toISOString().replace("T", " ").substring(0, 19);
+      const timeStamp  = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
-      const row = `
+      tbody.innerHTML += `
         <tr>
-          <td>${gameName}</td>
+          <td>${game}</td>
           <td>0</td>
           <td>${bet.toFixed(2)}</td>
           <td>${win.toFixed(2)}</td>
           <td>${beginMoney.toFixed(2)}</td>
           <td>${endMoney.toFixed(2)}</td>
-          <td>${dateTime}</td>
+          <td>${timeStamp}</td>
         </tr>
       `;
-      tbody.innerHTML += row;
     }
 
-    const setScore = beginMoneyFirst - lastEndMoney;
-    document.getElementById("setScoreCell").innerText = `Set score: -${Math.abs(setScore).toFixed(2)}`;
+    // ----- SET SCORE -----
+    // ikut amount EndMoney baris TERAKHIR, tapi negatif
+    const setScore = -Math.abs(lastEndMoney);
+    document.getElementById("setScoreCell").innerText = `Set score: ${setScore.toFixed(2)}`;
   }
 </script>
 
