@@ -438,7 +438,9 @@
         <div class="tag" data-tag="mega888">Mega888</div>
         <div class="tag" data-tag="pussy888">Pussy888</div>
       </div>
-      <ul class="game-list" id="gameList"></ul>
+      <ul class="game-list" id="gameList">
+      <li onclick="showGameDetail(...game data...)">Game Name</li>
+      </ul>
       <div id="gameDetail" class="game-detail"></div>
       <div class="footer">
         On Development<br>
@@ -507,8 +509,7 @@
   window.currentBetIndex = 0;
 
   gameDetail.innerHTML = `
-    <div class="game-detail">
-  <div class="close-btn" onclick="goBack()">Close</div>
+    <div class="close-btn" onclick="goBack()">Close</div>
   <div class="detail-inner">
     <img src="${image}" alt="${name}" />
     <h3>${name}</h3>
@@ -526,18 +527,14 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
-      <div class="bet-section">
-        <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
-        <div id="betValuesContainer" class="bet-values"></div>
-        <div style="margin-top: 8px;"></div>
-      </div>
-      <div class="line-control">
-        <button onclick="adjustLines(-1)">-</button>
-        <span id="lineDisplay">${window.currentLines} lines</span>
-        <button onclick="adjustLines(1)">+</button>
-      </div>
+    <div class="bet-section">
+      <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
+      <div id="betValuesContainer" class="bet-values"></div>
+    </div>
+    <div class="line-control">
+      <button onclick="adjustLines(-1)">-</button>
+      <span id="lineDisplay">${window.currentLines} lines</span>
+      <button onclick="adjustLines(1)">+</button>
     </div>
   `;
 
