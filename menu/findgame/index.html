@@ -137,14 +137,6 @@
     .game-detail h3 {
       margin: 12px 0 4px;
     }
-    .platform-tag {
-     background-color: black !important;
-     color: white !important;
-     border-radius: 8px;
-     padding: 4px 10px;
-     margin-right: 5px;
-     display: inline-block;
-    }
     .game-section, .bet-section {
       margin-top: 12px;
     }
@@ -192,6 +184,24 @@
     }
     .user { 
      color: gold;
+    }
+    .platform-badge {
+     padding: 3px 6px;
+     border-radius: 6px;
+     display: inline-block;
+     margin: 4px 4px 0 0;
+     color: white;
+     font-weight: bold;
+   }
+   .platform-badge.918kiss {
+     background-color: purple;
+   }
+   .platform-badge.mega888 {
+     background-color: orange;
+   }
+   .platform-badge.pussy888 {
+     background-color: skyblue;
+   }
   </style>
 </head>
 <body>
@@ -213,13 +223,6 @@
       <div class="tag" data-tag="918kiss">918kiss</div>
       <div class="tag" data-tag="mega888">Mega888</div>
       <div class="tag" data-tag="pussy888">Pussy888</div>
-    </div>
-    <div class="game-detail">
-    <div class="platform-tags">
-      <span class="platform-tag">918KISS</span>
-      <span class="platform-tag">MEGA888</span>
-      <span class="platform-tag">PUSSY888</span>
-    </div>
     </div>
 
     <ul class="game-list" id="gameList"></ul>
@@ -730,7 +733,8 @@
 
     function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
       const box = document.getElementById('gameDetail');
-      const platformTags = platforms.map(p => `<span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin:4px 4px 0 0;">🎰 ${p}</span>`).join(' ');
+      const platformTags = platforms.map(p => `<span class="platform-badge ${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`
+).join(' ');
       box.innerHTML = `
         <div class="close-btn" onclick="goBack()">❌</div>
         <div class="detail-inner">
