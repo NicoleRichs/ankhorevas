@@ -501,10 +501,28 @@
         filterGames(document.querySelector('.search-bar input').value);
       });
     });
+   function updateTotalBet() {
+  const total = currentLine * currentBet;
+  document.getElementById('total-value').textContent = total;
+}
 
-    function scrollToGames() {
-      document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
-    }
+// Saat tekan tombol -
+document.getElementById('line-minus').addEventListener('click', () => {
+  if (currentLine > 1) {
+    currentLine--;
+    document.getElementById('line-value').textContent = currentLine;
+    updateTotalBet(); // Tambahkan ini
+  }
+});
+
+// Saat tekan tombol +
+document.getElementById('line-plus').addEventListener('click', () => {
+  if (currentLine < 50) {
+    currentLine++;
+    document.getElementById('line-value').textContent = currentLine;
+    updateTotalBet(); // Tambahkan ini juga
+  }
+});
 
   function showGameDetail(name, platforms, imageUrl, type, payline, adjustable, lineBet) {
   const box = document.getElementById('gameDetail');
