@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Game List Gold Theme</title>
+  <title>Gold Themed Game List</title>
   <style>
     body {
-      background-color: #000;
-      color: gold;
-      font-family: Arial, sans-serif;
+      background-color: #0d0d0d;
+      color: #ffd700;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 20px;
     }
@@ -18,49 +18,54 @@
 
     input[type="text"] {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       font-size: 16px;
-      border: 2px solid gold;
-      background: black;
-      color: gold;
+      border: 1px solid #ffd700;
+      background: #1a1a1a;
+      color: #ffd700;
+      border-radius: 8px;
     }
 
     .tags {
+      display: flex;
+      gap: 10px;
       margin-bottom: 20px;
     }
 
     .tag {
-      display: inline-block;
-      padding: 6px 12px;
-      margin: 0 5px 5px 0;
-      border: 1px solid gold;
+      padding: 8px 16px;
+      border: 1px solid #ffd700;
+      border-radius: 20px;
       cursor: pointer;
-      background: black;
+      background: #1a1a1a;
+      transition: background 0.3s;
     }
 
-    .tag.active {
-      background: gold;
-      color: black;
+    .tag.active,
+    .tag:hover {
+      background: #ffd700;
+      color: #1a1a1a;
     }
 
     .game-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
     }
 
     .game-card {
-      border: 1px solid gold;
-      padding: 10px;
       display: flex;
       align-items: center;
+      background: #1a1a1a;
+      border: 1px solid #ffd700;
+      border-radius: 10px;
+      padding: 10px;
+      transition: transform 0.2s ease-in-out;
       cursor: pointer;
-      transition: background 0.3s;
-      background: #111;
     }
 
     .game-card:hover {
-      background: #222;
+      transform: scale(1.02);
     }
 
     .game-card img {
@@ -68,6 +73,7 @@
       height: 80px;
       object-fit: cover;
       margin-right: 15px;
+      border-radius: 8px;
     }
 
     .game-detail {
@@ -75,9 +81,10 @@
       top: 0;
       right: -400px;
       width: 400px;
-      height: 100%;
-      background: #111;
-      border-left: 2px solid gold;
+      height: 100vh;
+      background: #121212;
+      color: #ffd700;
+      border-left: 2px solid #ffd700;
       padding: 20px;
       overflow-y: auto;
       transition: right 0.3s ease-in-out;
@@ -90,37 +97,47 @@
 
     .close-btn {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 15px;
+      right: 15px;
       cursor: pointer;
-      font-size: 18px;
-      color: gold;
+      font-size: 20px;
+      color: #ffd700;
     }
 
     .bet-controls {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-top: 15px;
+      margin-top: 20px;
     }
 
     .bet-controls button {
-      background: black;
-      color: gold;
-      border: 1px solid gold;
-      padding: 5px 10px;
+      background: #1a1a1a;
+      color: #ffd700;
+      border: 1px solid #ffd700;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-weight: bold;
       cursor: pointer;
     }
 
     .bet-value {
       font-weight: bold;
     }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
 
   <div class="search-bar">
-    <input type="text" id="search" placeholder="Search games...">
+    <input type="text" id="search" placeholder="Search for a game...">
   </div>
 
   <div class="tags">
@@ -132,9 +149,9 @@
   <div class="game-list" id="gameList"></div>
 
   <div class="game-detail" id="gameDetail">
-    <span class="close-btn" onclick="closeDetail()">✖</span>
+    <span class="close-btn" onclick="closeDetail()">&times;</span>
     <h2 id="detailName"></h2>
-    <img id="detailImage" src="" alt="" style="width: 100%; margin: 10px 0;">
+    <img id="detailImage" src="" alt="" style="width: 100%; border-radius: 8px; margin: 15px 0;">
     <p><strong>Type:</strong> <span id="detailType"></span></p>
     <p><strong>Paylines:</strong> <span id="detailPayline"></span></p>
     <div class="bet-controls">
@@ -252,5 +269,6 @@
 
     renderGames();
   </script>
+
 </body>
 </html>
