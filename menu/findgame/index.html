@@ -157,6 +157,12 @@
       font-weight: bold;
       z-index: 999;
     }
+    .no-result {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -181,7 +187,7 @@
     </div>
 
     <ul class="game-list" id="gameList"></ul>
-
+    <div class="no-result" id="noResult" style="display: none;">No games found.</div>
     <div id="gameDetail" class="game-detail"></div>
 
     <div class="footer">
@@ -207,12 +213,16 @@
     function filterGames(keyword) {
       const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
       keyword = keyword.toLowerCase();
+      let anyVisible = false;
       document.querySelectorAll('.game-item').forEach(item => {
         const text = item.textContent.toLowerCase();
         const tag = item.getAttribute('data-tag');
         const matchesTag = selectedTag === 'all' || tag.includes(selectedTag);
-        item.style.display = text.includes(keyword) && matchesTag ? 'flex' : 'none';
+        const isVisible = text.includes(keyword) && matchesTag;
+        item.style.display = isVisible ? 'flex' : 'none';
+        if (isVisible) anyVisible = true;
       });
+      document.getElementById('noResult').style.display = anyVisible ? 'none' : 'block';
     }
 
     document.querySelectorAll('.tag').forEach(tagElement => {
@@ -227,248 +237,6 @@
       const list = document.getElementById('gameList');
       if (list) list.scrollIntoView({ behavior: 'smooth' });
     }
-
-    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
-  const detailBox = document.getElementById('gameDetail');
-  const platformTags = platforms.map(p => `<span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin:4px 4px 0 0;">🎰 ${p}</span>`).join(' ');
-
-  detailBox.innerHTML = `
-    <div class="close-btn" onclick="goBack()">❌</div>
-    <div class="detail-inner">
-      <img src="${imageUrl}" alt="Game Banner">
-      <h3>${name}</h3>
-      <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
-      <div class="game-section">
-        <div class="box">
-          <strong>Game Info</strong><br>
-          Type: ${type}<br>
-          Payline: <span id="lineCount">${payline}</span><br>
-          Adjustable Lines: ${adjustable}
-        </div>
-        <div class="box">
-          <strong>Platform</strong><br>
-          ${platformTags}
-        </div>
-      </div>
-      <div class="bet-section">
-        <strong>Bet Options</strong><br>
-        <div class="bet-values">
-          <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span>
-          <span>8.00</span><span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
-        </div>
-        <div class="line-control">
-          <button onclick="adjustLines(-1)">-</button>
-          <span id="lineDisplay">${payline} lines</span>
-          <button onclick="adjustLines(1)">+</button>
-        </div>
-      </div>
-    </div>
-  `;
-  detailBox.classList.add('active');
-  window.currentLines = payline;
-}
-    function adjustLines(amount) {
-      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
-      document.getElementById('lineCount').textContent = window.currentLines;
-      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
-    }
-
-    const games = [
-      {
-    name: 'SILVER BULLET',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/3faMy9F.png',
-    type: 'Slot',
-    payline: 9,
-    adjustable: 'Yes'
-  },
-  {
-    name: 'SILENT SAMURAI',
-    tags: ['918kiss','mega888'],
-    image: 'https://i.imgur.com/y9DsPK4.png',
-    type: 'Slot',
-    payline: 9,
-    adjustable: 'Yes'
-  },
-  {
-    name: 'SILENT SAMURAI P',
-    tags: ['pussy888'],
-    image: 'https://i.imgur.com/y9DsPK4.png',
-    type: 'Slot',
-    payline: 9,
-    adjustable: 'Yes'
-  },
-  {
-    name: 'IRISH LUCK',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/dI6c8Rd.png',
-    type: 'Slot',
-    payline: 30,
-    adjustable: 'Yes'
-  },
-  {
-    name: 'HALLOWEEN FORTUNE',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/0683tHB.png',
-    type: 'Slot',
-    payline: 20,
-    adjustable: 'Yes'
-  },
-  {
-    name: 'HALLOWEEN FORTUNE 2',
-    tags: ['pussy888'],
-    image: 'https://i.imgur.com/YmaCPDZ.png',
-    type: 'Slot',
-    payline: 50,
-    adjustable: 'No'
-  },
-  {
-    name: 'RANCH STORY',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/Ipq5FcN.png',
-    type: 'Slot',
-    payline: 25,
-    adjustable: 'No'
-  },
-  {
-    name: 'STEAM TOWER',
-    tags: ['918kiss','mega888'],
-    image: 'https://i.imgur.com/AdhoNAC.png',
-    type: 'Slot',
-    payline: 20,
-    adjustable: 'Yes'
-  },
-   {
-    name: 'SUN WUKONG',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/wWB8nnj.png',
-    type: 'Slot',
-    payline: 15,
-    adjustable: 'Yes'
-  },
-   {
-    name: 'PAY DIRT',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/okw9eka.png',
-    type: 'Slot',
-    payline: 25,
-    adjustable: 'Yes'
-  },
-  {
-    name: 'GOLDEN SLUT',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/uXYBnSK.png',
-    type: 'Slot',
-    payline: 50,
-    adjustable: 'No'
-  },
-  {
-    name: 'GOLDEN TOUR',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/KWzLSwU.png',
-    type: 'Slot',
-    payline: 5,
-    adjustable: 'Yes'
-  },
-  {
-    name: 'STONE AGE',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/x1NivCZ.png',
-    type: 'Slot',
-    payline: 25,
-    adjustable: 'No'
-  },
-  {
-    name: 'AFRICAN WILDLIFE',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/Tai2Vat.png',
-    type: 'Slot',
-    payline: 50,
-    adjustable: 'No'
-  },
-  {
-    name: 'FRUITY TUTTI',
-    tags: ['918kiss','mega888'],
-    image: 'https://i.imgur.com/tlxCjvY.png',
-    type: 'Slot',
-    payline: 25,
-    adjustable: 'Yes'
-  },
-  {
-    name: 'A NIGHT OUT',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/QIOYghx.png',
-    type: 'Slot',
-    payline: 20,
-    adjustable: 'Yes'
-  },
-  {
-    name: 'BIG PROSPERITY',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/0y9IgCk.png',
-    type: 'Slot',
-    payline: 25,
-    adjustable: 'Yes'
-  },
-   {
-    name: 'CRYSTAL WATERS',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/89EoLET.png',
-    type: 'Slot',
-    payline: 20,
-    adjustable: 'Yes'
-  },
-   {
-    name: 'PANTHER MOON',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/iQxgP3l.png',
-    type: 'Slot',
-    payline: 15,
-    adjustable: 'Yes'
-  },
-   {
-    name: 'GREAT CHINA',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/Lv0MzqD.png',
-    type: 'Slot',
-    payline: 50,
-    adjustable: 'No'
-  },
-   {
-    name: 'SPARTAN',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/TSxQbXE.png',
-    type: 'Slot',
-    payline: 9,
-    adjustable: 'Yes'
-  }, 
-  {
-    name: "CLEOPATRA'S GOLD",
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/bJ6g1R5.png',
-    type: 'Slot',
-    payline: 20,
-    adjustable: 'Yes'
-  }, 
-  {
-    name: 'GOLDEN LOTUS',
-    tags: ['918kiss','mega888','pussy888'],
-    image: 'https://i.imgur.com/tvAddN7.png',
-    type: 'Slot',
-    payline: 25,
-    adjustable: 'Yes'
-  }, 
-  ];
-
-    const gameList = document.getElementById('gameList');
-    games.forEach(game => {
-      const li = document.createElement('li');
-      li.className = 'game-item';
-      li.setAttribute('data-tag', game.tags.join(' '));
-      li.innerHTML = `<i>🎰</i> ${game.name}`;
-      li.onclick = () => showGameDetail(game.name, game.tags.map(t => t.toUpperCase()), game.image, game.type, game.payline, game.adjustable);
-      gameList.appendChild(li);
-    });
   </script>
 </body>
 </html>
