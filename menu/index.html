@@ -18,18 +18,17 @@
       overflow: hidden;
       position: relative;
     }
-    .bg-img {
-      position: fixed;
-      z-index: -1;
-      width: 150px; /* ubah ikut saiz */
-      height: auto;
-      opacity: 0.9; /* boleh tambah efek */
-      top: 0;
-      left: 0;
-      border: 1px dashed red;
+    .background-container {
+     position: relative;
+     width: 100%;
+     height: 100vh;
    }
-   .img1 {position: fixed; object-fit: cover; height: 100vh; top: 0; left: 0; width: 300px; }
-   .img2 {position: fixed; object-fit: cover; height: 100vh; top: 0; right: 0; width: 300px; }
+   .bg-img {
+    position: absolute;
+    z-index: 1;
+   }
+   .img1 {position: fixed; object-fit: cover; top: 0; left: 0; width: 300px; }
+   .img2 {position: fixed; object-fit: cover; top: 0; right: 0; width: 300px; }
    .img3 {position: fixed; top: 0; left: 0; width: 200px; }
    .img4 {position: fixed; top: 0; right: 0; width: 200px; }
    .img5 {position: fixed; top: 50%; left: 0; transform: translateY(-50%); width: 200px; }
@@ -265,6 +264,7 @@
   </style>
 </head>
 <body>
+ <div class="background-container">
   <img src="https://i.imgur.com/tbgEfYb.png" class="bg-img img1">
   <img src="https://i.imgur.com/UUIOKtv.png" class="bg-img img2">
   <img src="https://i.imgur.com/6erYlMx.png" class="bg-img img3">
@@ -272,6 +272,7 @@
   <img src="https://i.imgur.com/bGqb6dJ.png" class="bg-img img5">
   <img src="https://i.imgur.com/MfhKshi.png" class="bg-img img6">
   <img src="https://i.imgur.com/QtwH03L.png" class="bg-img img7">
+ </div>
   <div class="floating-dots"></div>
   <div class="pixel-glow"></div>
   <div class="menu-container">
