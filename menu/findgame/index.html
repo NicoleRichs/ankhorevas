@@ -355,20 +355,24 @@
   .platform-badge.plat-pussy888 {
      background-color: #3c8dbc;
    }
-   .bet-values {
+   .bet-options {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .bet-option {
-  background: gold;
-  color: #000;
-  padding: 6px 10px;
-  border-radius: 4px;
+  background-color: #f0f0f0;
+  padding: 5px 12px;
+  border-radius: 6px;
   cursor: pointer;
+}
+
+.bet-option.active {
+  background-color: gold;
   font-weight: bold;
+  border: 2px solid #333;
 }
 
 .bet-option.selected {
@@ -480,40 +484,55 @@ function showGameDetail(game) {
   const detailContainer = document.getElementById('gameDetail');
   let currentBetIndex = 0;
 
-  function renderBetControl() {
+  function renderBetOptions() {
+    return game.lineBet.map((bet, index) => `
+      <span class="bet-option ${index === currentBetIndex ? 'active' : ''}" data-index="${index}">
+        RM ${bet.toFixed(2)}
+      </span>
+    `).join('');
+  }
+
+  function renderContent() {
     return `
-      <div class="bet-control">
-        <button id="decreaseBet">−</button>
-        <span id="currentBet">RM ${game.lineBet[currentBetIndex].toFixed(2)}</span>
-        <button id="increaseBet">+</button>
+      <div class="close-btn" onclick="closeDetail()">Close ✖</div>
+      <div class="detail-inner">
+        <img src="${game.image}" alt="${game.name}">
+        <h3>${game.name}</h3>
+        <div class="game-section">
+          <div class="box">Type: ${game.type}</div>
+          <div class="box">Payline: ${game.payline}</div>
+          <div class="box">Adjustable: ${game.adjustable}</div>
+        </div>
+        <div class="bet-section">
+          <h4>Choose Bet Amount</h4>
+          <div class="bet-control">
+            <button id="decreaseBet">−</button>
+            <span id="currentBet">RM ${game.lineBet[currentBetIndex].toFixed(2)}</span>
+            <button id="increaseBet">+</button>
+          </div>
+          <div class="bet-options">
+            ${renderBetOptions()}
+          </div>
+        </div>
       </div>
     `;
   }
 
-  detailContainer.innerHTML = `
-    <div class="close-btn" onclick="closeDetail()">Close ✖</div>
-    <div class="detail-inner">
-      <img src="${game.image}" alt="${game.name}">
-      <h3>${game.name}</h3>
-      <div class="game-section">
-        <div class="box">Type: ${game.type}</div>
-        <div class="box">Payline: ${game.payline}</div>
-        <div class="box">Adjustable: ${game.adjustable}</div>
-      </div>
-      <div class="bet-section">
-        <h4>Choose Bet Amount</h4>
-        ${renderBetControl()}
-      </div>
-    </div>
-  `;
-
   function updateBetDisplay() {
-    const currentBetEl = document.getElementById('currentBet');
-    if (currentBetEl) {
-      currentBetEl.textContent = `RM ${game.lineBet[currentBetIndex].toFixed(2)}`;
-    }
+    document.getElementById('currentBet').textContent = `RM ${game.lineBet[currentBetIndex].toFixed(2)}`;
+
+    document.querySelectorAll('.bet-option').forEach(option => {
+      option.classList.remove('active');
+    });
+
+    const selected = document.querySelector(`.bet-option[data-index="${currentBetIndex}"]`);
+    if (selected) selected.classList.add('active');
   }
 
+  // render HTML
+  detailContainer.innerHTML = renderContent();
+
+  // tombol naik-turun
   document.getElementById('decreaseBet').addEventListener('click', () => {
     if (currentBetIndex > 0) {
       currentBetIndex--;
@@ -526,6 +545,14 @@ function showGameDetail(game) {
       currentBetIndex++;
       updateBetDisplay();
     }
+  });
+
+  // klik langsung bet
+  document.querySelectorAll('.bet-option').forEach(option => {
+    option.addEventListener('click', () => {
+      currentBetIndex = parseInt(option.getAttribute('data-index'));
+      updateBetDisplay();
+    });
   });
 
   detailContainer.classList.add('active');
