@@ -334,33 +334,36 @@
      color: gold;
     }
     .platform-badge {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     height: 32px;
-     padding: 3px 6px;
-     border-radius: 6px;
-     display: inline-block;
-     margin: 4px 4px 0 0;
-     color: white;
-     font-size: 14px;
-     font-weight: bold;
-   }
-   .platform-badge.plat-918kiss {
-     background-color: #605ca8;
-   }
-   .platform-badge.plat-mega888 {
-     background-color: #f39c12;
-   }
-  .platform-badge.plat-pussy888 {
-     background-color: #3c8dbc;
-   }
-   .detail-box {
-  border: 1px solid gold;
+  border: 2px dashed white; /* contoh beda border */
+  background: transparent;
+  color: white;
+  padding: 4px 10px;
+  margin: 4px 4px 0 0;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.platform-badge.plat-918kiss {
+  border-color: #605ca8;
+  color: #605ca8;
+}
+
+.platform-badge.plat-mega888 {
+  border-color: #f39c12;
+  color: #f39c12;
+}
+
+.platform-badge.plat-pussy888 {
+  border-color: #3c8dbc;
+  color: #3c8dbc;
+}
+ .detail-box {
+  border: 1px solid gold; /* Tetap emas agar elegan */
   border-radius: 8px;
   padding: 10px;
-  margin-top: 12px;
   background-color: #111;
+  margin-top: 12px;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.2); /* Tambahan efek glow */
 }
 
 .detail-box p {
@@ -462,7 +465,10 @@
       <img src="${image}" alt="${name}" />
       <h3>${name}</h3>
       <div class="detail-box">
-        <p><strong>Platform:</strong> ${tags.join(', ')}</p>
+        <p><strong>Platform:</strong> ${tags.map(tag => {
+  const lower = tag.toLowerCase();
+  return `<span class="platform-badge plat-${lower}">${tag}</span>`;
+}).join(' ')}</p>
         <p><strong>Type:</strong> ${type}</p>
         <p><strong>Payline:</strong> ${payline}</p>
         <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
