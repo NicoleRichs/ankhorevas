@@ -493,7 +493,28 @@
         betValues.appendChild(span);
       });
     }
+    
+    document.querySelectorAll('.platform-tags div').forEach(tag => {
+  tag.addEventListener('click', function() {
+    const selectedTag = tag.textContent.toLowerCase();
+    filterGames(selectedTag);
+  });
+});
 
+function filterGames(platform) {
+  gameList.innerHTML = '';
+  const filteredGames = platform === 'all' 
+    ? games 
+    : games.filter(game => game.tags.some(tag => tag.toLowerCase() === platform));
+  
+  filteredGames.forEach((game, index) => {
+    const div = document.createElement('div');
+    div.className = 'game-item';
+    div.textContent = game.name;
+    div.onclick = () => showGameDetail(index);
+    gameList.appendChild(div);
+  });
+} 
     document.getElementById('searchBox').addEventListener('input', function () {
       const keyword = this.value.toLowerCase();
       const items = document.querySelectorAll('.game-item');
