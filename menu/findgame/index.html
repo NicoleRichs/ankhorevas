@@ -333,19 +333,7 @@
     .user { 
      color: gold;
     }
-    .platform-badge {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     height: 32px;
-     padding: 3px 6px;
-     border-radius: 6px;
-     display: inline-block;
-     margin: 4px 4px 0 0;
-     color: white;
-     font-size: 14px;
-     font-weight: bold;
-   }
+    
    .platform-badge.plat-918kiss {
      background-color: #605ca8;
    }
@@ -355,7 +343,9 @@
   .platform-badge.plat-pussy888 {
      background-color: #3c8dbc;
    }
-Styles remain unchanged */
+#currentBet, #lineDisplay {
+  transition: all 0.2s ease;
+}
   </style>
 </head>
 <body>
@@ -513,7 +503,7 @@ Styles remain unchanged */
       gameList.innerHTML = '';
       const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
       const filtered = games.filter(game => {
-        const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
+        const matchTag = selectedTag === 'all' || game.tags.some(tag => tag.toLowerCase() === selectedTag.toLowerCase());
         const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
         return matchTag && matchKeyword;
       });
