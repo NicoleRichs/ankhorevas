@@ -512,7 +512,7 @@
   const betValues = lineBet.map(bet => `<span class="game-bet-value">${bet}</span>`).join(' ');
   window.currentLines = payline; const lineControl = `<div class="line-control"><button onclick="adjustLines(-1)">-</button><span id="lineCount">${window.currentLines}</span><button onclick="adjustLines(1)">+</button></div>
   <div id="lineDisplay">${window.currentLines} lines</div>
-
+ `;
   box.innerHTML = `
     <div class="close-btn" onclick="goBack()">Close</div>
     <div class="detail-inner">
