@@ -371,7 +371,7 @@
 
     <div class="search-bar">
       <div>🔍</div>
-      <input type="text" placeholder="Search" oninput="filterGames(this.value)">
+      <input type="text" id="searchInput" oninput="filterGames()">
     </div>
 
     <div class="tags">
@@ -468,14 +468,32 @@
       : games;
     displayGames(filteredGames);
   });
- 
-document.addEventListener("DOMContentLoaded", function () {
-  const button = document.getElementById("game-details-button");
-  if (button) {
-    button.addEventListener("click", function () {
-      console.log("Button clicked!");
+ function filterGames() {
+  const input = document.getElementById("searchInput");
+  const filter = input.value.toLowerCase();
+  const gameCards = document.querySelectorAll(".game-card");
+
+  gameCards.forEach((card) => {
+    const title = card.querySelector(".game-title").textContent.toLowerCase();
+    if (title.includes(filter)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("searchInput");
+
+  input.addEventListener("input", function () {
+    const filter = input.value.toLowerCase();
+    const gameCards = document.querySelectorAll(".game-card");
+
+    gameCards.forEach((card) => {
+      const title = card.querySelector(".game-title").textContent.toLowerCase();
+      card.style.display = title.includes(filter) ? "block" : "none";
     });
-  }
+  });
 });
 
   displayGames(games);
