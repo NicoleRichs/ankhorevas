@@ -418,6 +418,36 @@
   color: black;
   font-weight: bold;
 }
+ .info-platform-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.info-box {
+  border: 2px solid gold;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #111;
+  width: 200px;
+}
+
+.info-title {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid gold;
+  padding-bottom: 5px;
+  color: gold;
+}
+
+.info-row {
+  padding: 5px 0;
+  border-bottom: 1px solid #333;
+  color: white;
+}
   #currentBet {
   display: none;
 }
@@ -450,6 +480,7 @@
         Might be unstable.
       </div>
       <div class="close-btn" onclick="goBack()">Close</div>
+      <div id="game-info-container" class="info-platform-wrapper"></div>
     </div>
   </div>
 
@@ -468,7 +499,22 @@
         }
       }
     ];
+  const selectedGame = games[0]; // nanti kamu bisa ubah berdasarkan yang dipilih user
 
+  const container = document.getElementById("game-info-container");
+
+  container.innerHTML = `
+    <div class="info-box">
+      <div class="info-title">GAME INFO</div>
+      <div class="info-row">Type: ${selectedGame.type}</div>
+      <div class="info-row">Payline: ${selectedGame.payline}</div>
+      <div class="info-row">Adjustable: ${selectedGame.adjustable ? "Yes" : "No"}</div>
+    </div>
+    <div class="info-box">
+      <div class="info-title">PLATFORMS</div>
+      ${selectedGame.tags.map(tag => `<div class="info-row">${tag.toUpperCase()}</div>`).join('')}
+    </div>
+  `;
     function goBack() {
       document.getElementById('gameDetail').classList.remove('active');
     }
