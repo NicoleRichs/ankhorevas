@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Log Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      padding: 8px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background-color: #0073e6;
+      color: white;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Game Log</h2>
+<button onclick="generateLog()">Change</button>
+
+<table id="gameLog">
+  <thead>
+    <tr>
+      <th>GameName</th>
+      <th>TableID</th>
+      <th>Bet</th>
+      <th>Win</th>
+      <th>BeginMoney</th>
+      <th>EndMoney</th>
+      <th>DateTime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td colspan="6" id="setScore" style="color: red; font-weight: bold;">Set score: -0.00</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  const gameNames = ["Great88", "LuckyBall", "MegaReel", "DragonSlot", "SevenWin"];
+  const betOptions = [1.00, 1.50, 2.00, 2.50, 5.00, 10.00];
+
+  function getRandomFloat(min, max, decimals = 2) {
+    return parseFloat((Math.random() * (max - min) + min).toFixed(decimals));
+  }
+
+  function getCurrentDateTime() {
+    const now = new Date();
+    return now.toISOString().replace("T", " ").substring(0, 19);
+  }
+
+  function generateLog() {
+    const tbody = document.querySelector("#gameLog tbody");
+    tbody.innerHTML = `
+      <tr>
+        <td>-</td>
+        <td colspan="6" id="setScore" style="color: red; font-weight: bold;">Set score: -0.00</td>
+      </tr>
+    `;
+
+    let currentMoney = getRandomFloat(3000, 4000);
+    let totalBet = 0;
+    let totalWin = 0;
+
+    for (let i = 0; i < 10; i++) {
+      const game = gameNames[Math.floor(Math.random() * gameNames.length)];
+      const bet = betOptions[Math.floor(Math.random() * betOptions.length)];
+      const winChance = Math.random();
+      const win = winChance > 0.6 ? getRandomFloat(0, bet * 5) : 0.00;
+      const beginMoney = currentMoney;
+      const endMoney = beginMoney - bet + win;
+      const dateTime = getCurrentDateTime();
+
+      totalBet += bet;
+      totalWin += win;
+      currentMoney = endMoney;
+
+      const row = `
+        <tr>
+          <td>${game}</td>
+          <td>0</td>
+          <td>${bet.toFixed(2)}</td>
+          <td>${win.toFixed(2)}</td>
+          <td>${beginMoney.toFixed(2)}</td>
+          <td>${endMoney.toFixed(2)}</td>
+          <td>${dateTime}</td>
+        </tr>
+      `;
+      tbody.innerHTML += row;
+    }
+
+    const setScore = (totalWin - totalBet).toFixed(2);
+    const scoreColor = setScore >= 0 ? "green" : "red";
+    document.getElementById("setScore").style.color = scoreColor;
+    document.getElementById("setScore").innerText = `Set score: ${setScore >= 0 ? '+' : ''}${setScore}`;
+  }
+</script>
+
+</body>
+</html>
