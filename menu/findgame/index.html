@@ -395,6 +395,7 @@
       On Development<br>
       Might be unstable.
     </div>
+    <div class="close-btn" onclick="goBack()">Close</div>
 </div>
   <script>
     const games = [
@@ -410,9 +411,9 @@
     2: [0.10, 10.00, 20.00, 30.00, 40.00]
   }
 }
-    function goBack() {
-  console.log("goBack function called");
-  document.getElementById('gameDetail').classList.remove('active');
+  function goBack() {
+   console.log("goBack function called");
+   document.getElementById('gameDetail').classList.remove('active');
 }
     function updateClock() {
       const now = new Date();
