@@ -523,7 +523,7 @@
         </div>
         <div class="platforms">
           <h3>PLATFORMS</h3>
-          <p>${tags.join(', ')}</p>
+          <p>${tags.map(tag => tag.toUpperCase()).join('<br>')}</p>
         </div>
       </div>
     </div>
