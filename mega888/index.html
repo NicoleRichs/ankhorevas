@@ -109,16 +109,16 @@
     const data2 = logs[1];
 
     rows += `
-      <tr class="set-score-row">
-        <td>-</td>
-        <td class="setscore">Set score: ${(-Math.abs(parseFloat(data2.endMoney))).toFixed(2)}</td>
-        <td class="negatif">${(-Math.abs(parseFloat(data2.bet))).toFixed(2)}</td>
-        <td class="negatif">${(-Math.abs(parseFloat(data2.win))).toFixed(2)}</td>
-        <td class="negatif">${(-Math.abs(parseFloat(data2.beginMoney))).toFixed(2)}</td>
-        <td class="negatif">${(-Math.abs(parseFloat(data2.endMoney))).toFixed(2)}</td>
-        <td>${data2.dateTime}</td>
-      </tr>
-    `;
+  <tr class="set-score-row">
+    <td>-</td>
+    <td class="setscore">Set score: ${(-Math.abs(parseFloat(data2.endMoney))).toFixed(2)}</td>
+    <td class="negatif">-</td>         <!-- Bet -->
+    <td class="negatif">-</td>         <!-- Win -->
+    <td class="negatif">-</td>         <!-- BeginMoney -->
+    <td class="negatif">-</td>         <!-- EndMoney -->
+    <td>${data2.dateTime}</td>
+  </tr>
+`;
 
     logs.forEach(log => {
       rows += `
