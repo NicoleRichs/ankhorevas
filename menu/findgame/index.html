@@ -2,208 +2,166 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Find Game</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f4eac3;
-      color: #3d2b1f;
+      background: #f2e5be;
+      color: #3b2f14;
     }
-
     .container {
-      max-width: 480px;
+      max-width: 400px;
       margin: auto;
-      background: #fff7dc;
-      border-radius: 30px;
+      background: #fff7db;
+      border-radius: 40px 40px 0 0;
       padding: 20px;
       position: relative;
+      min-height: 100vh;
     }
-
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
     }
-
     .title {
-      text-align: center;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: bold;
-      margin: 10px 0 20px;
-      cursor: pointer;
+      margin: 20px 0;
+      text-align: center;
     }
-
     .search-bar {
       display: flex;
       align-items: center;
-      gap: 10px;
-      background: #f2e5b9;
-      border-radius: 10px;
+      background: #f5eac1;
+      border-radius: 12px;
       padding: 8px 12px;
+      margin-bottom: 10px;
     }
-
     .search-bar input {
       border: none;
-      outline: none;
       background: transparent;
-      flex: 1;
+      margin-left: 8px;
+      width: 100%;
     }
-
     .tags {
       display: flex;
       gap: 10px;
-      margin: 15px 0;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
-
     .tag {
-      padding: 5px 15px;
-      border-radius: 15px;
-      background: #f1e3b4;
+      padding: 6px 12px;
+      background: #f3e4b2;
+      border-radius: 16px;
       cursor: pointer;
-      font-size: 14px;
     }
-
     .tag.active {
-      background: #decf99;
+      background: #e0c26e;
       font-weight: bold;
     }
-
     .game-list {
       list-style: none;
       padding: 0;
-      margin: 0;
     }
-
     .game-item {
       display: flex;
       align-items: center;
-      gap: 10px;
       padding: 10px;
-      border-bottom: 1px dashed #c9b888;
+      border-bottom: 1px dotted #ccc;
       cursor: pointer;
     }
-
     .game-item i {
-      font-style: normal;
+      margin-right: 10px;
     }
-
-    .footer {
-      text-align: center;
-      font-size: 12px;
-      color: #888;
-      margin-top: 20px;
-    }
-
     .game-detail {
       position: fixed;
       top: 0;
-      right: 0;
-      height: 100%;
-      width: 90%;
+      right: -100%;
+      width: 100%;
       max-width: 400px;
-      background: #fef8e3;
-      box-shadow: -4px 0 10px rgba(0,0,0,0.1);
-      transform: translateX(100%);
-      transition: transform 0.3s ease-in-out;
-      z-index: 100;
+      height: 100%;
+      background: #fff7db;
+      z-index: 10;
       padding: 20px;
-      overflow-y: auto;
-      border-top-left-radius: 30px;
-      border-bottom-left-radius: 30px;
+      box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
     }
-
     .game-detail.active {
-      transform: translateX(0%);
+      right: 0;
     }
-
     .close-arrow {
-      position: absolute;
-      top: 50%;
-      left: -15px;
-      transform: translateY(-50%);
-      background: #3d2b1f;
-      color: white;
-      border-radius: 50%;
-      padding: 8px 10px;
       cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 0 4px rgba(0,0,0,0.3);
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #5b5132;
     }
-
-    .box {
-      background: #fff;
-      padding: 10px;
-      border-radius: 10px;
-      margin: 10px 0;
-    }
-
     .game-section {
       display: flex;
       gap: 10px;
+      margin: 20px 0;
       flex-wrap: wrap;
     }
-
+    .box {
+      background: #f5eac1;
+      border-radius: 12px;
+      padding: 10px;
+      flex: 1;
+    }
     .bet-values span {
       background: #fff;
-      padding: 5px 10px;
+      padding: 5px 8px;
       border-radius: 6px;
-      margin: 3px;
+      margin: 4px;
       display: inline-block;
     }
-
     .line-control {
       margin-top: 10px;
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 10px;
+      justify-content: center;
     }
-
     .line-control button {
-      background: #fff;
-      border: none;
-      padding: 5px 10px;
-      font-weight: bold;
+      padding: 4px 12px;
       font-size: 16px;
-      border-radius: 10px;
       cursor: pointer;
     }
-
-    .line-control span {
-      font-weight: bold;
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      color: #888;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div class="back" onclick="goBack()">← back</div>
-      <div id="clock">--:--</div>
+      <div class="back" onclick="goBack()">⬅ back</div>
+      <div id="clock" class="time">--:--</div>
       <div>User</div>
     </div>
     <div class="title" onclick="scrollToGames()">Find Game</div>
 
     <div class="search-bar">
       <div>🔍</div>
-      <input type="text" placeholder="Search" oninput="filterGames(this.value)">
+      <input type="text" placeholder="Search" oninput="filterGames(this.value)" />
     </div>
 
     <div class="tags">
       <div class="tag active" data-tag="all">All</div>
-      <div class="tag" data-tag="918kiss">918kiss</div>
-      <div class="tag" data-tag="mega888">Mega888</div>
-      <div class="tag" data-tag="pussy888">Pussy888</div>
+      <div class="tag" data-tag="918KISS">918kiss</div>
+      <div class="tag" data-tag="Mega888">Mega888</div>
+      <div class="tag" data-tag="Pussy888">Pussy888</div>
     </div>
 
     <ul class="game-list" id="gameList"></ul>
-
     <div id="gameDetail" class="game-detail"></div>
 
     <div class="footer">
-      On Hold Development<br>
+      On Hold Development<br />
       May be unstable.
     </div>
   </div>
@@ -227,8 +185,8 @@
       keyword = keyword.toLowerCase();
       document.querySelectorAll('.game-item').forEach(item => {
         const text = item.textContent.toLowerCase();
-        const tag = item.getAttribute('data-tag');
-        const matchesTag = selectedTag === 'all' || tag === selectedTag;
+        const tag = item.getAttribute('data-tags');
+        const matchesTag = selectedTag === 'all' || tag.includes(selectedTag);
         item.style.display = text.includes(keyword) && matchesTag ? 'flex' : 'none';
       });
     }
@@ -246,9 +204,16 @@
       if (list) list.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function showGameDetail(name, platform) {
+    function showGameDetail(name, platforms) {
       const detailBox = document.getElementById('gameDetail');
       const gameLines = 40;
+
+      const platformHTML = platforms.map(p => `
+        <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin:4px 4px 0 0;">
+          🎰 ${p}
+        </span>
+      `).join('');
+
       detailBox.innerHTML = `
         <div class="close-arrow" onclick="goBack()">❮</div>
         <img src="https://placehold.co/600x200" alt="Game Banner" style="width:100%; border-radius:10px;">
@@ -264,9 +229,7 @@
           </div>
           <div class="box">
             <strong>Platforms</strong><br>
-            <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">
-              🎰 ${platform}
-            </span>
+            ${platformHTML}
           </div>
         </div>
 
@@ -294,23 +257,23 @@
     }
 
     const games = [
-      { name: 'Wolf Run', tag: '918kiss' },
-      { name: 'Sticky Bandits Wild Return', tag: '918kiss' },
-      { name: 'Six Acrobats', tag: 'mega888' },
-      { name: 'Great88', tag: 'mega888' },
-      { name: 'Wild Fireworks', tag: 'pussy888' },
-      { name: 'Conan', tag: 'pussy888' },
-      { name: 'Floating Dragon', tag: '918kiss' },
-      { name: 'Fortune Tiger', tag: 'mega888' },
+      { name: 'Wolf Run', platforms: ['Mega888'] },
+      { name: 'Sticky Bandits Wild Return', platforms: ['918KISS', 'Mega888'] },
+      { name: 'Six Acrobats', platforms: ['Mega888', 'Pussy888'] },
+      { name: 'Great88', platforms: ['Mega888'] },
+      { name: 'Wild Fireworks', platforms: ['Pussy888', '918KISS'] },
+      { name: 'Conan', platforms: ['Pussy888'] },
+      { name: 'Floating Dragon', platforms: ['918KISS', 'Mega888', 'Pussy888'] },
+      { name: 'Fortune Tiger', platforms: ['Mega888'] }
     ];
 
     const gameList = document.getElementById('gameList');
     games.forEach(game => {
       const li = document.createElement('li');
       li.className = 'game-item';
-      li.setAttribute('data-tag', game.tag);
+      li.setAttribute('data-tags', game.platforms.join(','));
       li.innerHTML = `<i>🎰</i> ${game.name}`;
-      li.onclick = () => showGameDetail(game.name, game.tag.charAt(0).toUpperCase() + game.tag.slice(1));
+      li.onclick = () => showGameDetail(game.name, game.platforms);
       gameList.appendChild(li);
     });
   </script>
