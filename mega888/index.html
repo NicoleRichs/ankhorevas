@@ -84,14 +84,15 @@
     const tbody = document.querySelector("#gameLog tbody");
 
     let logs = [];
-    let beginMoney = rnd(3000, 4000); // start balance
+    let balance = rnd(3000, 4000); // initial balance
 
     for(let i = 0; i < 10; i++){
+      const beginMoney = balance;
       const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
       const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
       const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
-      logs.push({
+      logs.unshift({
         game,
         tableID: 0,
         bet: bet.toFixed(2),
@@ -101,20 +102,20 @@
         dateTime: timeStamp
       });
 
-      beginMoney = endMoney; // update for next loop
+      balance = endMoney; // update balance
     }
 
-    const data2 = logs[logs.length - 1];
+    const setScoreMoney = logs[0].endMoney;
 
     let rows = `
       <tr class="set-score-row">
         <td>-</td>
-        <td class="setscore">Set score: ${(-Math.abs(parseFloat(data2.endMoney))).toFixed(2)}</td>
+        <td class="setscore">Set score: ${(-Math.abs(parseFloat(setScoreMoney))).toFixed(2)}</td>
         <td class="negatif">-</td>
         <td class="negatif">-</td>
         <td class="negatif">-</td>
         <td class="negatif">-</td>
-        <td>${data2.dateTime}</td>
+        <td>${logs[0].dateTime}</td>
       </tr>
     `;
 
