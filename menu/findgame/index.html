@@ -474,28 +474,7 @@
     gamePayline.textContent = "Paylines: " + game.payline;
     gameAdjustable.textContent = "Adjustable Lines: " + (game.adjustable ? "Yes" : "No");
     
-    detail.innerHTML = `
-      <button id="closeDetail" style="position:absolute;top:10px;right:10px;background:#ffd700;border:none;color:#000;font-weight:bold;padding:5px 10px;cursor:pointer;border-radius:4px;">X</button>
-      <img id="gameImg" src="${game.image}" alt="Game Image">
-      <h2 id="gameTitle">${game.name}</h2>
-      <p id="gameName">Name: ${game.name}</p>
-      <div class="info-border">
-        <p id="gameType">Type: ${game.type || 'N/A'}</p>
-        <p id="gamePayline">Paylines: ${game.payline || 'N/A'}</p>
-        <p id="gameAdjustable">Adjustable: ${game.adjustable ? 'Yes' : 'No'}</p>
-      </div>
-      <div class="platform-box">
-        <div class="platform-title">PLATFORM</div>
-        <div id="gameTags" class="platform-tags"></div>
-      </div>
-      <div class="bet-values-box" id="betValues"></div>
-      <div class="line-controls">
-        <button onclick="changeLine(-1)">-</button>
-        <span id="lineDisplay">Line: 1</span>
-        <button onclick="changeLine(1)">+</button>
-      </div>
-    `;
-
+    
     selectedLine = 1;
     updateLineDisplay();
     displayBetValues(game);
