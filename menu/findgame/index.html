@@ -333,6 +333,18 @@
     .user { 
      color: gold;
     }
+    .bet-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+ }
+  .bet-box {
+  background: #f1f1f1;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
     .platform-badge {
      display: flex;
      align-items: center;
@@ -449,44 +461,29 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
-      const box = document.getElementById('gameDetail');
-      const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`
-).join(' ');
-      box.innerHTML = `
-        <div class="close-btn" onclick="goBack()">Close</div>
-        <div class="detail-inner">
-          <img src="${imageUrl}" alt="Game Banner">
-          <h3>${name}</h3>
-          <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
-          <div class="game-section">
-            <div class="box">
-              <strong>Game Info</strong><br>
-              Type: ${type}<br>
-              Payline: <span id="lineCount">${payline}</span><br>
-              Adjustable Lines: ${adjustable}
-            </div>
-            <div class="box">
-              <strong>Platform</strong><br>
-              ${platformTags}
-            </div>
-          </div>
-          <div class="bet-section">
-            <strong>Bet Options</strong><br>
-            <div class="bet-values">
-              <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span>
-              <span>8.00</span><span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
-            </div>
-            <div class="line-control">
-              <button onclick="adjustLines(-1)">-</button>
-              <span id="lineDisplay">${payline} lines</span>
-              <button onclick="adjustLines(1)">+</button>
-            </div>
-          </div>
-        </div>`;
-      box.classList.add('active');
-      window.currentLines = payline;
-    }
+   function showGameDetail(name, platforms, imageUrl, type, payline, adjustable, lineBet) {
+  const box = document.getElementById('gameDetail');
+  const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase()}">🎰 ${p}</span>`).join(' ');
+
+  // Senaraikan semua nilai bet dalam bentuk grid
+  const betValues = lineBet.map(b => `<span class="bet-box">${b}</span>`).join('');
+
+  box.innerHTML = `
+    <div class="close-btn" onclick="goBack()">Close</div>
+    <div class="detail-inner">
+      <h3>${name}</h3>
+      <div class="platform">${platformTags}</div>
+      <img src="${imageUrl}" alt="${name}" />
+      <div class="game-section">
+        <div class="box">Type: <b>${type}</b></div>
+        <div class="box">Paylines: <b>${payline}</b></div>
+        <div class="box">Adjustable: <b>${adjustable}</b></div>
+        <div class="box">Game Bet: <div class="bet-grid">${betValues}</div></div>
+      </div>
+    </div>
+  `;
+  box.classList.add('active');
+}
 
     function adjustLines(amount) {
       window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
