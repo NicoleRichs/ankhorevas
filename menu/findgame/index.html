@@ -72,6 +72,8 @@
       margin-top: 30px;
       align-items: center;
       text-align: left;
+      max-height: 500px;
+      overflow-y: auto;
     }
 
     .game-item {
@@ -207,9 +209,26 @@
 .tag-item.918kiss { background-color: #0044cc; }
 .tag-item.mega888 { background-color: #0066ff; }
 .tag-item.pussy888 { background-color: #0033aa; }
+
+  #homeButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #ffd700;
+  color: #000;
+  padding: 8px 16px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  z-index: 1000;
+ }
+ #homeButton:hover {
+    background-color: #ffcc00;
+ }
   </style>
 </head>
 <body>
+  <a href="#" id="homeButton">Home</a>
   <div class="container">
     <input type="text" id="searchBox" placeholder="Search game...">
 
