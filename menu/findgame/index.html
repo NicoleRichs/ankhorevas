@@ -4,78 +4,70 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Find Game</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background-color: #f4eac3;
       color: #3d2b1f;
     }
 
     .container {
-      max-width: 400px;
+      max-width: 480px;
       margin: auto;
-      background: #fff;
+      background: #fff7dc;
       border-radius: 30px;
       padding: 20px;
-      margin-top: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      position: relative;
     }
 
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-weight: bold;
-      color: #5a4c34;
       font-size: 14px;
     }
 
     .title {
       text-align: center;
-      font-weight: 700;
-      font-size: 20px;
-      margin: 20px 0 10px;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px 0 20px;
       cursor: pointer;
     }
 
     .search-bar {
       display: flex;
       align-items: center;
-      background: #f7ebba;
-      padding: 10px;
+      gap: 10px;
+      background: #f2e5b9;
       border-radius: 10px;
-      margin-bottom: 15px;
+      padding: 8px 12px;
     }
 
     .search-bar input {
       border: none;
-      background: transparent;
-      margin-left: 10px;
-      width: 100%;
-      font-size: 14px;
       outline: none;
+      background: transparent;
+      flex: 1;
     }
 
     .tags {
       display: flex;
       gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 15px;
+      margin: 15px 0;
     }
 
     .tag {
-      padding: 6px 12px;
-      border-radius: 20px;
-      background: #eee1b3;
+      padding: 5px 15px;
+      border-radius: 15px;
+      background: #f1e3b4;
       cursor: pointer;
       font-size: 14px;
     }
 
     .tag.active {
-      background: #c8b169;
-      color: #fff;
+      background: #decf99;
       font-weight: bold;
     }
 
@@ -89,77 +81,98 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px dotted #bbb;
+      padding: 10px;
+      border-bottom: 1px dashed #c9b888;
       cursor: pointer;
-      font-weight: 600;
     }
 
     .game-item i {
       font-style: normal;
-      background: #3d2b1f;
-      color: #fff;
-      padding: 4px 6px;
-      border-radius: 6px;
-      font-size: 12px;
     }
 
     .footer {
       text-align: center;
       font-size: 12px;
-      color: #777;
+      color: #888;
       margin-top: 20px;
     }
 
     .game-detail {
-      display: none;
-      margin-top: 20px;
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 90%;
+      max-width: 400px;
+      background: #fef8e3;
+      box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+      z-index: 100;
+      padding: 20px;
+      overflow-y: auto;
+      border-top-left-radius: 30px;
+      border-bottom-left-radius: 30px;
     }
 
     .game-detail.active {
-      display: block;
+      transform: translateX(0%);
     }
 
-    .game-section, .bet-section {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 15px;
+    .close-arrow {
+      position: absolute;
+      top: 50%;
+      left: -15px;
+      transform: translateY(-50%);
+      background: #3d2b1f;
+      color: white;
+      border-radius: 50%;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 4px rgba(0,0,0,0.3);
     }
 
     .box {
-      flex: 1;
-      background: #f4eac3;
+      background: #fff;
       padding: 10px;
       border-radius: 10px;
-      font-size: 14px;
+      margin: 10px 0;
+    }
+
+    .game-section {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .bet-values span {
-      display: inline-block;
-      background: #eee;
-      padding: 4px 8px;
-      margin: 2px;
+      background: #fff;
+      padding: 5px 10px;
       border-radius: 6px;
-      font-size: 13px;
+      margin: 3px;
+      display: inline-block;
     }
 
     .line-control {
       margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
     .line-control button {
-      padding: 5px 10px;
-      font-size: 14px;
+      background: #fff;
       border: none;
-      background: #c8b169;
-      color: white;
-      border-radius: 6px;
+      padding: 5px 10px;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 10px;
       cursor: pointer;
     }
 
     .line-control span {
-      margin: 0 10px;
       font-weight: bold;
     }
   </style>
@@ -167,11 +180,10 @@
 <body>
   <div class="container">
     <div class="header">
-      <div class="back" onclick="goBack()">⬅ Back</div>
-      <div id="clock" class="time">--:--</div>
+      <div class="back" onclick="goBack()">← back</div>
+      <div id="clock">--:--</div>
       <div>User</div>
     </div>
-
     <div class="title" onclick="scrollToGames()">Find Game</div>
 
     <div class="search-bar">
@@ -238,24 +250,28 @@
       const detailBox = document.getElementById('gameDetail');
       const gameLines = 40;
       detailBox.innerHTML = `
-        <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Close</div>
+        <div class="close-arrow" onclick="goBack()">❮</div>
         <img src="https://placehold.co/600x200" alt="Game Banner" style="width:100%; border-radius:10px;">
-        <h3>${name}</h3>
-        <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
+        <h3 style="margin-top: 15px;">${name.toUpperCase()}</h3>
+        <p style="color:#7c6f57;"><strong>GameName:</strong> ${name.replace(/ /g, '')}</p>
+
         <div class="game-section">
           <div class="box">
             <strong>Game Info</strong><br>
             Type: Slot<br>
             Payline: <span id="lineCount">${gameLines}</span><br>
-            Adjustable Lines: Yes
+            Adjustable Payline: Yes
           </div>
           <div class="box">
-            <strong>Platform</strong><br>
-            <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">🎰 ${platform}</span>
+            <strong>Platforms</strong><br>
+            <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">
+              🎰 ${platform}
+            </span>
           </div>
         </div>
-        <div class="bet-section">
-          <strong>Bet Options</strong><br>
+
+        <div class="box">
+          <strong>Game Bet</strong><br>
           <div class="bet-values">
             <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span><span>8.00</span>
             <span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
@@ -293,7 +309,7 @@
       const li = document.createElement('li');
       li.className = 'game-item';
       li.setAttribute('data-tag', game.tag);
-      li.innerHTML = `<i>777</i> ${game.name}`;
+      li.innerHTML = `<i>🎰</i> ${game.name}`;
       li.onclick = () => showGameDetail(game.name, game.tag.charAt(0).toUpperCase() + game.tag.slice(1));
       gameList.appendChild(li);
     });
