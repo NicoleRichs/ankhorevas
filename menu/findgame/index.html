@@ -266,8 +266,6 @@
     }
 
     function showGameDetail(index) {
-      document.getElementById('closeDetail').addEventListener('click', function () {
-      gameDetail.classList.remove('active');
       const game = games[index];
       currentGame = game;
       gameImg.src = game.image;
@@ -288,7 +286,9 @@
       lineDisplay.textContent = 'Line: ' + currentLine;
       gameDetail.classList.add('active');
     }
-
+    document.getElementById('closeDetail').addEventListener('click', function () {
+    gameDetail.classList.remove('active');
+   });
     function changeLine(delta) {
       if (!currentGame) return;
       const newLine = currentLine + delta;
