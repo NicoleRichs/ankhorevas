@@ -596,7 +596,7 @@
   function showGameDetail(game) {
     gameImg.src = game.image;
     gameTitle.textContent = game.name;
-    gameName.textContent = game.name;
+    gameName.textContent = `GameName: ${game.alias || game.name}`;
     gameType.textContent = "Type: " + game.type;
     gamePayline.textContent = "Paylines: " + game.payline;
     gameAdjustable.textContent = "Adjustable Lines: " + (game.adjustable ? "Yes" : "No");
