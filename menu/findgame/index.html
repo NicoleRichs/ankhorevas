@@ -5,78 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Find Game</title>
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: sans-serif;
-    }
     body {
       margin: 0;
-      background: #f6f6f6;
-      color: #333;
+      font-family: Arial, sans-serif;
+      background: #f8f6f2;
     }
     .container {
-      max-width: 480px;
+      max-width: 500px;
       margin: auto;
-      border: 1px solid #ccc;
+      border: 1px solid #ddd;
+      min-height: 100vh;
       background: #fff;
       position: relative;
-      overflow: hidden;
-      min-height: 100vh;
+      overflow-x: hidden;
     }
-    .header, .footer {
-      padding: 10px;
+    .header {
       display: flex;
       justify-content: space-between;
-      background: #e2e2e2;
+      padding: 12px;
+      background: #f0e8d9;
+      font-weight: bold;
     }
     .title {
       text-align: center;
-      font-weight: bold;
       font-size: 24px;
-      margin: 15px 0;
+      margin: 16px 0;
       cursor: pointer;
     }
     .search-bar {
       display: flex;
       align-items: center;
-      background: #f0f0f0;
-      padding: 8px 10px;
-      border-radius: 8px;
-      margin: 0 10px 10px;
+      gap: 10px;
+      padding: 10px 16px;
     }
     .search-bar input {
       flex: 1;
-      border: none;
-      outline: none;
-      padding-left: 10px;
-      background: transparent;
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
     .tags {
       display: flex;
       overflow-x: auto;
-      padding: 0 10px 10px;
-      gap: 8px;
+      padding: 10px;
+      gap: 10px;
     }
     .tag {
       padding: 6px 12px;
-      background: #ddd;
+      background: #eee;
       border-radius: 20px;
       cursor: pointer;
       white-space: nowrap;
     }
     .tag.active {
-      background: #333;
-      color: #fff;
+      background: #c3b491;
+      color: white;
+      font-weight: bold;
     }
     .game-list {
       list-style: none;
-      padding: 0 10px;
+      padding: 0 16px;
     }
     .game-item {
       padding: 10px;
-      margin-bottom: 6px;
-      background: #f9f9f9;
-      border-radius: 6px;
+      border-bottom: 1px solid #ddd;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -89,41 +81,34 @@
       width: 100%;
       height: 100%;
       background: #fff;
-      padding: 20px;
-      overflow-y: auto;
-      transition: right 0.3s ease;
       z-index: 10;
+      padding: 16px;
+      transition: right 0.3s ease-in-out;
+      overflow-y: auto;
     }
     .game-detail.active {
       right: 0;
     }
-    .game-detail img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
     .game-section {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
+      gap: 16px;
+      margin-top: 12px;
     }
     .box {
-      flex: 1;
-      min-width: 45%;
-      background: #f1f1f1;
+      background: #f5f5f5;
       padding: 10px;
-      border-radius: 6px;
+      border-radius: 8px;
+      flex: 1;
     }
     .bet-section {
-      margin-top: 20px;
+      margin-top: 16px;
     }
     .bet-values span {
       display: inline-block;
-      background: #e0e0e0;
-      margin: 3px;
-      padding: 5px 8px;
-      border-radius: 4px;
+      margin: 3px 6px;
+      background: #f0e8d9;
+      padding: 4px 8px;
+      border-radius: 6px;
     }
     .line-control {
       margin-top: 10px;
@@ -132,12 +117,17 @@
       gap: 10px;
     }
     .line-control button {
-      padding: 5px 10px;
-      font-weight: bold;
+      padding: 4px 10px;
+      background: #c3b491;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
     }
-    .back {
-      cursor: pointer;
-      font-weight: bold;
+    .footer {
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+      color: #888;
     }
   </style>
 </head>
@@ -173,92 +163,6 @@
   </div>
 
   <script>
-    const games = [
-      {
-        name: 'Wolf Run',
-        tags: ['mega888'],
-        type: 'Slot',
-        payline: 40,
-        adjustable: true
-      },
-      {
-        name: 'XMAS MAGIC',
-        tags: ['918kiss', 'mega888'],
-        type: 'Slot',
-        payline: 30,
-        adjustable: true
-      },
-      {
-        name: 'AFRICAN WILDLIFE',
-        tags: ['918kiss', 'pussy888'],
-        type: 'Slot',
-        payline: 25,
-        adjustable: false
-      },
-      {
-        name: "CAPTAIN'S TREASURE",
-        tags: ['mega888', 'pussy888', '918kiss'],
-        type: 'Slot',
-        payline: 20,
-        adjustable: true
-      }
-    ];
-
-    const gameList = document.getElementById('gameList');
-
-    games.forEach(game => {
-      const li = document.createElement('li');
-      li.className = 'game-item';
-      li.setAttribute('data-tag', game.tags.join(','));
-      li.innerHTML = `<i>🎰</i> ${game.name}`;
-      li.onclick = () => showGameDetail(game);
-      gameList.appendChild(li);
-    });
-
-    function showGameDetail(game) {
-      const detailBox = document.getElementById('gameDetail');
-      const platformList = game.tags.map(tag => {
-        return `<span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin:3px;">🎰 ${tag.toUpperCase()}</span>`;
-      }).join(' ');
-      detailBox.innerHTML = `
-        <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Close</div>
-        <img src="https://placehold.co/600x200?text=${encodeURIComponent(game.name)}" alt="Game Banner">
-        <h3>${game.name}</h3>
-        <p><strong>Game Name:</strong> ${game.name.replace(/ /g, '')}</p>
-        <div class="game-section">
-          <div class="box">
-            <strong>Game Info</strong><br>
-            Type: ${game.type}<br>
-            Payline: <span id="lineCount">${game.payline}</span><br>
-            Adjustable Lines: ${game.adjustable ? 'Yes' : 'No'}
-          </div>
-          <div class="box">
-            <strong>Platform</strong><br>${platformList}
-          </div>
-        </div>
-        <div class="bet-section">
-          <strong>Bet Options</strong><br>
-          <div class="bet-values">
-            <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span><span>8.00</span>
-            <span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
-          </div>
-          <div class="line-control">
-            <button onclick="adjustLines(-1)">-</button>
-            <span id="lineDisplay">${game.payline} lines</span>
-            <button onclick="adjustLines(1)">+</button>
-          </div>
-        </div>
-      `;
-      detailBox.classList.add('active');
-      window.currentLines = game.payline;
-    }
-
-    function adjustLines(amount) {
-      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
-      document.getElementById('lineCount').textContent = window.currentLines;
-      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
-    }
-
     function goBack() {
       document.getElementById('gameDetail').classList.remove('active');
     }
@@ -295,6 +199,74 @@
       const list = document.getElementById('gameList');
       if (list) list.scrollIntoView({ behavior: 'smooth' });
     }
+
+    function showGameDetail(name, platforms, imageSrc) {
+      const detailBox = document.getElementById('gameDetail');
+      const gameLines = 40;
+
+      const platformTags = platforms.map(p => 
+        `<span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;margin-right:6px;">🎰 ${p}</span>`
+      ).join('');
+
+      detailBox.innerHTML = `
+        <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Close</div>
+        <img src="${imageSrc}" alt="Game Banner" style="width:100%;border-radius:10px;">
+        <h3>${name}</h3>
+        <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
+        <div class="game-section">
+          <div class="box">
+            <strong>Game Info</strong><br>
+            Type: Slot<br>
+            Payline: <span id="lineCount">${gameLines}</span><br>
+            Adjustable Lines: Yes
+          </div>
+          <div class="box">
+            <strong>Platform</strong><br>
+            ${platformTags}
+          </div>
+        </div>
+        <div class="bet-section">
+          <strong>Bet Options</strong><br>
+          <div class="bet-values">
+            <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span><span>8.00</span>
+            <span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
+          </div>
+          <div class="line-control">
+            <button onclick="adjustLines(-1)">-</button>
+            <span id="lineDisplay">${gameLines} lines</span>
+            <button onclick="adjustLines(1)">+</button>
+          </div>
+        </div>
+      `;
+      detailBox.classList.add('active');
+      window.currentLines = gameLines;
+    }
+
+    function adjustLines(amount) {
+      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
+      document.getElementById('lineCount').textContent = window.currentLines;
+      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
+    }
+
+    const games = [
+      { name: 'XMAS MAGIC', tag: ['918kiss', 'mega888'], image: 'images/xmas_magic.jpg' },
+      { name: 'AFRICAN WILDLIFE', tag: ['pussy888'], image: 'images/african_wildlife.jpg' },
+      { name: "CAPTAIN'S TREASURE", tag: ['918kiss', 'pussy888'], image: 'images/captains_treasure.jpg' },
+    ];
+
+    const gameList = document.getElementById('gameList');
+    games.forEach(game => {
+      const li = document.createElement('li');
+      li.className = 'game-item';
+      li.setAttribute('data-tag', game.tag.join(','));
+      li.innerHTML = `<i>🎰</i> ${game.name}`;
+      li.onclick = () => showGameDetail(
+        game.name,
+        game.tag.map(t => t.charAt(0).toUpperCase() + t.slice(1)),
+        game.image
+      );
+      gameList.appendChild(li);
+    });
   </script>
 </body>
 </html>
