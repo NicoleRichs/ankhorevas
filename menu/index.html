@@ -146,13 +146,13 @@
   }
   }
     .menu-container {
-      position: absolute;
+      position: relative;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       background-color: #000;
-      width: 90vw;
-      max-width: 380px;
+      width: 100%;
+      max-width: 420px;
       min-width: 280px;
       max-height: 800px;
       padding: 20px;
@@ -165,6 +165,7 @@
       border: 2px solid gold;
       box-shadow: 0 0 10px gold;
       overflow-y: auto;
+      box-sizing: border-box;
     }
     @media (max-width: 768px) {
      .menu-container {
