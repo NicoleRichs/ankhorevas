@@ -366,6 +366,30 @@
 .detail-box p {
   margin: 6px 0;
 }
+.game-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 20px;
+  margin-top: 12px;
+}
+
+.game-info {
+  background: #111;
+  padding: 10px;
+  border: 1px solid gold;
+  border-radius: 8px;
+}
+
+.platforms {
+  background: #111;
+  padding: 10px;
+  border: 1px solid gold;
+  border-radius: 8px;
+}
+
+.platforms p {
+  margin: 6px 0;
+}
   #currentBet {
   display: none;
 }
@@ -446,7 +470,7 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
+  function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
   window.currentGame = { name, tags, image, type, payline, adjustable, bets };
   const gameDetail = document.getElementById('gameDetail');
 
@@ -461,11 +485,16 @@
     <div class="detail-inner">
       <img src="${image}" alt="${name}" />
       <h3>${name}</h3>
-      <div class="detail-box">
-        <p><strong>Platform:</strong> ${tags.join(', ')}</p>
-        <p><strong>Type:</strong> ${type}</p>
-        <p><strong>Payline:</strong> ${payline}</p>
-        <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
+      <div class="game-detail-grid">
+        <div class="game-info">
+          <p><strong>Type:</strong> ${type}</p>
+          <p><strong>Payline:</strong> ${payline}</p>
+          <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
+        </div>
+        <div class="platforms">
+          <p><strong>Platforms:</strong></p>
+          ${tags.map(tag => `<p>${tag}</p>`).join('')}
+        </div>
       </div>
       <div class="bet-section">
         <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
