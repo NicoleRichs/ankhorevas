@@ -1,199 +1,522 @@
-<!-- File: find-game.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Find Game</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
   <style>
-    /* === All CSS moved here (termasuk responsive dan animasi) === */
-    /* Copy dari yang sudah kamu buat sebelumnya */
-    /* Untuk menghemat ruang, bagian CSS lengkap tetap sama seperti sebelumnya yang kamu posting, dan dapat aku sisipkan ulang jika kamu mau, tapi fungsionalnya tetap utuh di bagian <head> */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      padding: 0;
+      background: #000;
+      justify-content: center; 
+      align-items: center;
+    }
+    .floating-dots {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      z-index: -1; /* Pastikan ia di belakang semua elemen */
+      background-image: url('https://i.imgur.com/qRqmq9g.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+   }
+
+    .floating-dots::before,
+    .floating-dots::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: radial-gradient(circle, gold 2px, transparent 2px) 0 0 / 50px 50px,
+              radial-gradient(circle, gold 2px, transparent 2px) 25px 25px / 50px 50px;
+      animation: floatDots 30s linear infinite;
+      opacity: 0.2;
+    }
+    .floating-dots::after {
+      animation-delay: 15s;
+      opacity: 0.1;
+    }
+    @keyframes floatDots {
+      0% {
+    transform: translateY(0);
+    }
+      100% {
+      transform: translateY(-100%);
+    }
+    }
+    .container {
+      position: relative;
+      margin: 0 auto;
+      width: 23vw;
+      background: #000;
+      border-radius: 20px;
+      border: 2px solid gold;
+      box-shadow: 0 0 10px gold;
+      overflow: hidden;
+      justify-content: flex-start;
+    }
+    @media (max-width: 768px) {
+   body {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+   }
+  .container {
+    width: 90vw;
+    height: 85vh;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin-top:-30px;
+  }
+  .platform-button {
+    top: 10px; 
+    padding: 5px 10px;
+    font-size: 10px;
+    position: absolute;
+    z-index: 10;
+  }
+  .line-control button {
+    padding: 6px 10px;
+    font-size: 14px;
+    width: auto;
+    box-sizing: border-box;
+  }
+    .line-control {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px;
+    }
+  .game-detail {
+    width: 75vw;
+    height: 100vh;
+    border-left: none;
+    overflow-y: auto;
+  }
+  .game-list {
+    overflow-y: auto;
+    max-height: 85vh;
+  }
+  .title {
+    font-size: 8px;
+  }
+
+  .search-bar input {
+    font-size: 13px;
+  }
+
+  .tag {
+    font-size: 9px;
+    padding: 2px 6px !important;
+    line-height: 1;
+    height: auto;
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+    white-space: nowrap;
+  }
+  .tags {
+    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start !important;
+    padding: 2px;
+    width: 100%;
+  }
+  .game-item {
+    font-size: 10px;
+  }
+}
+    .game-item.hidden {
+      display: none !important;
+    }
+    .header, .footer {
+      background: #000;
+      color: white;
+      font-size: 12px;
+      padding: 10px;
+      text-align: center;          
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 16px;
+      text-align: center;
+      background: #000;
+      color: white;
+      cursor: pointer;
+      border: 1px solid gold;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      background: #000;
+      border: 1px solid gold;
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      outline: none;
+      margin-left: 8px;
+      background: #ddd;
+    }
+    .tags {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding: 8px;
+      gap: 8px;
+      border: 1px solid gold;  
+      background: #000;
+      scrollbar-width: none;
+      width: 100%;
+      box-sizing: border-box;
+      justify-content: center;
+    }
+     .tags::-webkit-scrollbar {
+       display: none; /* Chrome/Safari */
+    }
+    .tag {
+      background: #000;
+      color: white;
+      padding: 6px 12px;
+      border: 1px solid gold; 
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0; 
+    }
+    .tag.active {
+      background: #000;
+      color: gold;
+    }
+    .game-list {
+      background-color: gold;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-height: 600px;
+      overflow-y: auto;
+      margin-bottom: 10px; 
+    }
+    .game-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid gold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      color: white;
+      background-color:#333;
+    }
+    .game-item:hover {
+      background-color: transparent;
+    }
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+    .game-detail {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 35vw;
+      height: 100vh;
+      background: #000;
+      color: white;
+      overflow-y: auto;
+      z-index: 9999;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform: translateX(100%);
+      border-left: 1px solid gold;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .game-detail.active {
+    opacity: 1;
+    transform: translateX(0%);
+    pointer-events: auto;
+    }
+    .game-detail .close-btn {
+      padding: 10px;
+      font-size: 18px;
+      background: gold;
+      color: #000;
+      cursor: pointer;
+      text-align: center;
+    }
+    .game-detail .detail-inner {
+      padding-bottom: 100px;
+    }
+    .game-detail img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid gold;
+    }
+    .game-detail h3 {
+      margin: 12px 0 4px;
+    }
+    .game-section, .bet-section {
+      margin-top: 12px;
+    }
+    .game-section .box {
+      margin-bottom: 8px;
+      background: gold;
+      color: #000;
+      padding: 8px;
+      border-radius: 6px;
+    }
+    .bet-values span {
+      display: inline-block;
+      background: gold;
+      color: #000;
+      margin: 4px;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .line-control {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .line-control button {
+      padding: 6px 12px;
+      font-size: 16px;
+    }
+    .time {
+      font-size: 14px;
+      color: #ccc;
+    }
+    .home-link {
+      text-decoration: none;
+      color: gold;
+      font-weight: bold;
+      display: inline;
+      font-size: 10px;
+      height: auto;
+    }
+    .home-link:hover {
+      color: white;
+    }
+    #clock {
+      background: #000; /* warna hitam */
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .user { 
+     color: gold;
+    }
+    .platform-badge {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     height: 32px;
+     padding: 3px 6px;
+     border-radius: 6px;
+     display: inline-block;
+     margin: 4px 4px 0 0;
+     color: white;
+     font-size: 14px;
+     font-weight: bold;
+   }
+   .platform-badge.plat-918kiss {
+     background-color: #605ca8;
+   }
+   .platform-badge.plat-mega888 {
+     background-color: #f39c12;
+   }
+  .platform-badge.plat-pussy888 {
+     background-color: #3c8dbc;
+   }
   </style>
 </head>
 <body>
   <div class="floating-dots"></div>
   <div class="container">
-    <div class="left-panel">
-      <div class="header">
-        <a class="home-link" href="https://searcfile.github.io/5G88-editor/menu/">🏠 Home</a>
-        <div id="clock" class="time">--:--</div>
-        <div class="user">5G88</div>
-      </div>
-      <div class="title" onclick="scrollToGames()">Find Game</div>
-      <div class="search-bar">
-        <div>🔍</div>
-        <input type="text" placeholder="Search" oninput="filterGames(this.value)">
-      </div>
-      <div class="tags">
-        <div class="tag active" data-tag="all">All</div>
-        <div class="tag" data-tag="918kiss">918kiss</div>
-        <div class="tag" data-tag="mega888">Mega888</div>
-        <div class="tag" data-tag="pussy888">Pussy888</div>
-      </div>
-      <ul class="game-list" id="gameList"></ul>
-      <div id="gameDetail" class="game-detail"></div>
-      <div class="footer">On Development<br>Might be unstable.</div>
+
+  <div class="left-panel">
+    <div class="header">
+      <a class="home-link" href="https://searcfile.github.io/5G88-editor/menu/">🏠 Home</a>
+      <div id="clock" class="time">--:--</div>
+      <div class="user">5G88</div>
     </div>
-  </div>
+    <div class="title" onclick="scrollToGames()">Find Game</div>
 
+    <div class="search-bar">
+      <div>🔍</div>
+      <input type="text" placeholder="Search" oninput="filterGames(this.value)">
+    </div>
+
+    <div class="tags">
+      <div class="tag active" data-tag="all">All</div>
+      <div class="tag" data-tag="918kiss">918kiss</div>
+      <div class="tag" data-tag="mega888">Mega888</div>
+      <div class="tag" data-tag="pussy888">Pussy888</div>
+    </div>
+
+    <ul class="game-list" id="gameList"></ul>
+
+    <div id="gameDetail" class="game-detail"></div>
+    <div class="footer">
+      On Development<br>
+      Might be unstable.
+    </div>
+</div>
   <script>
-    // === Semua JavaScript interaktif ===
     const games = [
-      {
-        name: 'SILVER BULLET',
-        tags: ['918kiss', 'mega888', 'pussy888'],
-        image: 'https://i.imgur.com/3faMy9F.png',
-        type: 'Slot',
-        payline: 25,
-        adjustable: 'Yes',
-        lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
-      },
-      {
-        name: 'SILENT SAMURAI',
-        tags: ['918kiss', 'mega888', 'pussy888'],
-        image: 'https://i.imgur.com/3faMy9F.png',
-        type: 'Slot',
-        payline: 25,
-        adjustable: 'Yes',
-        lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
-      },
-      {
-        name: 'SILENT SAMURAI P',
-        tags: ['918kiss', 'mega888', 'pussy888'],
-        image: 'https://i.imgur.com/3faMy9F.png',
-        type: 'Slot',
-        payline: 25,
-        adjustable: 'Yes',
-        lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
-      },
-    ];
-
-    function updateClock() {
-      const now = new Date();
-      const h = String(now.getHours()).padStart(2, '0');
-      const m = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('clock').textContent = `${h}:${m}`;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    function scrollToGames() {
-      document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
-    }
+   {
+    name: 'SILVER BULLET',
+    tags: ['918kiss', 'mega888', 'pussy888'],
+    image: 'https://i.imgur.com/3faMy9F.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
+  },
+   {
+    name: 'SILENT SAMURAI',
+    tags: ['918kiss', 'mega888', 'pussy888'],
+    image: 'https://i.imgur.com/3faMy9F.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
+  },
+  {
+    name: 'SILENT SAMURAI P',
+    tags: ['918kiss', 'mega888', 'pussy888'],
+    image: 'https://i.imgur.com/3faMy9F.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
+  },
+  ];
 
     function goBack() {
       document.getElementById('gameDetail').classList.remove('active');
     }
 
-    function showGameDetail(game) {
-      const { name, tags, image, type, payline, adjustable, lineBet } = game;
-      const box = document.getElementById('gameDetail');
-      const platformTags = tags.map(p => 
-        `<span class="platform-badge plat-${p.toLowerCase()}">🎰 ${p}</span>`).join(' ');
+    const gameList = document.getElementById('gameList');
+  const gameDetail = document.getElementById('gameDetail');
+  const tags = document.querySelectorAll('.tag');
+  let currentGame = null;
+  let currentBetIndex = 0;
 
-      const betHTML = lineBet.map(val => 
-        `<span class="bet-option" data-bet="${val}">${val.toFixed(2)}</span>`).join('');
-
-      box.innerHTML = `
-        <div class="close-btn" onclick="goBack()">Close</div>
-        <div class="detail-inner">
-          <img src="${image}" alt="Game Banner">
-          <h3>${name}</h3>
-          <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
-          <div class="game-section">
-            <div class="box">
-              <strong>Game Info</strong><br>
-              Type: ${type}<br>
-              Payline: <span id="lineCount">${payline}</span><br>
-              Adjustable Lines: ${adjustable}
-            </div>
-            <div class="box">
-              <strong>Platform</strong><br>
-              ${platformTags}
-            </div>
-          </div>
-          <div class="bet-section">
-            <strong>Bet Options</strong><br>
-            <div class="bet-values" id="betValues">${betHTML}</div>
-            <div class="line-control">
-              <button onclick="adjustLines(-1)">-</button>
-              <span id="lineDisplay">${payline} lines</span>
-              <button onclick="adjustLines(1)">+</button>
-            </div>
-            <div style="margin-top: 10px;">
-              <strong>Total Bet:</strong> <span id="totalBet">0.00</span>
-            </div>
-          </div>
-        </div>
-      `;
-
-      box.classList.add('active');
-      window.currentLines = payline;
-      window.selectedBet = 0;
-
-      document.querySelectorAll('.bet-option').forEach(span => {
-        span.addEventListener('click', () => {
-          document.querySelectorAll('.bet-option').forEach(s => s.classList.remove('active'));
-          span.classList.add('active');
-          window.selectedBet = parseFloat(span.dataset.bet);
-          updateTotalBet();
-        });
-      });
-
-      updateTotalBet();
-    }
-
-    function updateTotalBet() {
-      const total = window.currentLines * (window.selectedBet || 0);
-      document.getElementById('totalBet').textContent = total.toFixed(2);
-    }
-
-    function adjustLines(amount) {
-      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
-      document.getElementById('lineCount').textContent = window.currentLines;
-      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
-      updateTotalBet();
-    }
-
-    document.querySelectorAll('.tag').forEach(el => {
-      el.addEventListener('click', () => {
-        document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
-        el.classList.add('active');
-        filterGames(document.querySelector('.search-bar input').value);
-      });
-    });
-
-    function filterGames(keyword) {
-      renderGames(keyword);
-    }
-
-    function renderGames(filter = '') {
-      const selectedTag = document.querySelector('.tag.active')?.dataset.tag || 'all';
-      const list = document.getElementById('gameList');
-      list.innerHTML = '';
-
-      let filteredGames = games.filter(game => {
-        const matchesTag = selectedTag === 'all' || game.tags.includes(selectedTag);
-        const matchesFilter = game.name.toLowerCase().includes(filter.toLowerCase());
-        return matchesTag && matchesFilter;
-      });
-
-      if (filter === '') {
-        filteredGames = filteredGames.slice(0, 3);
-      }
-
-      filteredGames.forEach(game => {
+  function renderGames(filter = 'all') {
+    gameList.innerHTML = '';
+    games.forEach((game, index) => {
+      if (filter === 'all' || game.tags.includes(filter)) {
         const li = document.createElement('li');
         li.className = 'game-item';
         li.textContent = game.name;
-        li.onclick = () => showGameDetail(game);
-        list.appendChild(li);
-      });
-    }
+        li.onclick = () => showGameDetail(index);
+        gameList.appendChild(li);
+      }
+    });
+  }
 
-    renderGames();
+  function filterGames(query) {
+    const items = document.querySelectorAll('.game-item');
+    items.forEach(item => {
+      item.classList.toggle('hidden', !item.textContent.toLowerCase().includes(query.toLowerCase()));
+    });
+  }
+
+  tags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      tags.forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+      renderGames(tag.dataset.tag);
+    });
+  });
+
+  function showGameDetail(index) {
+    currentGame = games[index];
+    currentBetIndex = 0;
+
+    const betButtons = `
+      <div class="line-control">
+        <button onclick="changeBet(-1)">-</button>
+        <span id="currentBet">${currentGame.lineBet[currentBetIndex].toFixed(2)}</span>
+        <button onclick="changeBet(1)">+</button>
+      </div>`;
+
+    const platforms = currentGame.tags.map(tag => {
+      return `<span class="platform-badge plat-${tag.toLowerCase()}">${tag}</span>`;
+    }).join('');
+
+    gameDetail.innerHTML = `
+      <div class="close-btn" onclick="goBack()">✖ Close</div>
+      <div class="detail-inner">
+        <img src="${currentGame.image}" alt="${currentGame.name}">
+        <h3>${currentGame.name}</h3>
+        <p>Type: ${currentGame.type}</p>
+        <div class="game-section">
+          <div class="box">Paylines: ${currentGame.payline}</div>
+          <div class="box">Adjustable Line: ${currentGame.adjustable}</div>
+          ${betButtons}
+        </div>
+        <div class="game-section">
+          ${platforms}
+        </div>
+      </div>
+    `;
+
+    gameDetail.classList.add('active');
+  }
+
+  function changeBet(direction) {
+    if (!currentGame) return;
+    currentBetIndex += direction;
+    const maxIndex = currentGame.lineBet.length - 1;
+    if (currentBetIndex < 0) currentBetIndex = 0;
+    if (currentBetIndex > maxIndex) currentBetIndex = maxIndex;
+    document.getElementById('currentBet').textContent = currentGame.lineBet[currentBetIndex].toFixed(2);
+  }
+
+  function scrollToGames() {
+    document.querySelector('.game-list').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function updateClock() {
+    const now = new Date();
+    const clock = document.getElementById('clock');
+    clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Inisialisasi awal
+  renderGames();
   </script>
 </body>
 </html>
