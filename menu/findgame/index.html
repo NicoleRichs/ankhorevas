@@ -220,15 +220,14 @@
   border-radius: 6px;
   color: #fff;
   font-weight: bold;
-  border: 2px solid #00f;
   background-color: #0055ff;
   text-transform: uppercase;
 }
 
 /* Optional: customize each platform if needed */
-.tag-item.918kiss { background-color: #605ca8; }
-.tag-item.mega888 { background-color: #ff851b; }
-.tag-item.pussy888 { background-color: #3c8dbc; }
+.tag-item.tag-918kiss { background-color: #605ca8; }
+.tag-item.tag-mega888 { background-color: #ff851b; }
+.tag-item.tag-pussy888 { background-color: #3c8dbc; }
 
   #homeButton {
   position: absolute;
@@ -480,7 +479,7 @@
     gameTags.innerHTML = "";
     game.tags.forEach(tag => {
       const tagDiv = document.createElement("div");
-      tagDiv.className = `tag-item ${tag.toLowerCase()}`;
+      tagDiv.className = `tag-item tag-${tag.toLowerCase()}`;
       tagDiv.textContent = tag;
       gameTags.appendChild(tagDiv);
     });
