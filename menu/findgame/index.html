@@ -29,6 +29,10 @@
       color: #5b5132;
     }
 
+    .header .back {
+      cursor: pointer;
+    }
+
     .header .time {
       font-size: 16px;
     }
@@ -92,6 +96,7 @@
       border-bottom: 1px dashed #d1c593;
       font-size: 16px;
       color: #3c341e;
+      cursor: pointer;
     }
 
     .game-item i {
@@ -110,33 +115,33 @@
 <body>
   <div class="container">
     <div class="header">
-      <div>⬅ back</div>
-      <div class="time">19:28</div>
+      <div class="back" onclick="goBack()">⬅ back</div>
+      <div id="clock" class="time">--:--</div>
       <div>User</div>
     </div>
     <div class="title">Find Game</div>
 
     <div class="search-bar">
       <div>🔍</div>
-      <input type="text" placeholder="Search">
+      <input type="text" placeholder="Search" oninput="filterGames(this.value)">
     </div>
 
     <div class="tags">
-      <div class="tag active">All</div>
-      <div class="tag">918kiss</div>
-      <div class="tag">Mega888</div>
-      <div class="tag">Pussy888</div>
+      <div class="tag active" onclick="filterTag(this, 'all')">All</div>
+      <div class="tag" onclick="filterTag(this, '918kiss')">918kiss</div>
+      <div class="tag" onclick="filterTag(this, 'mega888')">Mega888</div>
+      <div class="tag" onclick="filterTag(this, 'pussy888')">Pussy888</div>
     </div>
 
-    <ul class="game-list">
-      <li class="game-item"><i>🎰</i> Wolf Run</li>
-      <li class="game-item"><i>🎰</i> Sticky Bandits Wild Return</li>
-      <li class="game-item"><i>🎰</i> Six Acrobats</li>
-      <li class="game-item"><i>🎰</i> Great88</li>
-      <li class="game-item"><i>🎰</i> Wild Fireworks</li>
-      <li class="game-item"><i>🎰</i> Conan</li>
-      <li class="game-item"><i>🎰</i> Floating Dragon</li>
-      <li class="game-item"><i>🎰</i> Fortune Tiger</li>
+    <ul class="game-list" id="gameList">
+      <li class="game-item" data-tag="918kiss"><i>🎰</i> Wolf Run</li>
+      <li class="game-item" data-tag="918kiss"><i>🎰</i> Sticky Bandits Wild Return</li>
+      <li class="game-item" data-tag="mega888"><i>🎰</i> Six Acrobats</li>
+      <li class="game-item" data-tag="mega888"><i>🎰</i> Great88</li>
+      <li class="game-item" data-tag="pussy888"><i>🎰</i> Wild Fireworks</li>
+      <li class="game-item" data-tag="pussy888"><i>🎰</i> Conan</li>
+      <li class="game-item" data-tag="918kiss"><i>🎰</i> Floating Dragon</li>
+      <li class="game-item" data-tag="mega888"><i>🎰</i> Fortune Tiger</li>
     </ul>
 
     <div class="footer">
@@ -144,5 +149,42 @@
       May be unstable.
     </div>
   </div>
+
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${hours}:${minutes}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function filterGames(keyword) {
+      const items = document.querySelectorAll('.game-item');
+      keyword = keyword.toLowerCase();
+      items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(keyword) ? 'flex' : 'none';
+      });
+    }
+
+    function filterTag(element, tag) {
+      document.querySelectorAll('.tag').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+      const items = document.querySelectorAll('.game-item');
+      items.forEach(item => {
+        if (tag === 'all') {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = item.getAttribute('data-tag') === tag ? 'flex' : 'none';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
