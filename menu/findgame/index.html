@@ -113,16 +113,15 @@
       overflow-y: auto;
     }
     .game-detail {
-      position: absolute;
+      position: fixed;
       top: 0;
       right: 0;
-      width: 100%;
-      max-width: 400px;
-      height: 100%;
+      width: 450px;
+      height: 100vh;
       background: #000;
       color: white;
       overflow-y: auto;
-      z-index: 99;
+      z-index: 9999;
       transition: transform 0.3s ease, opacity 0.3s ease;
       transform: translateX(100%);
       border-left: 1px solid gold;
@@ -131,13 +130,13 @@
     }
     .game-detail.active {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0%);
     pointer-events: auto;
     }
     .game-detail .close-btn {
-      padding: 12px;
+      padding: 10px;
       font-size: 18px;
-      background: gold;
+      background: crimson;
       color: #000;
       cursor: pointer;
       text-align: center;
@@ -256,7 +255,6 @@
 </div>
   <!-- KANAN: detail game -->
   <div id="gameDetail" class="game-detail"></div>
-  </div>
 
   <script>
     const games = [
