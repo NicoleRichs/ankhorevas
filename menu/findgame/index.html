@@ -197,6 +197,28 @@
   </div>
 
   <script>
+    const games = [
+      { name: "Great Blue", platform: "918kiss" },
+      { name: "Ocean King", platform: "918kiss" },
+      { name: "Panther Moon", platform: "918kiss" },
+      { name: "Highway Kings", platform: "mega888" },
+      { name: "Safari Heat", platform: "mega888" },
+      { name: "Aladdin Wishes", platform: "pussy888" },
+      { name: "Monkey Thunderbolt", platform: "pussy888" },
+    ];
+
+    function populateGameList() {
+      const list = document.getElementById('gameList');
+      list.innerHTML = '';
+      games.forEach(game => {
+        const item = document.createElement('li');
+        item.className = 'game-item';
+        item.setAttribute('data-tag', game.platform);
+        item.textContent = game.name;
+        list.appendChild(item);
+      });
+    }
+
     function goBack() {
       document.getElementById('gameDetail').classList.remove('active');
     }
@@ -237,6 +259,8 @@
       const list = document.getElementById('gameList');
       if (list) list.scrollIntoView({ behavior: 'smooth' });
     }
+
+    window.onload = populateGameList;
   </script>
 </body>
 </html>
