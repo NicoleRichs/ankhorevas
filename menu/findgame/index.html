@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Find Game</title>
   <style>
-    body {
+     body {
       font-family: sans-serif;
       margin: 0;
       min-height: 100vh;
@@ -355,6 +355,8 @@
   .platform-badge.plat-pussy888 {
      background-color: #3c8dbc;
    }
+    /* Semua CSS yang sudah ada di dalam kode Anda */
+    /* CSS di sini tetap sama seperti yang sudah Anda buat */
   </style>
 </head>
 <body>
@@ -391,132 +393,143 @@
 </div>
   <script>
     const games = [
-   {
-    name: 'SILVER BULLET',
-    tags: ['918kiss', 'mega888', 'pussy888'],
-    image: 'https://i.imgur.com/3faMy9F.png',
-    type: 'Slot',
-    payline: 25,
-    adjustable: 'Yes',
-    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
-  },
-   {
-    name: 'SILENT SAMURAI',
-    tags: ['918kiss', 'mega888', 'pussy888'],
-    image: 'https://i.imgur.com/3faMy9F.png',
-    type: 'Slot',
-    payline: 25,
-    adjustable: 'Yes',
-    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
-  },
-  {
-    name: 'SILENT SAMURAI P',
-    tags: ['918kiss', 'mega888', 'pussy888'],
-    image: 'https://i.imgur.com/3faMy9F.png',
-    type: 'Slot',
-    payline: 25,
-    adjustable: 'Yes',
-    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
-  },
-  ];
+      {
+        name: 'SILVER BULLET',
+        tags: ['918kiss', 'mega888', 'pussy888'],
+        image: 'https://i.imgur.com/3faMy9F.png',
+        type: 'Slot',
+        payline: 25,
+        adjustable: 'Yes',
+        lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
+      },
+      {
+        name: 'SILENT SAMURAI',
+        tags: ['918kiss', 'mega888', 'pussy888'],
+        image: 'https://i.imgur.com/3faMy9F.png',
+        type: 'Slot',
+        payline: 25,
+        adjustable: 'Yes',
+        lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
+      },
+      {
+        name: 'SILENT SAMURAI P',
+        tags: ['918kiss', 'mega888', 'pussy888'],
+        image: 'https://i.imgur.com/3faMy9F.png',
+        type: 'Slot',
+        payline: 25,
+        adjustable: 'Yes',
+        lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
+      },
+    ];
 
     function goBack() {
       document.getElementById('gameDetail').classList.remove('active');
     }
 
-    const gameList = document.getElementById('gameList');
-  const gameDetail = document.getElementById('gameDetail');
-  const tags = document.querySelectorAll('.tag');
-  let currentGame = null;
-  let currentBetIndex = 0;
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${h}:${m}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-  function renderGames(filter = 'all') {
-    gameList.innerHTML = '';
-    games.forEach((game, index) => {
-      if (filter === 'all' || game.tags.includes(filter)) {
+    function filterGames(keyword) {
+     renderGames(keyword);
+    }
+
+    document.querySelectorAll('.tag').forEach(el => {
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
+        el.classList.add('active');
+        filterGames(document.querySelector('.search-bar input').value);
+      });
+    });
+
+    function scrollToGames() {
+      document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable, lineBet) {
+      const box = document.getElementById('gameDetail');
+      const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`).join(' ');
+      
+      let betOptionsHtml = lineBet.map(amount => `<span class="bet-option">${amount}</span>`).join('');
+      
+      box.innerHTML = `
+        <div class="close-btn" onclick="goBack()">Close</div>
+        <div class="detail-inner">
+          <img src="${imageUrl}" alt="Game Banner">
+          <h3>${name}</h3>
+          <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
+          <div class="game-section">
+            <div class="box">
+              <strong>Game Info</strong><br>
+              Type: ${type}<br>
+              Payline: <span id="lineCount">${payline}</span><br>
+              Adjustable Lines: ${adjustable}
+            </div>
+            <div class="box">
+              <strong>Platform</strong><br>
+              ${platformTags}
+            </div>
+          </div>
+          <div class="bet-section">
+            <strong>Bet Options</strong><br>
+            <div class="bet-values">
+              ${betOptionsHtml}
+            </div>
+            <div class="line-control">
+              <button onclick="adjustLines(-1)">-</button>
+              <span id="lineDisplay">${payline} lines</span>
+              <button onclick="adjustLines(1)">+</button>
+            </div>
+          </div>
+        </div>`;
+      box.classList.add('active');
+      window.currentLines = payline;
+    }
+
+    function adjustLines(amount) {
+      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
+      document.getElementById('lineCount').textContent = window.currentLines;
+      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
+    }
+
+    const gameList = document.getElementById('gameList');
+
+    function renderGames(keyword = '') {
+      gameList.innerHTML = '';
+      const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
+      const filtered = games.filter(game => {
+        const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
+        const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
+        return matchTag && matchKeyword;
+      });
+
+      filtered.forEach((game, index) => {
         const li = document.createElement('li');
         li.className = 'game-item';
-        li.textContent = game.name;
-        li.onclick = () => showGameDetail(index);
+        if (keyword === '' && index >= 130) {
+          li.classList.add('hidden'); // Sembunyikan jika lebih dari 8 dan tiada keyword
+        }
+        li.setAttribute('data-tag', game.tags.join(' '));
+        li.innerHTML = `<i>🎰</i> ${game.name}`;
+        li.onclick = () => showGameDetail(
+          game.name,
+          game.tags.map(t => t.toUpperCase()),
+          game.image,
+          game.type,
+          game.payline,
+          game.adjustable,
+          game.lineBet
+        );
         gameList.appendChild(li);
-      }
-    });
-  }
+      });
+    }
 
-  function filterGames(query) {
-    const items = document.querySelectorAll('.game-item');
-    items.forEach(item => {
-      item.classList.toggle('hidden', !item.textContent.toLowerCase().includes(query.toLowerCase()));
-    });
-  }
-
-  tags.forEach(tag => {
-    tag.addEventListener('click', () => {
-      tags.forEach(t => t.classList.remove('active'));
-      tag.classList.add('active');
-      renderGames(tag.dataset.tag);
-    });
-  });
-
-  function showGameDetail(index) {
-    currentGame = games[index];
-    currentBetIndex = 0;
-
-    const betButtons = `
-      <div class="line-control">
-        <button onclick="changeBet(-1)">-</button>
-        <span id="currentBet">${currentGame.lineBet[currentBetIndex].toFixed(2)}</span>
-        <button onclick="changeBet(1)">+</button>
-      </div>`;
-
-    const platforms = currentGame.tags.map(tag => {
-      return `<span class="platform-badge plat-${tag.toLowerCase()}">${tag}</span>`;
-    }).join('');
-
-    gameDetail.innerHTML = `
-      <div class="close-btn" onclick="goBack()">✖ Close</div>
-      <div class="detail-inner">
-        <img src="${currentGame.image}" alt="${currentGame.name}">
-        <h3>${currentGame.name}</h3>
-        <p>Type: ${currentGame.type}</p>
-        <div class="game-section">
-          <div class="box">Paylines: ${currentGame.payline}</div>
-          <div class="box">Adjustable Line: ${currentGame.adjustable}</div>
-          ${betButtons}
-        </div>
-        <div class="game-section">
-          ${platforms}
-        </div>
-      </div>
-    `;
-
-    gameDetail.classList.add('active');
-  }
-
-  function changeBet(direction) {
-    if (!currentGame) return;
-    currentBetIndex += direction;
-    const maxIndex = currentGame.lineBet.length - 1;
-    if (currentBetIndex < 0) currentBetIndex = 0;
-    if (currentBetIndex > maxIndex) currentBetIndex = maxIndex;
-    document.getElementById('currentBet').textContent = currentGame.lineBet[currentBetIndex].toFixed(2);
-  }
-
-  function scrollToGames() {
-    document.querySelector('.game-list').scrollIntoView({ behavior: 'smooth' });
-  }
-
-  function updateClock() {
-    const now = new Date();
-    const clock = document.getElementById('clock');
-    clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  }
-
-  setInterval(updateClock, 1000);
-  updateClock();
-
-  // Inisialisasi awal
-  renderGames();
+    renderGames();
   </script>
 </body>
 </html>
