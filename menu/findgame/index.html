@@ -475,8 +475,8 @@
    let currentBetIndex = 0;
 
 function showGameDetail(name, tags, imageUrl, type, payline, adjustable, lineBet) {
+  const box = document.getElementById("box");
   const platformTags = tags.map(tag => `<span>${tag}</span>`).join('');
-
   const currentBet = lineBet && lineBet.length > 0 ? lineBet[currentBetIndex] : 0;
 
   box.innerHTML = `
