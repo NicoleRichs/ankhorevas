@@ -454,19 +454,19 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-  function showGameDetail(game.name, game.tags, game.image, game.type, game.payline, game.adjustable, game.lineBet);
+  function showGameDetail(game) {
+  const { name, tags, image, type, payline, adjustable, lineBet } = game;
   const box = document.getElementById('gameDetail');
-  const platformTags = platforms.map(p => 
+  const platformTags = tags.map(p => 
     `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`).join(' ');
 
-  // Generate bet value HTML
   const betHTML = lineBet.map(val => 
     `<span class="bet-option" data-bet="${val}">${val.toFixed(2)}</span>`).join('');
 
   box.innerHTML = `
     <div class="close-btn" onclick="goBack()">Close</div>
     <div class="detail-inner">
-      <img src="${imageUrl}" alt="Game Banner">
+      <img src="${image}" alt="Game Banner">
       <h3>${name}</h3>
       <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
       <div class="game-section">
@@ -495,13 +495,13 @@
           <strong>Total Bet:</strong> <span id="totalBet">0.00</span>
         </div>
       </div>
-    </div>`;
-  
+    </div>
+  `;
+
   box.classList.add('active');
   window.currentLines = payline;
   window.selectedBet = 0;
 
-  // Event handler untuk klik bet
   document.querySelectorAll('.bet-option').forEach(span => {
     span.addEventListener('click', () => {
       document.querySelectorAll('.bet-option').forEach(s => s.classList.remove('active'));
@@ -527,14 +527,31 @@
 
     const gameList = document.getElementById('gameList');
 
-    function renderGames(keyword = '') {
-      gameList.innerHTML = '';
-      const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
-      const filtered = games.filter(game => {
-      const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
-      const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
-      return matchTag && matchKeyword;
-    });
+  function renderGames(filter = '') {
+  const selectedTag = document.querySelector('.tag.active')?.dataset.tag || 'all';
+  const list = document.getElementById('gameList');
+  list.innerHTML = '';
+
+  let filteredGames = games.filter(game => {
+    const matchesTag = selectedTag === 'all' || game.tags.includes(selectedTag);
+    const matchesFilter = game.name.toLowerCase().includes(filter.toLowerCase());
+    return matchesTag && matchesFilter;
+  });
+
+  // Batasi jumlah hasil saat tidak ada keyword pencarian
+  if (filter === '') {
+    filteredGames = filteredGames.slice(0, 3);
+  }
+
+  filteredGames.forEach(game => {
+    const li = document.createElement('li');
+    li.className = 'game-item';
+    li.textContent = game.name;
+    li.addEventListener('click', () => showGameDetail(game));
+    list.appendChild(li);
+  });
+}
+renderGames(); // panggil kali pertama
     
      function displayGameDetails(game) {
       console.log("Menampilkan detail game:", game);
@@ -542,7 +559,7 @@
     filtered.forEach((game, index) => {
       const li = document.createElement('li');
       li.className = 'game-item';
-      if (keyword === '' && index >= 130) {
+      if (keyword === '' && index >= 3) {
       li.classList.add('hidden'); // Sembunyikan jika lebih dari 8 dan tiada keyword
      }
       li.setAttribute('data-tag', game.tags.join(' '));
@@ -560,6 +577,48 @@
 }
 
 renderGames();
+
+ document.addEventListener('DOMContentLoaded', function() {
+    renderGames();
+    updateClock();
+  });
+  li.className = 'game-item';
+    li.innerHTML = `
+      <img src="${game.image}" alt="${game.name}" style="width: 50px; height: 50px; border-radius: 6px; border: 1px solid gold;" />
+      <div style="flex: 1;">
+        <div><strong>${game.name}</strong></div>
+        <div>
+          ${game.tags.map(tag => `
+            <span class="platform-badge plat-${tag.toLowerCase()}">${tag}</span>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    li.addEventListener('click', () => showGameDetail(game));
+    list.appendChild(li);
+  });
+
+  if (filteredGames.length === 0) {
+    const li = document.createElement('li');
+    li.className = 'game-item';
+    li.textContent = 'No games found.';
+    list.appendChild(li);
+  }
+}
+
+// Render awal saat halaman dimuat
+renderGames();
+  li.className = 'game-item';
+    li.innerHTML = `
+      <img src="${game.image}" alt="${game.name}" style="width: 50px; height: auto; border-radius: 4px; border: 1px solid gold;">
+      <span>${game.name}</span>
+    `;
+    li.addEventListener('click', () => showGameDetail(game));
+    list.appendChild(li);
+  });
+}
+
+renderGames(); // Initial render
   </script>
 </body>
 </html>
