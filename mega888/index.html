@@ -179,25 +179,19 @@
     // Tambah lagi ikut keperluan
   };
 
-  function setNow(){
+ function setNow(){
   const now = new Date();
   globalTime = now.toISOString().replace("T"," ").substring(0,19);
   document.getElementById("nowTime").innerText = globalTime;
 
   // Set input manual ke waktu sekarang
   document.getElementById("manualTime").value = globalTime;
- }
+}
   function rnd(min, max, dec = 2){
     return parseFloat((Math.random() * (max - min) + min).toFixed(dec));
   }
 
   let globalTime = null;
-
-  function setNow(){
-    const now = new Date();
-    globalTime = now.toISOString().replace("T"," ").substring(0,19);
-    document.getElementById("nowTime").innerText = globalTime;
-  }
 
   function rnd(min, max, dec = 2){
     return parseFloat((Math.random() * (max - min) + min).toFixed(dec));
@@ -231,7 +225,6 @@ const timeStamp = baseTime.toISOString().replace("T"," ").substring(0,19);
     const beginMoney = balance;
     const win = Math.random() > 0.7 ? rnd(0, selectedPecahan) : 0.00;
     const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
-    document.getElementById("manualTime").value = globalTime.substring(0, 16).replace(" ", "T");
 
     const formattedTime = baseTime.toISOString().replace("T", " ").substring(0, 19);
 
