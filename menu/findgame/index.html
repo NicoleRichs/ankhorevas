@@ -480,11 +480,6 @@
   updateBetDisplay();
   gameDetail.classList.add('active');
 }
-
-      updateBetDisplay();
-      gameDetail.classList.add('active');
-    }
-
     function adjustBet(direction) {
       if (!window.currentBets) return;
       window.currentBetIndex = Math.max(0, Math.min(window.currentBets.length - 1, window.currentBetIndex + direction));
