@@ -146,6 +146,28 @@
       text-align: center;
       border-radius: 8px;
     }
+    #gameTags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+   }
+
+.tag-item {
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: bold;
+  border: 2px solid #00f;
+  background-color: #0055ff;
+  text-transform: uppercase;
+}
+
+/* Optional: customize each platform if needed */
+.tag-item.918kiss { background-color: #0044cc; }
+.tag-item.mega888 { background-color: #0066ff; }
+.tag-item.pussy888 { background-color: #0033aa; }
   </style>
 </head>
 <body>
@@ -162,6 +184,8 @@
   </div>
 
   <div class="game-detail" id="gameDetail">
+    <button class="close-btn" onclick="closeGameDetail()">×</button>
+
     <img id="gameImg" src="" alt="Game Image">
     <h2 id="gameTitle"></h2>
     <p id="gameName"></p>
@@ -233,7 +257,13 @@
       gameType.textContent = 'Type: ' + game.type;
       gamePayline.textContent = 'Payline: ' + game.payline;
       gameAdjustable.textContent = 'Adjustable Payline: ' + (game.adjustable ? 'Yes' : 'No');
-      gameTags.textContent = 'PLATFORM: ' + game.tags.join(', ');
+      gameTags.innerHTML = '';
+      game.tags.forEach(tag => {
+      const span = document.createElement('span');
+      span.className = 'tag-item ' + tag.toLowerCase();
+      span.textContent = tag;
+      gameTags.appendChild(span);
+    });
       currentLine = 1;
       updateBetValues();
       lineDisplay.textContent = 'Line: ' + currentLine;
