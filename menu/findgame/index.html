@@ -9,36 +9,44 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f8ebc4;
-      color: #333;
     }
 
     .container {
-      max-width: 400px;
+      max-width: 420px;
       margin: 0 auto;
       background: #fff6dd;
       border-radius: 30px 30px 0 0;
       padding: 20px;
-      height: 100vh;
-      overflow-y: auto;
+      min-height: 100vh;
     }
 
     .header {
-      text-align: center;
-      font-weight: bold;
-      font-size: 24px;
-      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .search-container {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .back-btn {
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .title {
+      font-weight: bold;
+      font-size: 22px;
+      text-align: center;
+      flex: 1;
     }
 
     .search-box {
+      margin-top: 15px;
       padding: 10px;
-      border-radius: 8px;
+      width: 100%;
       border: none;
+      border-radius: 8px;
       background: #f1e4a8;
       font-size: 16px;
     }
@@ -46,6 +54,7 @@
     .platforms {
       display: flex;
       gap: 10px;
+      margin-top: 10px;
       flex-wrap: wrap;
     }
 
@@ -88,22 +97,81 @@
     }
 
     .game-detail {
-      margin-top: 20px;
-      padding: 10px;
-      background: #fff8db;
-      border-radius: 10px;
       display: none;
     }
 
     .game-detail.show {
       display: block;
     }
+
+    .game-image {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .info-box {
+      background: #fff8db;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+
+    .bet-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .bet-button {
+      background: #e9d788;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .line-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .line-control button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background: #cbb65f;
+      border-radius: 50%;
+      font-weight: bold;
+      color: white;
+    }
+
+    .line-control span {
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">Find Game</div>
-    <div class="search-container">
+    <div class="header">
+      <button class="back-btn" id="backBtn" style="display:none;">← back</button>
+      <div class="title">Find Game</div>
+      <div style="width: 50px;"></div>
+    </div>
+
+    <!-- Game Detail -->
+    <div id="gameDetail" class="game-detail"></div>
+
+    <!-- Game List -->
+    <div id="searchSection">
       <input type="text" id="search" class="search-box" placeholder="Search..." />
       <div class="platforms">
         <button class="platform-btn active" data-platform="All">All</button>
@@ -111,38 +179,39 @@
         <button class="platform-btn" data-platform="Mega888">Mega888</button>
         <button class="platform-btn" data-platform="Pussy888">Pussy888</button>
       </div>
-    </div>
-
-    <div class="game-list" id="gameList"></div>
-
-    <div class="game-detail" id="gameDetail">
-      <h3 id="gameTitle"></h3>
-      <p><strong>Platform:</strong> <span id="gamePlatform"></span></p>
-      <p><strong>Type:</strong> Slot</p>
-      <p><strong>Payline:</strong> 40</p>
-      <p><strong>Adjustable Payline:</strong> Yes</p>
-      <p><strong>Game Bet:</strong> 0.40 - 120.00</p>
+      <div class="game-list" id="gameList"></div>
     </div>
   </div>
 
   <script>
     const games = [
-      { name: "Wolf Run", platform: "Mega888", unstable: false },
-      { name: "Sticky Bandits Wild Return", platform: "Mega888", unstable: false },
-      { name: "Six Acrobats", platform: "918kiss", unstable: false },
-      { name: "Great88", platform: "918kiss", unstable: false },
-      { name: "Wild Fireworks", platform: "Pussy888", unstable: false },
-      { name: "Conan", platform: "Pussy888", unstable: false },
-      { name: "Floating Dragon", platform: "Mega888", unstable: false },
-      { name: "Fortune Tiger", platform: "Mega888", unstable: true }
+      {
+        name: "Wolf Run",
+        platform: "Mega888",
+        unstable: false,
+        image: "https://via.placeholder.com/300x150?text=Wolf+Run",
+        paylines: 40,
+        adjustable: true,
+        bets: [0.40, 0.80, 1.20, 2.00, 4.00, 8.00, 12.00, 20.00, 40.00, 80.00, 120.00]
+      },
+      {
+        name: "Fortune Tiger",
+        platform: "Mega888",
+        unstable: true,
+        image: "https://via.placeholder.com/300x150?text=Fortune+Tiger",
+        paylines: 40,
+        adjustable: true,
+        bets: [0.40, 0.80, 1.20, 2.00, 4.00, 8.00, 12.00, 20.00]
+      },
+      // Tambahkan game lain sesuai kebutuhan...
     ];
 
     const gameList = document.getElementById("gameList");
     const searchInput = document.getElementById("search");
     const platformButtons = document.querySelectorAll(".platform-btn");
     const gameDetail = document.getElementById("gameDetail");
-    const gameTitle = document.getElementById("gameTitle");
-    const gamePlatform = document.getElementById("gamePlatform");
+    const backBtn = document.getElementById("backBtn");
+    const searchSection = document.getElementById("searchSection");
 
     let currentPlatform = "All";
 
@@ -166,11 +235,7 @@
             ${game.unstable ? '<div class="status">On Hold Development<br>May be unstable.</div>' : ''}
           </div>
         `;
-        item.addEventListener("click", () => {
-          gameTitle.textContent = game.name;
-          gamePlatform.textContent = game.platform;
-          gameDetail.classList.add("show");
-        });
+        item.addEventListener("click", () => showGameDetail(game));
         gameList.appendChild(item);
       });
 
@@ -178,6 +243,54 @@
         gameList.innerHTML = "<p>No games found.</p>";
       }
     }
+
+    function showGameDetail(game) {
+      searchSection.style.display = "none";
+      backBtn.style.display = "inline-block";
+      gameDetail.classList.add("show");
+      gameDetail.innerHTML = `
+        <img src="${game.image}" class="game-image" />
+        <div class="info-box">
+          <div class="info-row"><strong>GameName:</strong> ${game.name}</div>
+          <div class="info-row"><strong>Type:</strong> Slot</div>
+          <div class="info-row"><strong>Payline:</strong> ${game.paylines}</div>
+          <div class="info-row"><strong>Adjustable Payline:</strong> ${game.adjustable ? 'Yes' : 'No'}</div>
+          <div class="info-row"><strong>Platform:</strong> ${game.platform}</div>
+          <div class="info-row"><strong>Game Bet:</strong></div>
+          <div class="bet-options">
+            ${game.bets.map(bet => `<span class="bet-button">${bet.toFixed(2)}</span>`).join('')}
+          </div>
+          <div class="line-control">
+            <button onclick="decreaseLine()">-</button>
+            <span id="lineCount">${game.paylines} lines</span>
+            <button onclick="increaseLine()">+</button>
+          </div>
+        </div>
+        ${game.unstable ? '<div class="status">On Hold Development<br>May be unstable.</div>' : ''}
+      `;
+    }
+
+    function decreaseLine() {
+      const countSpan = document.getElementById("lineCount");
+      let lines = parseInt(countSpan.textContent);
+      if (lines > 1) {
+        lines--;
+        countSpan.textContent = `${lines} lines`;
+      }
+    }
+
+    function increaseLine() {
+      const countSpan = document.getElementById("lineCount");
+      let lines = parseInt(countSpan.textContent);
+      lines++;
+      countSpan.textContent = `${lines} lines`;
+    }
+
+    backBtn.addEventListener("click", () => {
+      gameDetail.classList.remove("show");
+      searchSection.style.display = "block";
+      backBtn.style.display = "none";
+    });
 
     platformButtons.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -194,7 +307,6 @@
       gameDetail.classList.remove("show");
     });
 
-    // Initial render
     renderGames();
   </script>
 </body>
