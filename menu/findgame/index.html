@@ -238,7 +238,9 @@
         }
       }
     ];
-
+    document.getElementById('closeDetail').addEventListener('click', function () {
+    gameDetail.classList.remove('active');
+   });
     const gameDetail = document.getElementById('gameDetail');
     const gameImg = document.getElementById('gameImg');
     const gameTitle = document.getElementById('gameTitle');
