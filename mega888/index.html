@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Game Log Generator</title>
   <style>
     body { font-family: Arial, sans-serif; padding:20px; }
-    table{ width:100%; border-collapse:collapse; margin-top:10px;}
-    th,td{ padding:8px; border:1px solid #ccc; text-align:center;}
-    th{ background:#0073e6; color:#fff;}
-    button{ padding:8px 15px; font-size:16px; margin-top:10px; margin-right:10px;
+    table { width:100%; border-collapse:collapse; margin-top:10px;}
+    th,td { padding:8px; border:1px solid #ccc; text-align:center;}
+    th { background:#0073e6; color:#fff;}
+    button { padding:8px 15px; font-size:16px; margin-top:10px; margin-right:10px;
             background:#28a745; color:#fff; border:none; border-radius:5px; cursor:pointer;}
-    button:hover{ background:#218838;}
-    select,input{ padding:6px 10px; font-size:16px; margin-left:10px;}
-    #nowTime{ font-weight:bold; margin-left:10px; color:#0073e6;}
+    button:hover { background:#218838;}
+    select,input { padding:6px 10px; font-size:16px; margin-left:10px;}
+    #nowTime { font-weight:bold; margin-left:10px; color:#0073e6;}
   </style>
 </head>
 <body>
@@ -29,7 +29,7 @@
 </select>
 
 <label for="betValue">Bet:</label>
-<input type="number" id="betValue" value="2.50" step="0.01" min="0.01" max="9999.99">
+<input type="number" id="betValue" value="2.50" step="0.01" min="0.01" max="9999.99" />
 
 <button onclick="setNow()">Now (Current Time)</button>
 <span id="nowTime">No time set</span>
@@ -50,7 +50,7 @@
     </tr>
   </thead>
   <tbody>
-    <!-- baris Set Score -->
+    <!-- Baris Set Score -->
     <tr>
       <td>-</td>
       <td id="setScoreCell" style="color:red;font-weight:bold;">Set score: -0.00</td>
@@ -60,7 +60,7 @@
 </table>
 
 <script>
-  let globalTime = null;          // diset bila tekan Now
+  let globalTime = null;
 
   function setNow(){
     const now = new Date();
@@ -68,17 +68,17 @@
     document.getElementById("nowTime").innerText = globalTime;
   }
 
-  // nombor rawak helper
-  function rnd(min,max,dec=2){
-    return parseFloat((Math.random()*(max-min)+min).toFixed(dec));
+  // Random number helper
+  function rnd(min, max, dec = 2){
+    return parseFloat((Math.random() * (max - min) + min).toFixed(dec));
   }
 
   function generateLog(){
-    const game     = document.getElementById("gameSelect").value;
-    const bet      = parseFloat(document.getElementById("betValue").value);
-    const tbody    = document.querySelector("#gameLog tbody");
+    const game = document.getElementById("gameSelect").value;
+    const bet = parseFloat(document.getElementById("betValue").value);
+    const tbody = document.querySelector("#gameLog tbody");
 
-    // reset, tapi pertahankan baris Set Score (baris pertama)
+    // Reset tapi pertahankan baris Set Score di awal
     tbody.innerHTML = `
       <tr>
         <td>-</td>
@@ -87,18 +87,19 @@
       </tr>
     `;
 
-    // mula wang rawak
-    let balance = rnd(3000,4000);
+    let balance = rnd(3000, 4000);
     let lastEndMoney = balance;
 
-    for(let i=0;i<10;i++){
-      const win = Math.random()>0.7 ? rnd(0,bet*3) : 0.00;
+    for(let i = 0; i < 10; i++){
+      // Win random berdasarkan bet yg sama
+      const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
       const beginMoney = balance;
-      const endMoney   = beginMoney - bet + win;
-      balance          = endMoney;              // kemaskini baki
-      lastEndMoney     = endMoney;
+      const endMoney = beginMoney - bet + win;
+      balance = endMoney;
+      lastEndMoney = endMoney;
 
-      const timeStamp  = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
+      // Pakai globalTime kalau ada, atau waktu sekarang
+      const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
       tbody.innerHTML += `
         <tr>
@@ -113,8 +114,7 @@
       `;
     }
 
-    // ----- SET SCORE -----
-    // ikut amount EndMoney baris TERAKHIR, tapi negatif
+    // Hitung set score sesuai EndMoney terakhir, negatif dan absolut
     const setScore = -Math.abs(lastEndMoney);
     document.getElementById("setScoreCell").innerText = `Set score: ${setScore.toFixed(2)}`;
   }
