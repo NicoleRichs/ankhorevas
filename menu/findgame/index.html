@@ -400,15 +400,16 @@
     const games = [
   {
   name: "Panther Moon",
-  type: "Video Slot",
-  payline: 20,
-  adjustable: "Yes",
+  type: "Slot",
+  payline: 2,
+  adjustable: true,
+  image: "img/panthermoon.jpg",
   tags: ["918KISS"],
-  image: "images/panthermoon.jpg",
-  bets: [0.50, 1.00, 2.00, 5.00, 10.00]
-},
-  ];
-
+  bets: {
+    1: [0.50, 1.00, 2.00, 5.00, 10.00],
+    2: [0.10, 10.00, 20.00, 30.00, 40.00]
+  },
+],
     function goBack() {
       document.getElementById('gameDetail').classList.remove('active');
     }
@@ -440,47 +441,27 @@
 
     function showGameDetail(name, platforms, imageUrl, type, payline, adjustable, bets) {
   const box = document.getElementById('gameDetail');
-  const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`).join(' ');
-  box.innerHTML = `
-    <div class="close-btn" onclick="goBack()">Close</div>
-    <div class="detail-inner">
-      <img src="${imageUrl}" alt="Game Banner">
-      <h3>${name}</h3>
-      <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
-      <div class="game-section">
-        <div class="box">
-          <strong>Game Info</strong><br>
-          Type: ${type}<br>
-          Payline: <span id="lineCount">${payline}</span><br>
-          Adjustable Lines: ${adjustable}
-        </div>
-        <div class="box">
-          <strong>Platform</strong><br>
-          ${platformTags}
-        </div>
-      </div>
-      <div class="bet-section">
-        <strong>Bet Options</strong><br>
-        <div class="bet-control">
-          <button onclick="adjustBet(-1)">-</button>
-          <span id="currentBet"></span>
-          <button onclick="adjustBet(1)">+</button>
-        </div>
-        <div class="bet-values" id="betValuesContainer"></div>
-        <div class="line-control">
-          <button onclick="adjustLines(-1)">-</button>
-          <span id="lineDisplay">${payline} lines</span>
-          <button onclick="adjustLines(1)">+</button>
-        </div>
-      </div>
-    </div>`;
-
-  // Simpan nilai bet untuk game ini
-  window.currentBets = bets;
-  window.currentBetIndex = 0;
-  updateBetDisplay();
-  box.classList.add('active');
   window.currentLines = payline;
+  window.currentBets = bets;
+
+  // render bet values awal
+  const betHTML = bets[payline]?.map(val => `<span>${val.toFixed(2)}</span>`).join('') || '';
+
+  // ... isi lainnya sama
+  box.innerHTML = `
+    <!-- ... -->
+    <div class="bet-section">
+      <strong>Bet Options</strong><br>
+      <div class="bet-values" id="betValues">${betHTML}</div>
+      <div class="line-control">
+        <button onclick="adjustLines(-1)">-</button>
+        <span id="lineDisplay">${payline} lines</span>
+        <button onclick="adjustLines(1)">+</button>
+      </div>
+    </div>
+    <!-- ... -->
+  `;
+  box.classList.add('active');
 }
 function adjustBet(direction) {
   if (!window.currentBets) return;
@@ -505,10 +486,16 @@ function updateBetDisplay() {
   ).join('');
 }
     function adjustLines(amount) {
-      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
-      document.getElementById('lineCount').textContent = window.currentLines;
-      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
-    }
+  const newLines = Math.max(1, Math.min(100, window.currentLines + amount));
+  window.currentLines = newLines;
+
+  document.getElementById('lineCount').textContent = newLines;
+  document.getElementById('lineDisplay').textContent = `${newLines} lines`;
+
+  const bets = window.currentBets[newLines] || [];
+  const betHTML = bets.map(val => `<span>${val.toFixed(2)}</span>`).join('');
+  document.getElementById('betValues').innerHTML = betHTML;
+}
 
     const gameList = document.getElementById('gameList');
 
@@ -532,14 +519,14 @@ function updateBetDisplay() {
      }
       li.setAttribute('data-tag', game.tags.join(' '));
       li.innerHTML = `<i>🎰</i> ${game.name}`;
-    li.onclick = () => showGameDetail(
+  li.onclick = () => showGameDetail(
   game.name,
   game.tags.map(t => t.toUpperCase()),
   game.image,
   game.type,
   game.payline,
   game.adjustable,
-  game.bets || [0.50, 1.00, 2.00, 5.00, 10.00] // fallback jika tidak ada
+  game.bets
 );
     gameList.appendChild(li);
   });
