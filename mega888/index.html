@@ -230,28 +230,28 @@
 
 const timeStamp = baseTime.toISOString().replace("T"," ").substring(0,19);
 
-  for(let i = 0; i < 10; i++){
-    const beginMoney = balance;
-    const win = Math.random() > 0.7 ? rnd(0, selectedPecahan) : 0.00;
-    const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
+  for (let i = 0; i < 10; i++) {
+  const beginMoney = balance;
+  const win = Math.random() > 0.7 ? rnd(0, selectedPecahan) : 0.00;
+  const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
 
-    const formattedTime = baseTime.toISOString().replace("T", " ").substring(0, 19);
+  const formattedTime = baseTime.toISOString().replace("T", " ").substring(0, 19);
 
-    logs.unshift({
-      game,
-      tableID: `<span class="table-id-highlight">0</span>`,
-      bet: bet.toFixed(2),
-      win: win.toFixed(2),
-      beginMoney: beginMoney.toFixed(2),
-      endMoney: endMoney.toFixed(2),
-      dateTime: formattedTime
-    });
+  logs.push({
+    game,
+    tableID: `<span class="table-id-highlight">0</span>`,
+    bet: bet.toFixed(2),
+    win: win.toFixed(2),
+    beginMoney: beginMoney.toFixed(2),
+    endMoney: endMoney.toFixed(2),
+    dateTime: formattedTime
+  });
 
-    balance = endMoney;
+  balance = endMoney;
 
-    // Mundurkan waktu secara acak 1–7 detik
-    baseTime.setSeconds(baseTime.getSeconds() - Math.floor(Math.random() * 7 + 1));
-  }
+  // Mundurkan waktu secara acak 3–60 detik
+  baseTime.setSeconds(baseTime.getSeconds() - Math.floor(Math.random() * 58 + 3));
+}
 
   const setScoreMoney = logs[0].endMoney;
 
