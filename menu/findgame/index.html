@@ -15,7 +15,7 @@
     }
 
     .container {
-      margin-top: 180px;
+      margin-top: 250px;
     }
 
     #searchBox {
@@ -33,7 +33,7 @@
       display: flex;
       gap: 10px;
       justify-content: center;
-      margin: 20px auto 40px auto;
+      margin: 30px auto 30px auto;
     }
 
     .platform-tags div {
@@ -49,7 +49,7 @@
       flex-direction: column;
       gap: 10px;
       align-items: center;
-      margin-top: 20px;
+      margin-top: 30px;
     }
 
     .game-item {
@@ -91,7 +91,8 @@
     .line-controls {
       display: flex;
       align-items: center;
-      margin: 10px 0;
+      justify-content: center;
+      margin-top: 10px;
     }
 
     .line-controls button {
@@ -102,6 +103,21 @@
       padding: 5px 10px;
       cursor: pointer;
       margin: 0 5px;
+    }
+
+    .bet-values-box {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .bet-values-box div {
+      border: 1px solid #ffd700;
+      padding: 4px 8px;
+      background: #333;
+      border-radius: 4px;
     }
 
     .info-border {
@@ -135,17 +151,18 @@
     <p id="gameName"></p>
     <div class="platforms-available" id="gameTags"></div>
 
-    <div class="line-controls">
-      <button onclick="changeLine(-1)">-</button>
-      <span id="lineDisplay">Line: 1</span>
-      <button onclick="changeLine(1)">+</button>
-    </div>
-    <p id="betValues"></p>
-
     <div class="info-border">
       <p id="gameType"></p>
       <p id="gamePayline"></p>
       <p id="gameAdjustable"></p>
+    </div>
+
+    <div class="bet-values-box" id="betValues"></div>
+
+    <div class="line-controls">
+      <button onclick="changeLine(-1)">-</button>
+      <span id="lineDisplay">Line: 1</span>
+      <button onclick="changeLine(1)">+</button>
     </div>
   </div>
 
@@ -219,7 +236,12 @@
 
     function updateBetValues() {
       if (!currentGame) return;
-      betValues.textContent = 'Bet Values: ' + currentGame.bets[currentLine].join(', ');
+      betValues.innerHTML = '';
+      currentGame.bets[currentLine].forEach(value => {
+        const span = document.createElement('div');
+        span.textContent = value.toFixed(2);
+        betValues.appendChild(span);
+      });
     }
 
     document.getElementById('searchBox').addEventListener('input', function () {
