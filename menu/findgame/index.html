@@ -491,7 +491,7 @@ function updateBetDisplay() {
   const newLines = Math.max(1, Math.min(100, window.currentLines + amount));
   window.currentLines = newLines;
 
-  document.getElementById('lineCount').textContent = newLines;
+  document.getElementById('lineDisplay').textContent = `${newLines} lines`;
   document.getElementById('lineDisplay').textContent = `${newLines} lines`;
 
   const bets = window.currentBets[newLines] || [];
