@@ -5,113 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gold Themed Container</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
+      body {
       background-color: #000;
-      color: gold;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
     }
 
-    .container {
-      min-width: 750px;
-      max-width: 750px;
-      min-height: 300px;
-      background-color: rgba(255, 255, 255, 0.05); /* transparan */
-      border: 2px solid gold;
-      border-radius: 10px;
+    .buttons-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 15px;
+      max-width: 800px;
+      margin: 40px auto;
       padding: 20px;
-      box-sizing: border-box;
+      background: rgba(255, 215, 0, 0.05);
+      border: 2px solid gold;
+      border-radius: 8px;
     }
 
-    .header {
-      font-size: 24px;
-      font-weight: bold;
+    .copy-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.2s;
       color: gold;
-      text-align: center;
-      margin-bottom: 20px;
     }
 
-    .content {
-      font-size: 16px;
-      color: #ffd700aa;
-      text-align: center;
+    .copy-btn:hover {
+      transform: scale(1.05);
     }
-    .icon-wrapper1 {
-    width: 70px;
-    height: 70px;
-  }
-   .icon-wrapper2 {
-    width: 70px;
-    height: 70px;
-  }
-  .icon-wrapper3 {
-    width: 70px;
-    height: 70px;
-  }
+
+    .copy-btn img {
+      width: 100%;
+      height: auto;
+      border: 1px solid gold;
+      border-radius: 5px;
+    }
+
+    .btn-label {
+      margin-top: 5px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">Apps Download</div>
-    <div class="icon-wrapper1">
-      <div>
-    <button class="button" onclick="copyAndroidLink()">📱 Download Android</button>
-    <div class="message" id="copyMsg"></div>
-  </div>
 
-  <script>
-    function copyAndroidLink() {
-      const link1 = "https://example.com/file1.apk";
-const link2 = "https://example.com/file2.apk";
-const link3 = "https://example.com/file3.apk";
-const link4 = "https://example.com/file4.apk";
-const link5 = "https://example.com/file5.apk";
-const link6 = "https://example.com/file6.apk";
-const link7 = "https://example.com/file7.apk";
-const link8 = "https://example.com/file8.apk";
-const link9 = "https://example.com/file9.apk";
-const link10 = "https://example.com/file10.apk";
-const link11 = "https://example.com/file11.apk";
-const link12 = "https://example.com/file12.apk";
-const link13 = "https://example.com/file13.apk";
-const link14 = "https://example.com/file14.apk";
-const link15 = "https://example.com/file15.apk";
-const link16 = "https://example.com/file16.apk";
-const link17 = "https://example.com/file17.apk";
-const link18 = "https://example.com/file18.apk";
-const link19 = "https://example.com/file19.apk";
-const link20 = "https://example.com/file20.apk";
-const link21 = "https://example.com/file21.apk";
-const link22 = "https://example.com/file22.apk";
-const link23 = "https://example.com/file23.apk";
-const link24 = "https://example.com/file24.apk";
-const link25 = "https://example.com/file25.apk";
-const link26 = "https://example.com/file26.apk";
-const link27 = "https://example.com/file27.apk";
-const link28 = "https://example.com/file28.apk";
-const link29 = "https://example.com/file29.apk";
-const link30 = "https://example.com/file30.apk";
-const link31 = "https://example.com/file31.apk";
-const link32 = "https://example.com/file32.apk";
-const link33 = "https://example.com/file33.apk";
-const link34 = "https://example.com/file34.apk";
-const link35 = "https://example.com/file35.apk";
-const link36 = "https://example.com/file36.apk";
+<h1 style="color: gold;">Download App</h1>
 
-      navigator.clipboard.writeText(link)
-        .then(() => {
-          document.getElementById('copyMsg').innerText = "Link copied to clipboard!";
-        })
-        .catch(err => {
-          document.getElementById('copyMsg').innerText = "Failed to copy link.";
-        });
-    }
-  </script>
+<div class="buttons-container" id="buttonsContainer"></div>
+
+<script>
+  const buttonData = [
+    { name: "918Kiss", link: "https://example.com/918kiss.apk" },
+    { name: "Mega888", link: "https://example.com/mega888.apk" },
+    { name: "Pussy888", link: "https://example.com/pussy888.apk" },
+    { name: "Game 4", link: "https://example.com/game4.apk" },
+    { name: "Game 5", link: "https://example.com/game5.apk" },
+    { name: "Game 6", link: "https://example.com/game6.apk" },
+    { name: "Game 7", link: "https://example.com/game7.apk" },
+    { name: "Game 8", link: "https://example.com/game8.apk" },
+    { name: "Game 9", link: "https://example.com/game9.apk" },
+    { name: "Game 10", link: "https://example.com/game10.apk" },
+    { name: "Game 11", link: "https://example.com/game11.apk" },
+    { name: "Game 12", link: "https://example.com/game12.apk" },
+    { name: "Game 13", link: "https://example.com/game13.apk" },
+    { name: "Game 14", link: "https://example.com/game14.apk" },
+    { name: "Game 15", link: "https://example.com/game15.apk" },
+    { name: "Game 16", link: "https://example.com/game16.apk" },
+    { name: "Game 17", link: "https://example.com/game17.apk" },
+    { name: "Game 18", link: "https://example.com/game18.apk" },
+    { name: "Game 19", link: "https://example.com/game19.apk" },
+    { name: "Game 20", link: "https://example.com/game20.apk" },
+    { name: "Game 21", link: "https://example.com/game21.apk" },
+    { name: "Game 22", link: "https://example.com/game22.apk" },
+    { name: "Game 23", link: "https://example.com/game23.apk" },
+    { name: "Game 24", link: "https://example.com/game24.apk" },
+    { name: "Game 25", link: "https://example.com/game25.apk" },
+    { name: "Game 26", link: "https://example.com/game26.apk" },
+    { name: "Game 27", link: "https://example.com/game27.apk" },
+    { name: "Game 28", link: "https://example.com/game28.apk" },
+    { name: "Game 29", link: "https://example.com/game29.apk" },
+    { name: "Game 30", link: "https://example.com/game30.apk" },
+    { name: "Game 31", link: "https://example.com/game31.apk" },
+    { name: "Game 32", link: "https://example.com/game32.apk" },
+    { name: "Game 33", link: "https://example.com/game33.apk" },
+    { name: "Game 34", link: "https://example.com/game34.apk" },
+    { name: "Game 35", link: "https://example.com/game35.apk" },
+    { name: "Game 36", link: "https://example.com/game36.apk" }
+  ];
+
+  const container = document.getElementById("buttonsContainer");
+
+  buttonData.forEach((btn, index) => {
+    const button = document.createElement("button");
+    button.className = "copy-btn";
+    button.onclick = () => {
+      navigator.clipboard.writeText(btn.link).then(() => {
+        alert(`Link ${btn.name} disalin!`);
+      });
+    };
+    button.innerHTML = `
+      <img src="https://i.imgur.com/QCoOwFg.png" alt="${btn.name}">
+      <div class="btn-label">${btn.name}</div>
+    `;
+    container.appendChild(button);
+  });
+</script>
 
 </body>
 </html>
