@@ -196,9 +196,11 @@
 
   <script>
     function goToPage(page) {
-      window.location.href = page;
-    }
-
+    if (page === 'tipsgame') {
+        window.location.href = '5g88-tipsgame.vercel.app';
+    } else if (page === 'findgame') {
+        window.location.href = '5g88-findgame.vercel.app';
+  }
     function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
