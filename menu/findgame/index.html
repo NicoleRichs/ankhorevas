@@ -368,13 +368,55 @@
 .detail-box p {
   margin: 6px 0;
 }
- .game-info {
-  border-bottom: 2px solid gold;
-  padding-bottom: 12px;
-}
-.platforms {
+ .game-info-platforms {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 10px 0;
   border-top: 2px solid gold;
-  padding-top: 12px;
+  border-bottom: 2px solid gold;
+}
+
+/* Bagian Game Info */
+.game-info {
+  flex: 1;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.game-info strong {
+  display: block;
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.game-info p {
+  margin: 6px 0;
+}
+
+/* Bagian Platforms */
+.platforms {
+  flex: 1;
+  padding-right: 10px;
+  text-align: left;
+}
+
+.platforms strong {
+  display: block;
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.platform-badge {
+  display: inline-block;
+  margin-right: 8px;
+  background-color: gold;
+  padding: 4px 8px;
+  border-radius: 5px;
+  color: black;
+  font-weight: bold;
 }
   #currentBet {
   display: none;
@@ -478,18 +520,24 @@
   <div class="detail-inner">
     <img src="${image}" alt="${name}" />
     <h3>${name}</h3>
-    <div class="detail-box game-info">
-      <p><strong>Type:</strong> ${type}</p>
-      <p><strong>Payline:</strong> ${payline}</p>
-      <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
+
+    <!-- Game Info & Platforms -->
+    <div class="game-info-platforms">
+      <div class="game-info">
+        <strong>GAME INFO</strong>
+        <p><strong>Type:</strong> ${type}</p>
+        <p><strong>Payline:</strong> ${payline}</p>
+        <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
+      </div>
+      <div class="platforms">
+        <strong>PLATFORMS</strong>
+        ${tags.map(tag => {
+          const lower = tag.toLowerCase();
+          return `<span class="platform-badge plat-${lower}">${tag}</span>`;
+        }).join('')}
+      </div>
     </div>
-    <div class="detail-box platforms">
-      <p><strong>Platforms:</strong></p>
-      ${tags.map(tag => {
-        const lower = tag.toLowerCase();
-        return `<span class="platform-badge plat-${lower}">${tag}</span>`;
-      }).join('')}
-    </div>
+
     <div class="bet-section">
       <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
       <div id="betValuesContainer" class="bet-values"></div>
