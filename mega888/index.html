@@ -68,7 +68,6 @@
     document.getElementById("nowTime").innerText = globalTime;
   }
 
-  // Random number helper
   function rnd(min, max, dec = 2){
     return parseFloat((Math.random() * (max - min) + min).toFixed(dec));
   }
@@ -78,7 +77,6 @@
     const bet = parseFloat(document.getElementById("betValue").value);
     const tbody = document.querySelector("#gameLog tbody");
 
-    // Reset, tapi pertahankan baris Set Score di awal
     tbody.innerHTML = `
       <tr>
         <td>-</td>
@@ -88,17 +86,18 @@
     `;
 
     let balance = rnd(3000, 4000);
-    let lastEndMoney = balance;
+    let endMoneyBaris2 = null;
 
     for(let i = 0; i < 10; i++){
-      // Win random berdasarkan bet yg sama
       const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
       const beginMoney = balance;
       const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
       balance = endMoney;
-      lastEndMoney = endMoney;
 
-      // Pakai globalTime kalau ada, atau waktu sekarang
+      if(i === 1) {
+        endMoneyBaris2 = endMoney;  // simpan EndMoney baris 2 (indeks 1)
+      }
+
       const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
       tbody.innerHTML += `
@@ -114,9 +113,11 @@
       `;
     }
 
-    // SET SCORE: negatif nilai EndMoney baris terakhir
-    const setScore = -Math.abs(parseFloat(lastEndMoney.toFixed(2)));
-    document.getElementById("setScoreCell").innerText = `Set score: ${setScore.toFixed(2)}`;
+    // Set Score hanya ikut EndMoney baris 2, negatif
+    if(endMoneyBaris2 !== null){
+      const setScore = -Math.abs(endMoneyBaris2);
+      document.getElementById("setScoreCell").innerText = `Set score: ${setScore.toFixed(2)}`;
+    }
   }
 </script>
 
