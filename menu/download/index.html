@@ -59,9 +59,23 @@
   <div class="container">
     <div class="header">Apps Download</div>
     <div class="icon-wrapper1">
-      <img src="https://i.imgur.com/WuLk1tu.png" alt="Android Download">
-       
-    </div>
+      <div>
+    <button class="button" onclick="copyAndroidLink()">📱 Download Android</button>
+    <div class="message" id="copyMsg"></div>
   </div>
+
+  <script>
+    function copyAndroidLink() {
+      const link = "https://example.com/android.apk"; // Ganti dengan link asli
+      navigator.clipboard.writeText(link)
+        .then(() => {
+          document.getElementById('copyMsg').innerText = "Link copied to clipboard!";
+        })
+        .catch(err => {
+          document.getElementById('copyMsg').innerText = "Failed to copy link.";
+        });
+    }
+  </script>
+
 </body>
 </html>
