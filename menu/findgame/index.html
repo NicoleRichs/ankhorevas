@@ -626,33 +626,37 @@ function displayGames(games) {
     });
 }
 
-    function renderGames(keyword = '') {
-      const gameList = document.getElementById('gameList');
-      gameList.innerHTML = '';
-      const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
-      const filtered = games.filter(game => {
-        const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
-        const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
-        return matchTag && matchKeyword;
-      });
-
-      filtered.forEach(game => {
-        const li = document.createElement('li');
-        li.className = 'game-item';
-        li.setAttribute('data-tag', game.tags.join(' '));
-        li.innerHTML = `<i>🎰</i> ${game.name}`;
-        li.onclick = () => showGameDetail(
-          game.name,
-          game.tags.map(t => t.toUpperCase()),
-          game.image,
-          game.type,
-          game.payline,
-          game.adjustable,
-          game.bets
-        );
-        gameList.appendChild(li);
-      });
-    }
+   function renderGames(keyword = '') {
+  const gameList = document.getElementById('gameList');
+  gameList.innerHTML = ''; // Clear previous games
+  
+  const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
+  
+  // Filter game berdasarkan tag dan keyword pencarian
+  const filtered = games.filter(game => {
+    const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
+    const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
+    return matchTag && matchKeyword;
+  });
+  
+  // Tampilkan game yang sudah difilter
+  filtered.forEach(game => {
+    const li = document.createElement('li');
+    li.className = 'game-item';
+    li.setAttribute('data-tag', game.tags.join(' '));
+    li.innerHTML = `<i>🎰</i> ${game.name}`;
+    li.onclick = () => showGameDetail(
+      game.name,
+      game.tags.map(t => t.toUpperCase()),
+      game.image,
+      game.type,
+      game.payline,
+      game.adjustable,
+      game.bets
+    );
+    gameList.appendChild(li);
+  });
+}
 
     renderGames();
   </script>
