@@ -14,7 +14,6 @@
     select,input { padding:6px 10px; font-size:16px; margin-left:10px;}
     #nowTime { font-weight:bold; margin-left:10px; color:#0073e6;}
 
-    /* warna negatif merah tanpa border */
     .set-score-row td {
       color: black;
     }
@@ -85,11 +84,11 @@
     const tbody = document.querySelector("#gameLog tbody");
 
     let logs = [];
-    let beginMoney = rnd(3000, 4000); // nilai awal
+    let endMoney = rnd(3000, 4000); // starting from the last endMoney going backward
 
     for(let i = 0; i < 10; i++){
       const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
-      const endMoney = parseFloat((beginMoney + bet - win).toFixed(2));
+      const beginMoney = parseFloat((endMoney + bet - win).toFixed(2));
       const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
       logs.push({
@@ -102,8 +101,10 @@
         dateTime: timeStamp
       });
 
-      beginMoney = endMoney;
+      endMoney = beginMoney;
     }
+
+    logs.reverse(); // supaya urut dari atas ke bawah (logikanya waktu ke depan)
 
     const data2 = logs[logs.length - 1];
 
