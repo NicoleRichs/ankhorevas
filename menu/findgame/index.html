@@ -377,6 +377,33 @@
   border-bottom: 2px solid gold;
 }
 
+.detail-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  gap: 30px;
+}
+
+.info-column {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid gold;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.info-column h4 {
+  color: gold;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border-bottom: 1px solid gold;
+  padding-bottom: 5px;
+}
+
+.info-column p {
+  margin: 5px 0;
+  color: white;
+} 
 /* Bagian Game Info */
 .game-info {
   flex: 1;
@@ -545,61 +572,46 @@
     }
 
  function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
+  const gameDetail = document.getElementById("gameDetail");
   window.currentGame = { name, tags, image, type, payline, adjustable, bets };
-  const gameDetail = document.getElementById('gameDetail');
-
-  // Inisialisasi state global
   window.currentLines = Object.keys(bets)[0];
-  window.currentLines = parseInt(window.currentLines); // pastikan int
   window.currentBets = bets[window.currentLines];
   window.currentBetIndex = 0;
 
-  // Pisahkan platform dan detail lainnya
-  const platformHTML = tags.map(tag => {
-    const lower = tag.toLowerCase();
-    return `<span class="platform-badge plat-${lower}">${tag}</span>`;
-  }).join(' ');
+  const infoColumn = `
+    <div class="info-column">
+      <h4>GAME INFO</h4>
+      <p><strong>Type:</strong> ${type}</p>
+      <p><strong>Payline:</strong> ${payline}</p>
+      <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
+    </div>`;
+
+  const platformColumn = `
+    <div class="info-column">
+      <h4>PLATFORMS</h4>
+      ${tags.map(tag => `<p>${tag}</p>`).join('')}
+    </div>`;
 
   gameDetail.innerHTML = `
-   <div class="game-detail active">
-  <div class="close-btn" onclick="goBack()">Close</div>
-  <div class="detail-inner">
-    <img src="${image}" alt="${name}" />
-    <h3>${name}</h3>
-
-    <!-- Game Info & Platforms -->
-    <div class="game-info-platforms">
-      <div class="game-info">
-        <strong>GAME INFO</strong>
-        <p><strong>Type:</strong> ${type}</p>
-        <p><strong>Payline:</strong> ${payline}</p>
-        <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
-      </div>
-      <div class="platforms">
-        <strong>PLATFORMS</strong>
-        ${tags.map(tag => {
-          const lower = tag.toLowerCase();
-          return `<span class="platform-badge plat-${lower}">${tag}</span>`;
-        }).join('')}
-      </div>
+    <div class="detail-header">
+      <img src="${image}" alt="${name}" />
+      <h2>${name}</h2>
     </div>
-
-    <div class="bet-section">
-      <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
-      <div id="betValuesContainer" class="bet-values"></div>
-      <div style="margin-top: 8px;"></div>
+    <div class="detail-info">
+      ${infoColumn}
+      ${platformColumn}
     </div>
     <div class="line-control">
-      <button onclick="adjustLines(-1)">-</button>
-      <span id="lineDisplay">${window.currentLines} lines</span>
-      <button onclick="adjustLines(1)">+</button>
+      <button onclick="changeLine(-1)">- Line</button>
+      <span>Lines: <span id="lineCount">${window.currentLines}</span></span>
+      <button onclick="changeLine(1)">+ Line</button>
     </div>
-  </div>
-</div>
+    <div class="bet-values">
+      ${window.currentBets.map((v, i) => `<span onclick="selectBet(${i})">${v.toFixed(2)}</span>`).join('')}
+    </div>
   `;
 
-  updateBetDisplay();
-  gameDetail.classList.add('active');
+  gameDetail.classList.add("active");
 }
     function adjustBet(direction) {
       if (!window.currentBets) return;
