@@ -10,6 +10,7 @@
       padding: 0;
       background-color: #f8edc2;
       font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
     }
 
     .container {
@@ -19,6 +20,7 @@
       padding: 20px;
       border-radius: 40px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      position: relative;
     }
 
     .header {
@@ -112,11 +114,33 @@
       text-align: center;
     }
 
-    .game-detail {
-      margin-top: 20px;
+    .game-detail-panel {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 400px;
+      height: 100%;
       background: #fff4dc;
-      padding: 10px;
-      border-radius: 16px;
+      z-index: 1000;
+      padding: 20px;
+      box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      transition: right 0.3s ease-in-out;
+    }
+
+    .game-detail-panel.active {
+      right: 0;
+    }
+
+    .close-btn {
+      background: #c4a000;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 10px;
     }
 
     .game-detail img {
@@ -208,17 +232,24 @@
       <li class="game-item" data-tag="mega888" onclick="showGameDetail('Fortune Tiger')"><i>🎰</i> Fortune Tiger</li>
     </ul>
 
-    <div id="gameDetail" class="game-detail" style="display:none"></div>
-
     <div class="footer">
       Dalam Pengembangan<br>
       Bisa tidak stabil.
     </div>
   </div>
 
+  <div id="gameDetailPanel" class="game-detail-panel">
+    <button class="close-btn" onclick="closeGameDetail()">⬅ Kembali</button>
+    <div id="gameDetail" class="game-detail"></div>
+  </div>
+
   <script>
     function goBack() {
-      document.getElementById('gameDetail').style.display = 'none';
+      closeGameDetail();
+    }
+
+    function closeGameDetail() {
+      document.getElementById('gameDetailPanel').classList.remove('active');
     }
 
     function updateClock() {
@@ -285,7 +316,7 @@
             <button onclick="adjustLines(1)">+</button>
           </div>
         </div>`;
-      detailBox.style.display = 'block';
+      document.getElementById('gameDetailPanel').classList.add('active');
       window.currentLines = gameLines;
     }
 
