@@ -111,6 +111,61 @@
       color: #877b56;
       text-align: center;
     }
+
+    .game-detail {
+      margin-top: 20px;
+      background: #fff4dc;
+      padding: 10px;
+      border-radius: 16px;
+    }
+    .game-detail img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .game-detail h3 {
+      margin: 0;
+    }
+    .game-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .box {
+      background: #fef6e4;
+      padding: 10px;
+      border-radius: 10px;
+      width: 48%;
+      font-size: 14px;
+    }
+    .bet-section {
+      margin-top: 10px;
+      background: #fef6e4;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    .bet-values span {
+      display: inline-block;
+      background: #fff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      margin: 4px;
+      font-size: 13px;
+    }
+    .line-control {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .line-control button {
+      padding: 5px 10px;
+      background: #f0de9e;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -128,22 +183,24 @@
     </div>
 
     <div class="tags">
-      <div class="tag active" onclick="filterTag(this, 'all')">All</div>
-      <div class="tag" onclick="filterTag(this, '918kiss')">918kiss</div>
-      <div class="tag" onclick="filterTag(this, 'mega888')">Mega888</div>
-      <div class="tag" onclick="filterTag(this, 'pussy888')">Pussy888</div>
+      <div class="tag active" data-tag="all">All</div>
+      <div class="tag" data-tag="918kiss">918kiss</div>
+      <div class="tag" data-tag="mega888">Mega888</div>
+      <div class="tag" data-tag="pussy888">Pussy888</div>
     </div>
 
     <ul class="game-list" id="gameList">
-      <li class="game-item" data-tag="918kiss"><i>🎰</i> Wolf Run</li>
-      <li class="game-item" data-tag="918kiss"><i>🎰</i> Sticky Bandits Wild Return</li>
-      <li class="game-item" data-tag="mega888"><i>🎰</i> Six Acrobats</li>
-      <li class="game-item" data-tag="mega888"><i>🎰</i> Great88</li>
-      <li class="game-item" data-tag="pussy888"><i>🎰</i> Wild Fireworks</li>
-      <li class="game-item" data-tag="pussy888"><i>🎰</i> Conan</li>
-      <li class="game-item" data-tag="918kiss"><i>🎰</i> Floating Dragon</li>
-      <li class="game-item" data-tag="mega888"><i>🎰</i> Fortune Tiger</li>
+      <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Wolf Run')"><i>🎰</i> Wolf Run</li>
+      <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Sticky Bandits Wild Return')"><i>🎰</i> Sticky Bandits Wild Return</li>
+      <li class="game-item" data-tag="mega888" onclick="showGameDetail('Six Acrobats')"><i>🎰</i> Six Acrobats</li>
+      <li class="game-item" data-tag="mega888" onclick="showGameDetail('Great88')"><i>🎰</i> Great88</li>
+      <li class="game-item" data-tag="pussy888" onclick="showGameDetail('Wild Fireworks')"><i>🎰</i> Wild Fireworks</li>
+      <li class="game-item" data-tag="pussy888" onclick="showGameDetail('Conan')"><i>🎰</i> Conan</li>
+      <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Floating Dragon')"><i>🎰</i> Floating Dragon</li>
+      <li class="game-item" data-tag="mega888" onclick="showGameDetail('Fortune Tiger')"><i>🎰</i> Fortune Tiger</li>
     </ul>
+
+    <div id="gameDetail" class="game-detail" style="display:none"></div>
 
     <div class="footer">
       On Hold Development<br>
@@ -166,30 +223,60 @@
     updateClock();
 
     function filterGames(keyword) {
-      const items = document.querySelectorAll('.game-item');
+      const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
       keyword = keyword.toLowerCase();
-      items.forEach(item => {
+      document.querySelectorAll('.game-item').forEach(item => {
         const text = item.textContent.toLowerCase();
-        item.style.display = text.includes(keyword) ? 'flex' : 'none';
+        const tag = item.getAttribute('data-tag');
+        const matchesTag = selectedTag === 'all' || tag === selectedTag;
+        item.style.display = text.includes(keyword) && matchesTag ? 'flex' : 'none';
       });
     }
 
-    function filterTag(element, tag) {
-      document.querySelectorAll('.tag').forEach(el => el.classList.remove('active'));
-      element.classList.add('active');
-      const items = document.querySelectorAll('.game-item');
-      items.forEach(item => {
-        if (tag === 'all') {
-          item.style.display = 'flex';
-        } else {
-          item.style.display = item.getAttribute('data-tag') === tag ? 'flex' : 'none';
-        }
+    document.querySelectorAll('.tag').forEach(tagElement => {
+      tagElement.addEventListener('click', () => {
+        document.querySelectorAll('.tag').forEach(el => el.classList.remove('active'));
+        tagElement.classList.add('active');
+        filterGames(document.querySelector('.search-bar input').value);
       });
-    }
+    });
 
     function scrollToGames() {
       const list = document.getElementById('gameList');
       if (list) list.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showGameDetail(name) {
+      const detailBox = document.getElementById('gameDetail');
+      detailBox.innerHTML = `
+        <img src="https://placehold.co/600x200" alt="Game Banner">
+        <h3>${name}</h3>
+        <p><strong>GameName:</strong> ${name.replace(/ /g, '')}</p>
+        <div class="game-section">
+          <div class="box">
+            <strong>Game Info</strong><br>
+            Type: Slot<br>
+            Payline: 40<br>
+            Adjustable Payline: Yes
+          </div>
+          <div class="box">
+            <strong>Platforms</strong><br>
+            <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">🎰 Mega888</span>
+          </div>
+        </div>
+        <div class="bet-section">
+          <strong>Game Bet</strong><br>
+          <div class="bet-values">
+            <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span><span>8.00</span>
+            <span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
+          </div>
+          <div class="line-control">
+            <button>-</button>
+            <span>40 lines</span>
+            <button>+</button>
+          </div>
+        </div>`;
+      detailBox.style.display = 'block';
     }
   </script>
 </body>
