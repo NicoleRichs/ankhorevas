@@ -219,6 +219,8 @@
 </head>
 <body>
   <div class="container">
+    <div id="game-list"></div>
+    <div id="game-details"></div>
     <div class="header">
       <a class="home-link " href="https://searcfile.github.io/5G88-editor/menu/">🏠 Home</a>
       <div id="clock" class="time">--:--</div>
@@ -991,7 +993,10 @@
       const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
       return matchTag && matchKeyword;
     });
-
+    
+     function displayGameDetails(game) {
+      console.log("Menampilkan detail game:", game);
+     }
     filtered.forEach((game, index) => {
       const li = document.createElement('li');
       li.className = 'game-item';
