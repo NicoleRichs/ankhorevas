@@ -80,62 +80,63 @@
   }
 
   function generateLog(){
-    const game = document.getElementById("gameSelect").value;
-    const bet = parseFloat(document.getElementById("betValue").value);
-    const tbody = document.querySelector("#gameLog tbody");
+  const game = document.getElementById("gameSelect").value;
+  const bet = parseFloat(document.getElementById("betValue").value);
+  const tbody = document.querySelector("#gameLog tbody");
 
-    let rows = ``;
-    let balance = rnd(3000, 4000);
-    let logs = [];
+  let balance = rnd(3000, 4000);
+  let logs = [];
 
-    for(let i = 0; i < 10; i++){
-      const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
-      const beginMoney = balance;
-      const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
-      balance = endMoney;
-      const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
+  for(let i = 0; i < 10; i++){
+    const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
+    const beginMoney = balance;
+    const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
+    balance = endMoney;
+    const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
-      logs.push({
-        game,
-        tableID: 0,
-        bet: bet.toFixed(2),
-        win: win.toFixed(2),
-        beginMoney: beginMoney.toFixed(2),
-        endMoney: endMoney.toFixed(2),
-        dateTime: timeStamp
-      });
-    }
-
-    const data2 = logs[2];
-
-    rows += `
-  <tr class="set-score-row">
-    <td>-</td>
-    <td class="setscore">Set score: ${(-Math.abs(parseFloat(data2.endMoney))).toFixed(2)}</td>
-    <td class="negatif">-</td>         <!-- Bet -->
-    <td class="negatif">-</td>         <!-- Win -->
-    <td class="negatif">-</td>         <!-- BeginMoney -->
-    <td class="negatif">-</td>         <!-- EndMoney -->
-    <td>${data2.dateTime}</td>
-  </tr>
-`;
-
-    logs.forEach(log => {
-      rows += `
-        <tr>
-          <td>${log.game}</td>
-          <td>${log.tableID}</td>
-          <td>${log.bet}</td>
-          <td>${log.win}</td>
-          <td>${log.beginMoney}</td>
-          <td>${log.endMoney}</td>
-          <td>${log.dateTime}</td>
-        </tr>
-      `;
+    logs.push({
+      game,
+      tableID: 0,
+      bet: bet.toFixed(2),
+      win: win.toFixed(2),
+      beginMoney: beginMoney.toFixed(2),
+      endMoney: endMoney.toFixed(2),
+      dateTime: timeStamp
     });
-
-    tbody.innerHTML = rows;
   }
+
+  const data2 = logs[2];  // baris ke-3 ambil EndMoney dan DateTime
+
+  // Baris pertama: set score dengan nilai negatif EndMoney baris 3
+  let rows = `
+    <tr class="set-score-row">
+      <td>-</td>
+      <td class="setscore">Set score: ${(-Math.abs(parseFloat(data2.endMoney))).toFixed(2)}</td>
+      <td class="negatif">-</td>  <!-- Bet -->
+      <td class="negatif">-</td>  <!-- Win -->
+      <td class="negatif">-</td>  <!-- BeginMoney -->
+      <td class="negatif">-</td>  <!-- EndMoney -->
+      <td>${data2.dateTime}</td>
+    </tr>
+  `;
+
+  // Baris log data 10 baris
+  logs.forEach(log => {
+    rows += `
+      <tr>
+        <td>${log.game}</td>
+        <td>${log.tableID}</td>
+        <td>${log.bet}</td>
+        <td>${log.win}</td>
+        <td>${log.beginMoney}</td>
+        <td>${log.endMoney}</td>
+        <td>${log.dateTime}</td>
+      </tr>
+    `;
+  });
+
+  tbody.innerHTML = rows;
+}
 </script>
 
 </body>
