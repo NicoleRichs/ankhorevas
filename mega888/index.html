@@ -179,12 +179,21 @@
     // Tambah lagi ikut keperluan
   };
 
- function setNow(){
+ function setNow() {
   const now = new Date();
-  globalTime = now.toISOString().replace("T"," ").substring(0,19);
-  document.getElementById("nowTime").innerText = globalTime;
 
-  // Set input manual ke waktu sekarang
+  // Ambil bagian tahun, bulan, hari, jam, menit, detik dari waktu lokal
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Bulan mulai dari 0
+  const day = String(now.getDate()).padStart(2, '0');
+  const hour = String(now.getHours()).padStart(2, '0'); // JAM lokal
+  const minute = String(now.getMinutes()).padStart(2, '0');
+  const second = String(now.getSeconds()).padStart(2, '0');
+
+  // Gabungkan jadi format YYYY-MM-DD HH:MM:SS
+  globalTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+
+  document.getElementById("nowTime").innerText = globalTime;
   document.getElementById("manualTime").value = globalTime;
 }
   function rnd(min, max, dec = 2){
