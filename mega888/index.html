@@ -13,6 +13,13 @@
     button:hover { background:#218838;}
     select,input { padding:6px 10px; font-size:16px; margin-left:10px;}
     #nowTime { font-weight:bold; margin-left:10px; color:#0073e6;}
+
+    /* border merah tebal untuk baris set score */
+    .set-score-row td {
+      border: 2px solid red !important;
+      font-weight: bold;
+      color: darkred;
+    }
   </style>
 </head>
 <body>
@@ -50,11 +57,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>-</td>
-      <td id="setScoreCell" style="color:red;font-weight:bold;">Set score: -0.00</td>
-      <td colspan="5"></td>
-    </tr>
+    <!-- Baris set score akan di-generate via JS -->
   </tbody>
 </table>
 
@@ -76,49 +79,59 @@
     const bet = parseFloat(document.getElementById("betValue").value);
     const tbody = document.querySelector("#gameLog tbody");
 
-    let rows = `
-      <tr>
-        <td>-</td>
-        <td id="setScoreCell" style="color:red;font-weight:bold;">Set score: -0.00</td>
-        <td colspan="5"></td>
-      </tr>
-    `;
-
+    let rows = ``;
     let balance = rnd(3000, 4000);
-    let endMoneyBaris2 = null;
+    let logs = [];
 
+    // buat 10 log
     for(let i = 0; i < 10; i++){
       const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
       const beginMoney = balance;
       const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
       balance = endMoney;
-
-      if(i === 1) {
-        endMoneyBaris2 = endMoney;  // simpan EndMoney baris 2 (indeks 1)
-      }
-
       const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
+      logs.push({
+        game,
+        tableID: 0,
+        bet: bet.toFixed(2),
+        win: win.toFixed(2),
+        beginMoney: beginMoney.toFixed(2),
+        endMoney: endMoney.toFixed(2),
+        dateTime: timeStamp
+      });
+    }
+
+    // baris pertama adalah set score, ambil data dari logs[1]
+    const setScoreData = logs[1];
+    rows += `
+      <tr class="set-score-row">
+        <td>-</td>
+        <td>Set score:</td>
+        <td>${setScoreData.bet}</td>
+        <td>${setScoreData.win}</td>
+        <td>${setScoreData.beginMoney}</td>
+        <td>${setScoreData.endMoney}</td>
+        <td>${setScoreData.dateTime}</td>
+      </tr>
+    `;
+
+    // tambahkan 10 log asli di bawahnya
+    logs.forEach(log => {
       rows += `
         <tr>
-          <td>${game}</td>
-          <td>0</td>
-          <td>${bet.toFixed(2)}</td>
-          <td>${win.toFixed(2)}</td>
-          <td>${beginMoney.toFixed(2)}</td>
-          <td>${endMoney.toFixed(2)}</td>
-          <td>${timeStamp}</td>
+          <td>${log.game}</td>
+          <td>${log.tableID}</td>
+          <td>${log.bet}</td>
+          <td>${log.win}</td>
+          <td>${log.beginMoney}</td>
+          <td>${log.endMoney}</td>
+          <td>${log.dateTime}</td>
         </tr>
       `;
-    }
+    });
 
     tbody.innerHTML = rows;
-
-    // Update Set Score sesuai EndMoney baris ke-2
-    if(endMoneyBaris2 !== null){
-      const setScore = -Math.abs(endMoneyBaris2);
-      document.getElementById("setScoreCell").innerText = `Set score: ${setScore.toFixed(2)}`;
-    }
   }
 </script>
 
