@@ -132,6 +132,16 @@
     ul li {
       margin-bottom: 5px;
     }
+   .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: gold;
+  font-size: 24px;
+  cursor: pointer;
+  }
   </style>
 </head>
 <body>
@@ -150,6 +160,7 @@
 
   <div class="game-detail" id="gameDetail">
     <span class="close-btn" onclick="closeDetail()">&times;</span>
+    <button id="close-detail" class="close-btn">×</button>
     <h2 id="detailName"></h2>
     <img id="detailImage" src="" alt="" style="width: 100%; border-radius: 8px; margin: 15px 0;">
     <p><strong>Type:</strong> <span id="detailType"></span></p>
@@ -216,7 +227,9 @@
       updateBetOptions();
       detailEl.classList.add("active");
     }
-
+    document.getElementById('close-detail').addEventListener('click', () => {
+    document.getElementById('game-detail').classList.remove('active');
+    });
     function closeDetail() {
       detailEl.classList.remove("active");
     }
