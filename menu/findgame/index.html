@@ -257,9 +257,9 @@
   height: 100vh;
 }  
 .game-detail {
-    min-width: 21vw !important; /* Guna 90% daripada lebar skrin */
+    min-width: 18vw !important; /* Guna 90% daripada lebar skrin */
     font-size: 14px; /* Kurangkan saiz font jika perlu */
-    height: auto; 
+    
   }
 
   .game-detail img {
@@ -275,6 +275,11 @@
    width: 70vw;
    max-width: 400px;
  }
+   .game-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
 
   .line-controls button {
     padding: 4px 8px;
@@ -287,6 +292,11 @@
 
   .info-border {
     padding: 8px;
+  }
+}
+    @media screen and (min-width: 768px) {
+  .game-list {
+    grid-template-columns: 1fr 1fr; /* Dua kolom untuk desktop */
   }
 }
   </style>
