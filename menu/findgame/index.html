@@ -515,6 +515,16 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+  const gameList = document.getElementById("game-list");
+  if (gameList) {
+    gameList.innerHTML = "Games loaded successfully!";
+  } else {
+    console.error("Game list element not found.");
+  }
+});
+
   displayGames(games);
   </script>
 </body>
