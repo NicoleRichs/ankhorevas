@@ -450,15 +450,29 @@
 
   let filteredGames = games;
 
-  searchInput.addEventListener("input", () => {
-    const searchValue = searchInput.value.toLowerCase();
-    filteredGames = games.filter(
-      (game) =>
-        game.name.toLowerCase().includes(searchValue) ||
-        game.provider.toLowerCase().includes(searchValue) ||
-        game.category.toLowerCase().includes(searchValue)
-    );
-    displayGames(filteredGames);
+  document.addEventListener("DOMContentLoaded", function() {
+  // Memastikan elemen tersedia sebelum menambahkan event listener
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", function() {
+      const filter = searchInput.value.toLowerCase();
+      const gameCards = document.querySelectorAll(".game-card");
+
+      gameCards.forEach((card) => {
+        const title = card.querySelector(".game-title").textContent.toLowerCase();
+        card.style.display = title.includes(filter) ? "block" : "none";
+      });
+    });
+  }
+
+  const gameDetailsButton = document.getElementById("game-details-button");
+  if (gameDetailsButton) {
+    gameDetailsButton.addEventListener("click", function() {
+      // Tindakan yang dilakukan ketika tombol "Lihat Detail" diklik
+      console.log("Game details button clicked");
+    });
+  }
+});
   });
   categoryFilter.addEventListener("change", () => {
     const categoryValue = categoryFilter.value;
