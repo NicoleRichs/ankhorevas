@@ -111,9 +111,8 @@
       tbody.innerHTML += row;
     }
 
-    const setScore = lastEndMoney - beginMoneyFirst;
-    const finalScore = setScore < 0 ? setScore : -Math.abs(setScore);
-    document.getElementById("setScoreCell").innerText = `Set score: ${finalScore.toFixed(2)}`;
+    const setScore = beginMoneyFirst - lastEndMoney;
+    document.getElementById("setScoreCell").innerText = `Set score: -${Math.abs(setScore).toFixed(2)}`;
   }
 </script>
 
