@@ -15,7 +15,7 @@
     }
 
     .container {
-      margin-top: 300px;
+      margin-top: 350px;
     }
 
     #searchBox {
@@ -33,7 +33,7 @@
       display: flex;
       gap: 10px;
       justify-content: center;
-      margin: 40px auto 30px auto;
+      margin: 50px auto 30px auto;
     }
 
     .platform-tags div {
@@ -144,6 +144,7 @@
       border: 2px solid #ffd700;
       padding: 10px;
       text-align: center;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -169,14 +170,12 @@
       <p id="gameType"></p>
       <p id="gamePayline"></p>
       <p id="gameAdjustable"></p>
-    </div>
-
-    <div class="bet-values-box" id="betValues"></div>
-
-    <div class="line-controls">
-      <button onclick="changeLine(-1)">-</button>
-      <span id="lineDisplay">Line: 1</span>
-      <button onclick="changeLine(1)">+</button>
+      <div class="bet-values-box" id="betValues"></div>
+      <div class="line-controls">
+        <button onclick="changeLine(-1)">-</button>
+        <span id="lineDisplay">Line: 1</span>
+        <button onclick="changeLine(1)">+</button>
+      </div>
     </div>
 
     <div class="platforms-available" id="gameTags"></div>
