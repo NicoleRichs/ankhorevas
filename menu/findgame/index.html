@@ -4,9 +4,164 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Find Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Gaya tetap sama seperti sebelumnya (tidak diubah untuk ringkas) */
-    /* ... (semua CSS dari versi Anda sebelumnya tetap valid) */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4eac3;
+      color: #3d2b1f;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      border-radius: 30px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      color: #5a4c34;
+      font-size: 14px;
+    }
+
+    .title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 20px;
+      margin: 20px 0 10px;
+      cursor: pointer;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #f7ebba;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .search-bar input {
+      border: none;
+      background: transparent;
+      margin-left: 10px;
+      width: 100%;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #eee1b3;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .tag.active {
+      background: #c8b169;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .game-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .game-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dotted #bbb;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .game-item i {
+      font-style: normal;
+      background: #3d2b1f;
+      color: #fff;
+      padding: 4px 6px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #777;
+      margin-top: 20px;
+    }
+
+    .game-detail {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .game-detail.active {
+      display: block;
+    }
+
+    .game-section, .bet-section {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .box {
+      flex: 1;
+      background: #f4eac3;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .bet-values span {
+      display: inline-block;
+      background: #eee;
+      padding: 4px 8px;
+      margin: 2px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .line-control {
+      margin-top: 10px;
+    }
+
+    .line-control button {
+      padding: 5px 10px;
+      font-size: 14px;
+      border: none;
+      background: #c8b169;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .line-control span {
+      margin: 0 10px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -16,6 +171,7 @@
       <div id="clock" class="time">--:--</div>
       <div>User</div>
     </div>
+
     <div class="title" onclick="scrollToGames()">Find Game</div>
 
     <div class="search-bar">
@@ -35,8 +191,8 @@
     <div id="gameDetail" class="game-detail"></div>
 
     <div class="footer">
-      In Development<br>
-      Might be unstable.
+      On Hold Development<br>
+      May be unstable.
     </div>
   </div>
 
@@ -83,7 +239,7 @@
       const gameLines = 40;
       detailBox.innerHTML = `
         <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Close</div>
-        <img src="https://placehold.co/600x200" alt="Game Banner">
+        <img src="https://placehold.co/600x200" alt="Game Banner" style="width:100%; border-radius:10px;">
         <h3>${name}</h3>
         <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
         <div class="game-section">
@@ -137,7 +293,7 @@
       const li = document.createElement('li');
       li.className = 'game-item';
       li.setAttribute('data-tag', game.tag);
-      li.innerHTML = `<i>🎰</i> ${game.name}`;
+      li.innerHTML = `<i>777</i> ${game.name}`;
       li.onclick = () => showGameDetail(game.name, game.tag.charAt(0).toUpperCase() + game.tag.slice(1));
       gameList.appendChild(li);
     });
