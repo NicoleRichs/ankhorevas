@@ -441,30 +441,38 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable, bets) {
-  const box = document.getElementById('gameDetail');
-  window.currentLines = payline;
-  window.currentBets = bets;
+   function showGameDetail(game) {
+      const gameDetail = document.getElementById('gameDetail');
+      gameDetail.innerHTML = `
+        <h2>${game.name}</h2>
+        <img src="${game.image}" alt="${game.name}" style="max-width: 100%; height: auto;" />
+        <p><strong>Platform:</strong> ${game.platform}</p>
+        <p><strong>Payline:</strong> ${game.payline}</p>
+        <p><strong>Type:</strong> ${game.type}</p>
+        <p><strong>Adjustable:</strong> ${game.adjustable ? 'Yes' : 'No'}</p>
+      `;
 
-  // render bet values awal
-  const betHTML = bets[payline]?.map(val => `<span>${val.toFixed(2)}</span>`).join('') || '';
+      const controlPanel = document.createElement('div');
+      controlPanel.innerHTML = `
+        <div>
+          <label>Lines: <button onclick="adjustLines(${game.id}, -1)">-</button> 
+          <span id="lines-${game.id}">${game.defaultLines}</span> 
+          <button onclick="adjustLines(${game.id}, 1)">+</button></label>
+        </div>
+        <div>
+          <label>Bet: <button onclick="adjustBet(${game.id}, -1)">-</button> 
+          <span id="bet-${game.id}">${game.betValues[game.defaultLines][0]}</span> 
+          <button onclick="adjustBet(${game.id}, 1)">+</button></label>
+        </div>
+      `;
+      gameDetail.appendChild(controlPanel);
 
-  // ... isi lainnya sama
-  box.innerHTML = `
-    <!-- ... -->
-    <div class="bet-section">
-      <strong>Bet Options</strong><br>
-      <div class="bet-values" id="betValues">${betHTML}</div>
-      <div class="line-control">
-        <button onclick="adjustLines(-1)">-</button>
-        <span id="lineDisplay">${payline} lines</span>
-        <button onclick="adjustLines(1)">+</button>
-      </div>
-    </div>
-    <!-- ... -->
-  `;
-  box.classList.add('active');
-}
+      currentLines = game.defaultLines;
+      currentBetIndex = 0;
+      currentGame = game;
+
+      gameDetail.style.display = 'block';
+    }
 function adjustBet(direction) {
   if (!window.currentBets) return;
 
