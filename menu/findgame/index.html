@@ -2,128 +2,200 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Find Game</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f8edcf;
+      font-family: Arial, sans-serif;
+      background: #f8ebc4;
+      color: #333;
     }
 
     .container {
-      width: 400px;
+      max-width: 400px;
       margin: 0 auto;
-      background: #fff7e6;
-      border-radius: 40px;
+      background: #fff6dd;
+      border-radius: 30px 30px 0 0;
       padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      position: relative;
+      height: 100vh;
+      overflow-y: auto;
     }
 
     .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-      padding: 10px 0;
-    }
-
-    .title {
       text-align: center;
-      font-size: 22px;
       font-weight: bold;
+      font-size: 24px;
+      margin-bottom: 15px;
     }
 
-    .search-bar {
-      margin-top: 10px;
+    .search-container {
       display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .search-box {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #f1e4a8;
+      font-size: 16px;
+    }
+
+    .platforms {
+      display: flex;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    .search-bar input {
-      flex: 1;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      background: #eee0aa;
-      margin-bottom: 10px;
-    }
-
-    .filter-buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .filter-buttons button {
+    .platform-btn {
+      padding: 6px 15px;
       border: none;
       border-radius: 20px;
-      padding: 6px 16px;
-      background-color: #f0dfb0;
-      font-weight: bold;
+      background: #f1e4a8;
       cursor: pointer;
+      font-size: 14px;
+    }
+
+    .platform-btn.active {
+      background: #fff;
+      font-weight: bold;
+      border: 2px solid #e0c66e;
     }
 
     .game-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+      margin-top: 15px;
     }
 
     .game-item {
       display: flex;
       align-items: center;
-      border-bottom: 1px dashed #999;
       padding: 10px 0;
+      border-bottom: 1px dotted #aaa;
+      cursor: pointer;
     }
 
-    .game-icon {
-      font-size: 20px;
+    .game-item img {
+      width: 24px;
       margin-right: 10px;
     }
 
-    .game-name {
-      font-weight: bold;
+    .status {
+      font-size: 12px;
+      color: #999;
+      margin-left: 34px;
     }
 
-    .on-hold {
-      font-size: 12px;
-      color: #777;
+    .game-detail {
+      margin-top: 20px;
+      padding: 10px;
+      background: #fff8db;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .game-detail.show {
+      display: block;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <span>&lt; back</span>
-      <span>18:42</span>
-      <span>User</span>
+    <div class="header">Find Game</div>
+    <div class="search-container">
+      <input type="text" id="search" class="search-box" placeholder="Search..." />
+      <div class="platforms">
+        <button class="platform-btn active" data-platform="All">All</button>
+        <button class="platform-btn" data-platform="918kiss">918kiss</button>
+        <button class="platform-btn" data-platform="Mega888">Mega888</button>
+        <button class="platform-btn" data-platform="Pussy888">Pussy888</button>
+      </div>
     </div>
-    <div class="title">Find Game</div>
-    <div class="search-bar">
-      <input type="text" placeholder="Search" />
+
+    <div class="game-list" id="gameList"></div>
+
+    <div class="game-detail" id="gameDetail">
+      <h3 id="gameTitle"></h3>
+      <p><strong>Platform:</strong> <span id="gamePlatform"></span></p>
+      <p><strong>Type:</strong> Slot</p>
+      <p><strong>Payline:</strong> 40</p>
+      <p><strong>Adjustable Payline:</strong> Yes</p>
+      <p><strong>Game Bet:</strong> 0.40 - 120.00</p>
     </div>
-    <div class="filter-buttons">
-      <button>All</button>
-      <button>918kiss</button>
-      <button>Mega888</button>
-      <button>Pussy888</button>
-    </div>
-    <ul class="game-list">
-      <li class="game-item"><span class="game-icon">🎰</span><span class="game-name">Wolf Run</span></li>
-      <li class="game-item"><span class="game-icon">🎰</span><span class="game-name">Sticky Bandits Wild Return</span></li>
-      <li class="game-item"><span class="game-icon">🎰</span><span class="game-name">Six Acrobats</span></li>
-      <li class="game-item"><span class="game-icon">🎰</span><span class="game-name">Great88</span></li>
-      <li class="game-item"><span class="game-icon">🎰</span><span class="game-name">Wild Fireworks</span></li>
-      <li class="game-item"><span class="game-icon">🎰</span><span class="game-name">Conan</span></li>
-      <li class="game-item"><span class="game-icon">🎰</span><span class="game-name">Floating Dragon</span></li>
-      <li class="game-item">
-        <span class="game-icon">🎰</span>
-        <span class="game-name">Fortune Tiger</span><br>
-        <span class="on-hold">On Hold Development<br>May be unstable.</span>
-      </li>
-    </ul>
   </div>
+
+  <script>
+    const games = [
+      { name: "Wolf Run", platform: "Mega888", unstable: false },
+      { name: "Sticky Bandits Wild Return", platform: "Mega888", unstable: false },
+      { name: "Six Acrobats", platform: "918kiss", unstable: false },
+      { name: "Great88", platform: "918kiss", unstable: false },
+      { name: "Wild Fireworks", platform: "Pussy888", unstable: false },
+      { name: "Conan", platform: "Pussy888", unstable: false },
+      { name: "Floating Dragon", platform: "Mega888", unstable: false },
+      { name: "Fortune Tiger", platform: "Mega888", unstable: true }
+    ];
+
+    const gameList = document.getElementById("gameList");
+    const searchInput = document.getElementById("search");
+    const platformButtons = document.querySelectorAll(".platform-btn");
+    const gameDetail = document.getElementById("gameDetail");
+    const gameTitle = document.getElementById("gameTitle");
+    const gamePlatform = document.getElementById("gamePlatform");
+
+    let currentPlatform = "All";
+
+    function renderGames() {
+      const keyword = searchInput.value.toLowerCase();
+      gameList.innerHTML = "";
+
+      const filtered = games.filter(game => {
+        const matchKeyword = game.name.toLowerCase().includes(keyword);
+        const matchPlatform = currentPlatform === "All" || game.platform === currentPlatform;
+        return matchKeyword && matchPlatform;
+      });
+
+      filtered.forEach(game => {
+        const item = document.createElement("div");
+        item.className = "game-item";
+        item.innerHTML = `
+          <img src="https://img.icons8.com/ios-filled/50/slot-machine.png"/>
+          <div>
+            <strong>${game.name}</strong>
+            ${game.unstable ? '<div class="status">On Hold Development<br>May be unstable.</div>' : ''}
+          </div>
+        `;
+        item.addEventListener("click", () => {
+          gameTitle.textContent = game.name;
+          gamePlatform.textContent = game.platform;
+          gameDetail.classList.add("show");
+        });
+        gameList.appendChild(item);
+      });
+
+      if (filtered.length === 0) {
+        gameList.innerHTML = "<p>No games found.</p>";
+      }
+    }
+
+    platformButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        platformButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentPlatform = btn.dataset.platform;
+        renderGames();
+        gameDetail.classList.remove("show");
+      });
+    });
+
+    searchInput.addEventListener("input", () => {
+      renderGames();
+      gameDetail.classList.remove("show");
+    });
+
+    // Initial render
+    renderGames();
+  </script>
 </body>
 </html>
