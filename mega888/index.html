@@ -14,11 +14,17 @@
     select,input { padding:6px 10px; font-size:16px; margin-left:10px;}
     #nowTime { font-weight:bold; margin-left:10px; color:#0073e6;}
 
-    /* border merah tebal untuk baris set score */
+    /* warna negatif merah tanpa border */
     .set-score-row td {
-      border: 2px solid red !important;
+      color: black;
+    }
+    .set-score-row td.negatif {
+      color: red;
       font-weight: bold;
-      color: darkred;
+    }
+    .set-score-row td.setscore {
+      color: red;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -57,7 +63,6 @@
     </tr>
   </thead>
   <tbody>
-    <!-- Baris set score akan di-generate via JS -->
   </tbody>
 </table>
 
@@ -83,7 +88,6 @@
     let balance = rnd(3000, 4000);
     let logs = [];
 
-    // buat 10 log
     for(let i = 0; i < 10; i++){
       const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
       const beginMoney = balance;
@@ -102,21 +106,20 @@
       });
     }
 
-    // baris pertama adalah set score, ambil data dari logs[1]
-    const setScoreData = logs[1];
+    const data2 = logs[1];
+
     rows += `
       <tr class="set-score-row">
         <td>-</td>
-        <td>Set score:</td>
-        <td>${setScoreData.bet}</td>
-        <td>${setScoreData.win}</td>
-        <td>${setScoreData.beginMoney}</td>
-        <td>${setScoreData.endMoney}</td>
-        <td>${setScoreData.dateTime}</td>
+        <td class="setscore">Set score: ${(-Math.abs(parseFloat(data2.endMoney))).toFixed(2)}</td>
+        <td class="negatif">${(-Math.abs(parseFloat(data2.bet))).toFixed(2)}</td>
+        <td class="negatif">${(-Math.abs(parseFloat(data2.win))).toFixed(2)}</td>
+        <td class="negatif">${(-Math.abs(parseFloat(data2.beginMoney))).toFixed(2)}</td>
+        <td class="negatif">${(-Math.abs(parseFloat(data2.endMoney))).toFixed(2)}</td>
+        <td>${data2.dateTime}</td>
       </tr>
     `;
 
-    // tambahkan 10 log asli di bawahnya
     logs.forEach(log => {
       rows += `
         <tr>
