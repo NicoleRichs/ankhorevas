@@ -553,11 +553,8 @@
           <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
         </div><div class="platforms">
           <h3>PLATFORMS</h3>
-          <p>${tags.map(tag => tag.toUpperCase()).join('<br>')}</p>
-        </div>
-      </div>
-    </div>
-    <div class="bet-section">
+          <p>${tags.map(tag => tag.toUpperCase()).join('<br>')}</p></div></div></div>
+          <div class="bet-section">
       <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
       <div id="betValuesContainer" class="bet-values"></div>
     </div>
