@@ -397,7 +397,8 @@
     image: 'https://i.imgur.com/3faMy9F.png',
     type: 'Slot',
     payline: 9,
-    adjustable: 'Yes'
+    adjustable: 'Yes',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 10.00, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00],
   },
   {
     name: 'SILENT SAMURAI',
@@ -405,7 +406,8 @@
     image: 'https://i.imgur.com/y9DsPK4.png',
     type: 'Slot',
     payline: 9,
-    adjustable: 'Yes'
+    adjustable: 'Yes',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 10.00, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00],
   },
   {
     name: 'SILENT SAMURAI P',
@@ -413,7 +415,8 @@
     image: 'https://i.imgur.com/y9DsPK4.png',
     type: 'Slot',
     payline: 9,
-    adjustable: 'Yes'
+    adjustable: 'Yes',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 10.00, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00],
   },
   {
     name: 'IRISH LUCK',
@@ -421,7 +424,8 @@
     image: 'https://i.imgur.com/dI6c8Rd.png',
     type: 'Slot',
     payline: 30,
-    adjustable: 'Yes'
+    adjustable: 'Yes',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 10.00, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00],
   },
   {
     name: 'HALLOWEEN FORTUNE',
@@ -429,7 +433,8 @@
     image: 'https://i.imgur.com/0683tHB.png',
     type: 'Slot',
     payline: 20,
-    adjustable: 'Yes'
+    adjustable: 'Yes',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 10.00, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00],
   },
   {
     name: 'HALLOWEEN FORTUNE 2',
@@ -437,7 +442,8 @@
     image: 'https://i.imgur.com/YmaCPDZ.png',
     type: 'Slot',
     payline: 50,
-    adjustable: 'No'
+    adjustable: 'No',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 10.00, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00],
   },
   {
     name: 'RANCH STORY',
@@ -445,7 +451,8 @@
     image: 'https://i.imgur.com/Ipq5FcN.png',
     type: 'Slot',
     payline: 25,
-    adjustable: 'No'
+    adjustable: 'No',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 10.00, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00],
   },
   {
     name: 'STEAM TOWER',
@@ -1526,44 +1533,27 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
-      const box = document.getElementById('gameDetail');
-      const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`
-).join(' ');
-      box.innerHTML = `
-        <div class="close-btn" onclick="goBack()">Close</div>
-        <div class="detail-inner">
-          <img src="${imageUrl}" alt="Game Banner">
-          <h3>${name}</h3>
-          <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
-          <div class="game-section">
-            <div class="box">
-              <strong>Game Info</strong><br>
-              Type: ${type}<br>
-              Payline: <span id="lineCount">${payline}</span><br>
-              Adjustable Lines: ${adjustable}
-            </div>
-            <div class="box">
-              <strong>Platform</strong><br>
-              ${platformTags}
-            </div>
-          </div>
-          <div class="bet-section">
-            <strong>Bet Options</strong><br>
-            <div class="bet-values">
-              <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span>
-              <span>8.00</span><span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
-            </div>
-            <div class="line-control">
-              <button onclick="adjustLines(-1)">-</button>
-              <span id="lineDisplay">${payline} lines</span>
-              <button onclick="adjustLines(1)">+</button>
-            </div>
-          </div>
-        </div>`;
-      box.classList.add('active');
-      window.currentLines = payline;
-    }
+   function showGameDetail(name, platforms, imageUrl, type, payline, adjustable, lineBet) {
+  const box = document.getElementById('gameDetail');
+  const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`).join(' ');
+  const betValues = lineBet.map(bet => `<span class="game-bet-value">${bet}</span>`).join(' ');
+
+  box.innerHTML = `
+    <div class="close-btn" onclick="goBack()">Close</div>
+    <div class="detail-inner">
+      <h3>${name}</h3>
+      <div class="platform">${platformTags}</div>
+      <img src="${imageUrl}" alt="${name}" />
+      <div class="game-section">
+        <div class="box">Type: <b>${type}</b></div>
+        <div class="box">Paylines: <b>${payline}</b></div>
+        <div class="box">Adjustable: <b>${adjustable}</b></div>
+        <div class="box">Game Bet: <b>${betValues}</b></div> <!-- Menampilkan Game Bet -->
+      </div>
+    </div>
+  `;
+  box.classList.add('active');
+}
 
     function adjustLines(amount) {
       window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
