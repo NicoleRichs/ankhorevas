@@ -514,12 +514,17 @@
     }
 
     document.querySelectorAll('.tag').forEach(el => {
-      el.addEventListener('click', () => {
-        document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
-        el.classList.add('active');
-        filterGames(document.querySelector('.search-bar input').value);
-      });
-    });
+  el.addEventListener('click', () => {
+    // Hapus kelas 'active' dari semua tag
+    document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
+    
+    // Tambahkan kelas 'active' pada tag yang dipilih
+    el.classList.add('active');
+    
+    // Panggil fungsi untuk merender game berdasarkan tag yang dipilih
+    renderGames(document.querySelector('.search-bar input').value);
+  });
+});
 
     function scrollToGames() {
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
