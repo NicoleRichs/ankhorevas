@@ -1,78 +1,54 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Copy Link Container</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gold Themed Container</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: sans-serif;
       background-color: #000;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    .box {
-      flex: 1;
-      background-color: rgba(0, 0, 0, 0.4); /* transparan hitam */
+      color: gold;
+      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100vh;
     }
 
-    .button {
-      background: linear-gradient(to right, #ffd700, #e6b800); /* warna emas */
-      color: #000;
-      border: none;
-      padding: 15px 30px;
-      font-size: 18px;
+    .container {
+      min-width: 750px;
+      max-width: 750px;
+      min-height: 300px;
+      background-color: rgba(255, 255, 255, 0.05); /* transparan */
+      border: 2px solid gold;
       border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.2s;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
-    .button:hover {
-      transform: scale(1.05);
+    .header {
+      font-size: 24px;
+      font-weight: bold;
+      color: gold;
+      text-align: center;
+      margin-bottom: 20px;
     }
 
-    .hidden-input {
-      position: absolute;
-      left: -9999px;
+    .content {
+      font-size: 16px;
+      color: #ffd700aa;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-
-<div class="container">
-  <!-- Container atas -->
-  <div class="box">
-    <h2>Ini Container Atas</h2>
+  <div class="container">
+    <div class="header">Gold Header</div>
+    <div class="content">
+      Ini adalah konten dalam container berbingkai emas dengan latar belakang transparan.  
+    </div>
   </div>
-
-  <!-- Container bawah dengan tombol copy -->
-  <div class="box">
-    <button class="button" onclick="copyLink()">Copy Link</button>
-  </div>
-</div>
-
-<!-- Hidden input untuk penyalinan -->
-<input type="text" id="copyInput" class="hidden-input" value="https://example.com/linkanda">
-
-<script>
-  function copyLink() {
-    const copyText = document.getElementById("copyInput");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); // Untuk mobile
-    document.execCommand("copy");
-    alert("Link berhasil disalin: " + copyText.value);
-  }
-</script>
-
 </body>
 </html>
