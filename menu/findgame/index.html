@@ -1,251 +1,1611 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Daftar Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Game</title>
   <style>
     body {
+      font-family: sans-serif;
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: gold;
-      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      padding: 0;
+      background: #000;
+      justify-content: center; 
+      align-items: center;
     }
-
     .floating-dots {
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(gold 1px, transparent 1px);
-      background-size: 20px 20px;
-      z-index: -1;
-      animation: float 10s linear infinite;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      z-index: -1; /* Pastikan ia di belakang semua elemen */
+      background-image: url('https://i.imgur.com/qRqmq9g.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+   }
+
+    .floating-dots::before,
+    .floating-dots::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: radial-gradient(circle, gold 2px, transparent 2px) 0 0 / 50px 50px,
+              radial-gradient(circle, gold 2px, transparent 2px) 25px 25px / 50px 50px;
+      animation: floatDots 30s linear infinite;
       opacity: 0.2;
     }
-
-    @keyframes float {
-      from { background-position: 0 0; }
-      to { background-position: 100px 100px; }
+    .floating-dots::after {
+      animation-delay: 15s;
+      opacity: 0.1;
     }
-
+    @keyframes floatDots {
+      0% {
+    transform: translateY(0);
+    }
+      100% {
+      transform: translateY(-100%);
+    }
+    }
     .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 2rem;
+      position: relative;
+      margin: 0 auto;
+      width: 23vw;
+      background: #000;
+      border-radius: 20px;
+      border: 2px solid gold;
+      box-shadow: 0 0 10px gold;
+      overflow: hidden;
+      justify-content: flex-start;
     }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 1rem;
+    @media (max-width: 768px) {
+   body {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+   }
+  .container {
+    width: 90vw;
+    height: 85vh;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin-top:-30px;
+  }
+  .platform-button {
+    top: 10px; 
+    padding: 5px 10px;
+    font-size: 10px;
+    position: absolute;
+    z-index: 10;
+  }
+  .line-control button {
+    padding: 6px 10px;
+    font-size: 14px;
+    width: auto;
+    box-sizing: border-box;
+  }
+    .line-control {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px;
     }
+  .game-detail {
+    width: 75vw;
+    height: 100vh;
+    border-left: none;
+    overflow-y: auto;
+  }
+  .game-list {
+    overflow-y: auto;
+    max-height: 85vh;
+  }
+  .title {
+    font-size: 8px;
+  }
 
-    .filters {
+  .search-bar input {
+    font-size: 13px;
+  }
+
+  .tag {
+    font-size: 9px;
+    padding: 2px 6px !important;
+    line-height: 1;
+    height: auto;
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+    white-space: nowrap;
+  }
+  .tags {
+    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start !important;
+    padding: 2px;
+    width: 100%;
+  }
+  .game-item {
+    font-size: 10px;
+  }
+}
+    .game-item.hidden {
+      display: none !important;
+    }
+    .header, .footer {
+      background: #000;
+      color: white;
+      font-size: 12px;
+      padding: 10px;
+      text-align: center;          
+    }
+    .header {
       display: flex;
       justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
+      align-items: center;
     }
-
-    .filters input, .filters select {
-      padding: 0.5rem;
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 16px;
+      text-align: center;
+      background: #000;
+      color: white;
+      cursor: pointer;
       border: 1px solid gold;
-      background: transparent;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      background: #000;
+      border: 1px solid gold;
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      outline: none;
+      margin-left: 8px;
+      background: #ddd;
+    }
+    .tags {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding: 8px;
+      gap: 8px;
+      border: 1px solid gold;  
+      background: #000;
+      scrollbar-width: none;
+      width: 100%;
+      box-sizing: border-box;
+      justify-content: center;
+    }
+     .tags::-webkit-scrollbar {
+       display: none; /* Chrome/Safari */
+    }
+    .tag {
+      background: #000;
+      color: white;
+      padding: 6px 12px;
+      border: 1px solid gold; 
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0; 
+    }
+    .tag.active {
+      background: #000;
       color: gold;
     }
-
     .game-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
+      background-color: gold;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-height: 600px;
+      overflow-y: auto;
+      margin-bottom: 10px; 
     }
-
-    .game {
-      background: #222;
-      padding: 1rem;
-      border: 1px solid gold;
-      border-radius: 8px;
+    .game-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid gold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       cursor: pointer;
-      transition: transform 0.2s;
+      color: white;
+      background-color:#333;
     }
-
-    .game:hover {
-      transform: scale(1.05);
+    .game-item:hover {
+      background-color: transparent;
     }
-
-    .detail {
-      background: #222;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-top: 2rem;
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
     }
-
-    .detail img {
-      max-width: 100%;
-      border: 2px solid gold;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
-
-    .bet-controls {
-      margin-top: 1rem;
-    }
-
-    .bet-controls button {
-      background: gold;
-      color: black;
-      border: none;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    #clock {
+    .game-detail {
       position: fixed;
-      top: 10px;
-      right: 20px;
+      right: 0;
+      top: 0;
+      width: 35vw;
+      height: 100vh;
       background: #000;
-      padding: 5px 10px;
+      color: white;
+      overflow-y: auto;
+      z-index: 9999;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform: translateX(100%);
+      border-left: 1px solid gold;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .game-detail.active {
+    opacity: 1;
+    transform: translateX(0%);
+    pointer-events: auto;
+    }
+    .game-detail .close-btn {
+      padding: 10px;
+      font-size: 18px;
+      background: gold;
+      color: #000;
+      cursor: pointer;
+      text-align: center;
+    }
+    .game-detail .detail-inner {
+      padding-bottom: 100px;
+    }
+    .game-detail img {
+      width: 100%;
+      border-radius: 8px;
       border: 1px solid gold;
-      font-weight: bold;
+    }
+    .game-detail h3 {
+      margin: 12px 0 4px;
+    }
+    .game-section, .bet-section {
+      margin-top: 12px;
+    }
+    .game-section .box {
+      margin-bottom: 8px;
+      background: gold;
+      color: #000;
+      padding: 8px;
       border-radius: 6px;
     }
-
+    .bet-values span {
+      display: inline-block;
+      background: gold;
+      color: #000;
+      margin: 4px;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .line-control {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .line-control button {
+      padding: 6px 12px;
+      font-size: 16px;
+    }
+    .time {
+      font-size: 14px;
+      color: #ccc;
+    }
+    .home-link {
+      text-decoration: none;
+      color: gold;
+      font-weight: bold;
+      display: inline;
+      font-size: 10px;
+      height: auto;
+    }
+    .home-link:hover {
+      color: white;
+    }
+    #clock {
+      background: #000; /* warna hitam */
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .user { 
+     color: gold;
+    }
+    .platform-badge {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     height: 32px;
+     padding: 3px 6px;
+     border-radius: 6px;
+     display: inline-block;
+     margin: 4px 4px 0 0;
+     color: white;
+     font-size: 14px;
+     font-weight: bold;
+   }
+   .platform-badge.plat-918kiss {
+     background-color: #605ca8;
+   }
+   .platform-badge.plat-mega888 {
+     background-color: #f39c12;
+   }
+  .platform-badge.plat-pussy888 {
+     background-color: #3c8dbc;
+   }
   </style>
 </head>
 <body>
   <div class="floating-dots"></div>
-  <div id="clock"></div>
-
   <div class="container">
-    <h1>Daftar Game</h1>
-    <div class="filters">
-      <input type="text" id="searchInput" placeholder="Cari game..." />
-      <select id="platformFilter">
-        <option value="all">Semua Platform</option>
-        <option value="918kiss">918kiss</option>
-        <option value="mega888">Mega888</option>
-        <option value="pussy888">Pussy888</option>
-      </select>
+
+  <div class="left-panel">
+    <div class="header">
+      <a class="home-link" href="https://searcfile.github.io/5G88-editor/menu/">🏠 Home</a>
+      <div id="clock" class="time">--:--</div>
+      <div class="user">5G88</div>
+    </div>
+    <div class="title" onclick="scrollToGames()">Find Game</div>
+
+    <div class="search-bar">
+      <div>🔍</div>
+      <input type="text" placeholder="Search" oninput="filterGames(this.value)">
     </div>
 
-    <div id="gameList" class="game-list"></div>
-
-    <div id="gameDetail" class="detail" style="display:none;">
-      <h2 id="gameName"></h2>
-      <img id="gameImage" src="" alt="" />
-      <p>Platform: <span id="gamePlatform"></span></p>
-      <p>Tipe: <span id="gameType"></span></p>
-      <p>Paylines: <span id="gamePaylines"></span></p>
-      <p>Adjustable: <span id="gameAdjustable"></span></p>
-      <p>Line Bet: <span id="gameLineBet"></span></p>
-
-      <div class="bet-controls">
-        <p>Jumlah Garis: 
-          <button onclick="changeLines(-1)">-</button>
-          <span id="lineValue">1</span>
-          <button onclick="changeLines(1)">+</button>
-        </p>
-        <p>Total Taruhan: <span id="totalValue">0</span></p>
-      </div>
+    <div class="tags">
+      <div class="tag active" data-tag="all">All</div>
+      <div class="tag" data-tag="918kiss">918kiss</div>
+      <div class="tag" data-tag="mega888">Mega888</div>
+      <div class="tag" data-tag="pussy888">Pussy888</div>
     </div>
-  </div>
 
+    <ul class="game-list" id="gameList"></ul>
+
+    <div id="gameDetail" class="game-detail"></div>
+    <div class="footer">
+      On Development<br>
+      Might be unstable.
+    </div>
+</div>
   <script>
     const games = [
-      {
-        name: "Great Blue",
-        platform: "918kiss",
-        type: "slot",
-        image: "https://via.placeholder.com/300x200?text=Great+Blue",
-        paylines: 25,
-        adjustable: true,
-        lineBet: 0.1
-      },
-      {
-        name: "Ocean King",
-        platform: "mega888",
-        type: "arcade",
-        image: "https://via.placeholder.com/300x200?text=Ocean+King",
-        paylines: 1,
-        adjustable: false,
-        lineBet: 0.2
-      },
-      {
-        name: "Highway Kings",
-        platform: "pussy888",
-        type: "slot",
-        image: "https://via.placeholder.com/300x200?text=Highway+Kings",
-        paylines: 9,
-        adjustable: true,
-        lineBet: 0.05
-      }
-    ];
+  {
+    name: 'SILVER BULLET',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/3faMy9F.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'SILENT SAMURAI',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/y9DsPK4.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'SILENT SAMURAI P',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/y9DsPK4.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'IRISH LUCK',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/dI6c8Rd.png',
+    type: 'Slot',
+    payline: 30,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'HALLOWEEN FORTUNE',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/0683tHB.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'HALLOWEEN FORTUNE 2',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/YmaCPDZ.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: 'RANCH STORY',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/Ipq5FcN.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: 'STEAM TOWER',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/AdhoNAC.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+   {
+    name: 'SUN WUKONG',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/wWB8nnj.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'Yes'
+  },
+   {
+    name: 'PAY DIRT',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/okw9eka.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'GOLDEN SLUT',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/uXYBnSK.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: 'GOLDEN TOUR',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/KWzLSwU.png',
+    type: 'Slot',
+    payline: 5,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'STONE AGE',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/x1NivCZ.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: 'AFRICAN WILDLIFE',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/Tai2Vat.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: 'FRUITY TUTTI',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/tlxCjvY.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'A NIGHT OUT',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/QIOYghx.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'BIG PROSPERITY',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/0y9IgCk.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+   {
+    name: 'CRYSTAL WATERS',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/89EoLET.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+   {
+    name: 'PANTHER MOON',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/iQxgP3l.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'Yes'
+  },
+   {
+    name: 'GREAT CHINA',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/Lv0MzqD.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+   {
+    name: 'SPARTAN',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/TSxQbXE.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  }, 
+  {
+    name: "CLEOPATRA'S GOLD",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/bJ6g1R5.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  }, 
+  {
+    name: 'GOLDEN LOTUS',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/tvAddN7.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'AMAZING THAILAND',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/TRMTqDx.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: 'ALADDIN',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/kRTXeOr.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'No'
+  },
+  {
+    name: 'WOLF HUNTERS',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/WDRAtFx.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'ORIENT EXPRESS',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/pVMjiWB.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'RALLY',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/ysJRBJU.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'EASTER SURPRISE',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/OaO7aQ7.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'DOLPHIN REEF',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/Thx935X.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+   {
+    name: 'PIRATE SHIP',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/INP65WU.png',
+    type: 'Slot',
+    payline: 30,
+    adjustable: 'No'
+  },
+  {
+    name: 'LAURA',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/uyxQgzl.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'LAURA P',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/uyxQgzl.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'COYOTE CASH',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/VQZEoMz.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'COOKIE POP',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/GCLfpq1.png',
+    type: 'Slot',
+    payline: 30,
+    adjustable: 'No'
+  },
+  {
+    name: 'THE DISCOVERY',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/h2OeAV7.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'SEASON GREETINGS',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/VKWcxwQ.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'STRIPER NIGHT',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/uvtr8Dt.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: 'GREEN LIGHT',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/OXeCmCC.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'FAME & FORTUNE',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/DTCZhi0.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'BIG SHOT',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/gzX1gax.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'WILD FOX',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/y6Ev6m6.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: 'DRAGON GOLD',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/FRwvYpb.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: "BOYKING'S TREASURE",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/99chEbv.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'THAI PARADISE',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/1rPwcCA.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'THREE KINGDOMS',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/oHr1lGV.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'THREE KINGDOMS P',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/oHr1lGV.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'TRIPLE TWISTER',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/OExsmz1.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: '5 DRAGONS',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/qeJClvz.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: '5 DRAGONS P',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/qeJClvz.png',
+    type: 'Slot',
+    payline: 243,
+    adjustable: 'No'
+  },
+  {
+    name: 'WATER MARGIN',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/Me1YPRS.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'SAFARI HEAT',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/BCNjOST.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'Yes'
+  },
+  {
+    name: "AZTEC'S TREASURE",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/Osg9GZg.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'KIMOCHI',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/dd5D40M.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'SEA WORLD',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/1JYoD4w.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: 'HIGHWAY KINGS',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/eB174XF.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'HIGHWAY KINGS PRO',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/s4PRJ0A.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'T-REX',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/LZI2Nme.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+   {
+    name: 'ZHAO CAI JIN BAO',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/tf43JXa.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'ICELAND',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/krP8f4x.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: 'GOD OF WEALTH',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/UBfhDkQ.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'No'
+  },
+  {
+    name: 'Big God Of Wealth',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/vt821Ew.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'No'
+  },
+  {
+    name: 'Victory',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/asHtVmk.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'Jin Qian Wa',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/neZg6dJ.png',
+    type: 'Slot',
+    payline: 40,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'NIAN NIAN YOU YU',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/fOc0eXs.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: "CAPTAIN'S TREASURE",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/KM1N63m.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: "CAPTAIN'S TREASURE PRO",
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/Qyzu8wu.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: "INDIAN MYTH",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/oVmO0TE.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: "PIRATE",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/S3ifwx9.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'No'
+  },
+  {
+    name: "PIRATE SHIP",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/JmqgBQQ.png',
+    type: 'Slot',
+    payline: 30,
+    adjustable: 'No'
+  },
+  {
+    name: "WEALTH'S TREASURE",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/u0Ljj45.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: "SEA CAPTAIN",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/3caIwns.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: "FORTUNE",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/BMvtTU2.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: "SHINING STARS",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/x5ZK5yd.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: "JAPAN FORTUNE",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/BUuhJlo.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: "FAIRY GARDEN PLUS",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/D6tSuuv.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: "MONEY FEVER",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/cyRjleo.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: "Sparta",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/f0lZJNa.png',
+    type: 'Slot',
+    payline: 30,
+    adjustable: 'Yes'
+  },
+  {
+    name: "Spartan",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/2SHYosv.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: "HALLOWEEN PARTY",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/dGXCe8e.png',
+    type: 'Slot',
+    payline: 30,
+    adjustable: 'No'
+  },
+  {
+    name: "GREAT STARS",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/9h67pcL.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+    {
+    name: "TALLY HO",
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/jwr45KX.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+   {
+    name: 'DOLPHIN',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/omXvnzf.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'No'
+  },
+  {
+    name: 'EMPEROR GATE',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/h232rf1.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: 'CIRCUS',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/yjPir67.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'Zombie Circus',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/Bi0LLLR.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'ENCHANTED GARDEN',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/qcPri76.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'AMAZON JUNGLE',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/9aZJdxa.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'No'
+  },
+  {
+    name: 'GOLDEN TREE',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/n9wMVUe.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: 'ALICE',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/5bn9CsQ.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'No'
+  },
+  {
+    name: 'GREAT BLUE',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/ayoUMiE.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'TOP GUN',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/h8z83xt.png',
+    type: 'Slot',
+    payline: 243,
+    adjustable: 'No'
+  },
+  {
+    name: 'TOP GUN P',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/h8z83xt.png',
+    type: 'Slot',
+    payline: 243,
+    adjustable: 'No'
+  },
+  {
+    name: 'GLAMOROUS WORLD',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/qtfkVcO.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'DRAGON MAIDEN',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/XKAtpCw.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'WESTERN RANCH STORY',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/pnGygkz.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: 'FORTUNE PANDA',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/gcuwOlz.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'MYSTIC DRAGON',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/zTy8wrh.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'WONG CHOY',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/J0OTXoP.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'ROBIN HOOD',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/rUwvOCI.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'No'
+  },
+  {
+    name: 'ROBIN HOOD P',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/rUwvOCI.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'No'
+  },
+  {
+    name: 'FOOTBALL CARNIVAL',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/tXUYi1d.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'No'
+  },
+  {
+    name: 'CHERRY LOVE',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/W0LvR4M.png',
+    type: 'Slot',
+    payline: 30,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'PAN JIN LIAN',
+    tags: ['918kiss','pussy888'],
+    image: 'https://i.imgur.com/GaeXPdB.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'No'
+  },
+  {
+    name: 'BONUS BEARS',
+    tags: ['918kiss','mega888'],
+    image: 'https://i.imgur.com/Hl1JzQw.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'BONUS BEARS P',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/Hl1JzQw.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'FONG SHEN',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/RcyCX7U.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'TREASURE ISLAND',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/cpIV3dD.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: 'MAGICAL SPIN',
+    tags: ['918kiss','mega888','pussy888'],
+    image: 'https://i.imgur.com/lMIYbot.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: 'DRAGONZ',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/PVt1dGI.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'No'
+  },
+   {
+    name: 'SIX ACROBATS',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/PEFdQA4.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'No'
+  },
+  {
+    name: 'LUCKY LITTLE GODS',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/wC9xsnY.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'FORTUNE FEST',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/P8zA0EK.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: 'DA SI XI',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/uJNIfuo.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'DESERT GEM',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/ecPauGg.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'BEAST OF WEALTH',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/kqk0GkC.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'No'
+  },
+  {
+    name: 'FLOATING DRAGON',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/WDeQGQl.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: 'PENGUIN CITY',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/T3Vsssh.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'NARCOS',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/LQPI3WZ.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'GIFTS FROM SANTA',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/SaQM1LM.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'GOLDEN MONKEY',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/AgHEGNu.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'GOLDEN MONKEY KING',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/p1tvwOd.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'THE GOOD LIFE',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/VdckMOR.png',
+    type: 'Slot',
+    payline: 15,
+    adjustable: 'No'
+  },
+  {
+    name: 'MIDAS GOLDEN TOUCH M',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/KONi35P.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'MIDAS GOLDEN TOUCH P',
+    tags: ['pussy888'],
+    image: 'https://i.imgur.com/KONi35P.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+   {
+    name: 'MIDAS GOLDEN TOUCH M',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/KONi35P.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'GOLDEN COLTS',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/1CRH67M.png',
+    type: 'Slot',
+    payline: 40,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'LUCKY NEKO',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/sCKCePo.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: 'SANTA',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/kUtmohF.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'DEEP TREK',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/dHnxaJE.png',
+    type: 'Slot',
+    payline: 50,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'Legend Of The White Snake Lady',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/b7Njf2B.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  }, 
+  {
+    name: 'FORTUNE CHARM',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/C6I8mYT.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  }, 
+  {
+    name: 'LUCKY KOI',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/zNV5TTw.png',
+    type: 'Slot',
+    payline: 5,
+    adjustable: 'Yes'
+  }, 
+  {
+    name: 'SIZZLING SPINS',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/1GOipDM.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'MASQUERADE',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/JPB0Adc.png',
+    type: 'Slot',
+    payline: 20,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'Royal Masquerade',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/ftJCk4A.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'LUCKY DUCK',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/w2sVfPU.png',
+    type: 'Slot',
+    payline: 30,
+    adjustable: 'No'
+  },
+   {
+    name: 'MAGIC SHOPPE',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/MNZnLZS.png',
+    type: 'Slot',
+    payline: 9,
+    adjustable: 'No'
+  },
+  ];
 
-    let currentGame = null;
-    let currentLines = 1;
-
-    const searchInput = document.getElementById("searchInput");
-    const platformFilter = document.getElementById("platformFilter");
-    const gameList = document.getElementById("gameList");
-
-    function renderGames() {
-      const keyword = searchInput.value.toLowerCase();
-      const platform = platformFilter.value;
-
-      gameList.innerHTML = "";
-
-      const filtered = games.filter(game =>
-        game.name.toLowerCase().includes(keyword) &&
-        (platform === "all" || game.platform === platform)
-      );
-
-      filtered.forEach(game => {
-        const div = document.createElement("div");
-        div.className = "game";
-        div.innerHTML = `<strong>${game.name}</strong><br><small>${game.platform}</small>`;
-        div.onclick = () => showGameDetail(game);
-        gameList.appendChild(div);
-      });
-    }
-
-    function showGameDetail(game) {
-      currentGame = game;
-      currentLines = game.adjustable ? 1 : game.paylines;
-
-      document.getElementById("gameName").textContent = game.name;
-      document.getElementById("gameImage").src = game.image;
-      document.getElementById("gamePlatform").textContent = game.platform;
-      document.getElementById("gameType").textContent = game.type;
-      document.getElementById("gamePaylines").textContent = game.paylines;
-      document.getElementById("gameAdjustable").textContent = game.adjustable ? "Ya" : "Tidak";
-      document.getElementById("gameLineBet").textContent = game.lineBet;
-
-      document.getElementById("lineValue").textContent = currentLines;
-      document.getElementById("totalValue").textContent = (currentLines * game.lineBet).toFixed(2);
-
-      document.getElementById("gameDetail").style.display = "block";
-    }
-
-    function changeLines(amount) {
-      if (!currentGame || !currentGame.adjustable) return;
-
-      currentLines = Math.max(1, Math.min(currentGame.paylines, currentLines + amount));
-      document.getElementById("lineValue").textContent = currentLines;
-      document.getElementById("totalValue").textContent = (currentLines * currentGame.lineBet).toFixed(2);
+    function goBack() {
+      document.getElementById('gameDetail').classList.remove('active');
     }
 
     function updateClock() {
       const now = new Date();
-      document.getElementById("clock").textContent = now.toLocaleTimeString();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${h}:${m}`;
     }
-
     setInterval(updateClock, 1000);
     updateClock();
 
-    searchInput.addEventListener("input", renderGames);
-    platformFilter.addEventListener("change", renderGames);
+    function filterGames(keyword) {
+     renderGames(keyword);
+    }
 
-    renderGames();
+    document.querySelectorAll('.tag').forEach(el => {
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
+        el.classList.add('active');
+        filterGames(document.querySelector('.search-bar input').value);
+      });
+    });
+
+    function scrollToGames() {
+      document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
+      const box = document.getElementById('gameDetail');
+      const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`
+).join(' ');
+      box.innerHTML = `
+        <div class="close-btn" onclick="goBack()">Close</div>
+        <div class="detail-inner">
+          <img src="${imageUrl}" alt="Game Banner">
+          <h3>${name}</h3>
+          <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
+          <div class="game-section">
+            <div class="box">
+              <strong>Game Info</strong><br>
+              Type: ${type}<br>
+              Payline: <span id="lineCount">${payline}</span><br>
+              Adjustable Lines: ${adjustable}
+            </div>
+            <div class="box">
+              <strong>Platform</strong><br>
+              ${platformTags}
+            </div>
+          </div>
+          <div class="bet-section">
+            <strong>Bet Options</strong><br>
+            <div class="bet-values">
+              <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span>
+              <span>8.00</span><span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
+            </div>
+            <div class="line-control">
+              <button onclick="adjustLines(-1)">-</button>
+              <span id="lineDisplay">${payline} lines</span>
+              <button onclick="adjustLines(1)">+</button>
+            </div>
+          </div>
+        </div>`;
+      box.classList.add('active');
+      window.currentLines = payline;
+    }
+
+    function adjustLines(amount) {
+      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
+      document.getElementById('lineCount').textContent = window.currentLines;
+      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
+    }
+
+    const gameList = document.getElementById('gameList');
+
+    function renderGames(keyword = '') {
+      gameList.innerHTML = '';
+      const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
+      const filtered = games.filter(game => {
+      const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
+      const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
+      return matchTag && matchKeyword;
+    });
+    
+     function displayGameDetails(game) {
+      console.log("Menampilkan detail game:", game);
+     }
+    filtered.forEach((game, index) => {
+      const li = document.createElement('li');
+      li.className = 'game-item';
+      if (keyword === '' && index >= 130) {
+      li.classList.add('hidden'); // Sembunyikan jika lebih dari 8 dan tiada keyword
+     }
+      li.setAttribute('data-tag', game.tags.join(' '));
+      li.innerHTML = `<i>🎰</i> ${game.name}`;
+      li.onclick = () => showGameDetail(
+      game.name,
+      game.tags.map(t => t.toUpperCase()),
+      game.image,
+      game.type,
+      game.payline,
+      game.adjustable
+    );
+    gameList.appendChild(li);
+  });
+}
+
+renderGames();
   </script>
 </body>
 </html>
