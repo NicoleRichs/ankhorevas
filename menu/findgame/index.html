@@ -501,6 +501,14 @@
       document.getElementById('lineDisplay').textContent = `${newLines} lines`;
       updateBetDisplay();
     }
+    function showGameDetails(game) {
+    const gamedetail = document.getElementById("game-detail");
+    gamedetail.innerHTML = `
+      <img src="${game.image}" alt="${game.name}">
+      <p><strong>Game Nama:</strong> ${game.name}</p>
+    `;
+    gamedetail.style.display = "block";
+   }
 
     function renderGames(keyword = '') {
       const gameList = document.getElementById('gameList');
