@@ -456,10 +456,6 @@
         Might be unstable.
       </div>
       <div class="close-btn" onclick="goBack()">Close</div>
-      <div class="game-info">
-  <div><span class="label">Type:</span> Slot</div>
-  <div><span class="label">Payline:</span> 20</div>
-  <div><span class="label">Adjustable:</span> Yes</div>
 </div>
     </div>
   </div>
@@ -530,6 +526,12 @@
     <div class="detail-box">
         <div class="platforms">
           <h3>PLATFORMS</h3>
+          <div class="game-info">
+          <h3>GAME INFO</h3>
+          <p><strong>Type:</strong> ${type}</p>
+          <p><strong>Payline:</strong> ${payline}</p>
+          <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
+        </div>
           <p>${tags.map(tag => tag.toUpperCase()).join('<br>')}</p>
         </div>
       </div>
