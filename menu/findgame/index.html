@@ -85,15 +85,24 @@
       background: #f9f9f9;
     }
     .game-detail {
-      position: fixed;
-      inset: 0;
+      position: absolute;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 300px;
+      height: 100%;
       background: white;
       overflow-y: auto;
       z-index: 10;
-      display: none;
+      transition: right 0.3s ease;
+      border-left: 1px solid #ccc;
     }
     .game-detail.active {
-      display: block;
+    right: 0;
+    }
+    }
+    .game-detail.active {
+      right: block;
     }
     .game-detail .close-btn {
       padding: 12px;
