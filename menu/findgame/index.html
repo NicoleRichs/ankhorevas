@@ -147,7 +147,7 @@
       text-align: center;
       color: #777;
     }
-    .close-btn {
+   .close-btn {
       position: absolute;
       top: 12px;
       right: 16px;
@@ -156,12 +156,6 @@
       color: #5b5132;
       font-weight: bold;
       z-index: 999;
-    }
-    .no-result {
-      text-align: center;
-      padding: 20px;
-      color: #888;
-      font-style: italic;
     }
   </style>
 </head>
@@ -187,7 +181,7 @@
     </div>
 
     <ul class="game-list" id="gameList"></ul>
-    <div class="no-result" id="noResult" style="display: none;">No games found.</div>
+
     <div id="gameDetail" class="game-detail"></div>
 
     <div class="footer">
@@ -197,6 +191,88 @@
   </div>
 
   <script>
+    function goBack() {
+      document.getElementById('gameDetail').classList.remove('active');
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('clock').textContent = ${hours}:${minutes};
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function filterGames(keyword) {
+      const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
+      keyword = keyword.toLowerCase();
+      document.querySelectorAll('.game-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        const tag = item.getAttribute('data-tag');
+        const matchesTag = selectedTag === 'all' || tag.includes(selectedTag);
+        item.style.display = text.includes(keyword) && matchesTag ? 'flex' : 'none';
+      });
+    }
+
+    document.querySelectorAll('.tag').forEach(tagElement => {
+      tagElement.addEventListener('click', () => {
+        document.querySelectorAll('.tag').forEach(el => el.classList.remove('active'));
+        tagElement.classList.add('active');
+        filterGames(document.querySelector('.search-bar input').value);
+      });
+    });
+
+    function scrollToGames() {
+      const list = document.getElementById('gameList');
+      if (list) list.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
+  const detailBox = document.getElementById('gameDetail');
+  const platformTags = platforms.map(p => <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin:4px 4px 0 0;">🎰 ${p}</span>).join(' ');
+
+  detailBox.innerHTML = 
+    <div class="close-btn" onclick="goBack()">❌</div>
+    <div class="detail-inner">
+      <img src="${imageUrl}" alt="Game Banner">
+      <h3>${name}</h3>
+      <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
+      <div class="game-section">
+        <div class="box">
+          <strong>Game Info</strong><br>
+          Type: ${type}<br>
+          Payline: <span id="lineCount">${payline}</span><br>
+          Adjustable Lines: ${adjustable}
+        </div>
+        <div class="box">
+          <strong>Platform</strong><br>
+          ${platformTags}
+        </div>
+      </div>
+      <div class="bet-section">
+        <strong>Bet Options</strong><br>
+        <div class="bet-values">
+          <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span>
+          <span>8.00</span><span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
+        </div>
+        <div class="line-control">
+          <button onclick="adjustLines(-1)">-</button>
+          <span id="lineDisplay">${payline} lines</span>
+          <button onclick="adjustLines(1)">+</button>
+        </div>
+      </div>
+    </div>
+  ;
+  detailBox.classList.add('active');
+  window.currentLines = payline;
+}
+    function adjustLines(amount) {
+      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
+      document.getElementById('lineCount').textContent = window.currentLines;
+      document.getElementById('lineDisplay').textContent = ${window.currentLines} lines;
+    }
+
     const games = [
       {
     name: 'SILVER BULLET',
@@ -381,65 +457,18 @@
     type: 'Slot',
     payline: 25,
     adjustable: 'Yes'
-  }
+  }, 
   ];
-    ];
 
-    function populateGameList() {
-      const list = document.getElementById('gameList');
-      list.innerHTML = '';
-      games.forEach(game => {
-        const item = document.createElement('li');
-        item.className = 'game-item';
-        item.setAttribute('data-tag', game.platform);
-        item.textContent = game.name;
-        list.appendChild(item);
-      });
-      filterGames(document.querySelector('.search-bar input').value);
-    }
-
-    function goBack() {
-      document.getElementById('gameDetail').classList.remove('active');
-    }
-
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('clock').textContent = `${hours}:${minutes}`;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    function filterGames(keyword) {
-      const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
-      keyword = keyword.toLowerCase();
-      let anyVisible = false;
-      document.querySelectorAll('.game-item').forEach(item => {
-        const text = item.textContent.toLowerCase();
-        const tag = item.getAttribute('data-tag');
-        const matchesTag = selectedTag === 'all' || tag.includes(selectedTag);
-        const isVisible = text.includes(keyword) && matchesTag;
-        item.style.display = isVisible ? 'flex' : 'none';
-        if (isVisible) anyVisible = true;
-      });
-      document.getElementById('noResult').style.display = anyVisible ? 'none' : 'block';
-    }
-
-    document.querySelectorAll('.tag').forEach(tagElement => {
-      tagElement.addEventListener('click', () => {
-        document.querySelectorAll('.tag').forEach(el => el.classList.remove('active'));
-        tagElement.classList.add('active');
-        filterGames(document.querySelector('.search-bar input').value);
-      });
+    const gameList = document.getElementById('gameList');
+    games.forEach(game => {
+      const li = document.createElement('li');
+      li.className = 'game-item';
+      li.setAttribute('data-tag', game.tags.join(' '));
+      li.innerHTML = <i>🎰</i> ${game.name};
+      li.onclick = () => showGameDetail(game.name, game.tags.map(t => t.toUpperCase()), game.image, game.type, game.payline, game.adjustable);
+      gameList.appendChild(li);
     });
-
-    function scrollToGames() {
-      const list = document.getElementById('gameList');
-      if (list) list.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    window.onload = populateGameList;
   </script>
 </body>
 </html>
