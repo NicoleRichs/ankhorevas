@@ -467,6 +467,15 @@
       : games;
     displayGames(filteredGames);
   });
+ 
+document.addEventListener("DOMContentLoaded", function () {
+  const button = document.getElementById("game-details-button");
+  if (button) {
+    button.addEventListener("click", function () {
+      console.log("Button clicked!");
+    });
+  }
+});
 
   displayGames(games);
   </script>
