@@ -449,7 +449,7 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
+ function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
   window.currentGame = { name, tags, image, type, payline, adjustable, bets };
   const gameDetail = document.getElementById('gameDetail');
 
@@ -459,16 +459,19 @@
   window.currentBets = bets[window.currentLines];
   window.currentBetIndex = 0;
 
+  // Pisahkan platform dan detail lainnya
+  const platformHTML = tags.map(tag => {
+    const lower = tag.toLowerCase();
+    return `<span class="platform-badge plat-${lower}">${tag}</span>`;
+  }).join(' ');
+
   gameDetail.innerHTML = `
     <div class="close-btn" onclick="goBack()">Close</div>
     <div class="detail-inner">
       <img src="${image}" alt="${name}" />
       <h3>${name}</h3>
       <div class="detail-box">
-        <p><strong>Platform:</strong> ${tags.map(tag => {
-  const lower = tag.toLowerCase();
-  return `<span class="platform-badge plat-${lower}">${tag}</span>`;
-}).join(' ')}</p>
+        <p><strong>Platforms:</strong> <span class="platforms">${platformHTML}</span></p>
         <p><strong>Type:</strong> ${type}</p>
         <p><strong>Payline:</strong> ${payline}</p>
         <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
