@@ -525,6 +525,21 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
+function displayGames(games) {
+  const gameList = document.getElementById("game-list");
+  if (gameList) {
+    gameList.innerHTML = ""; // Clear previous content
+
+    games.forEach(function(game) {
+      const gameItem = document.createElement("div");
+      gameItem.classList.add("game-item");
+      gameItem.innerHTML = game.name;
+      gameList.appendChild(gameItem);
+    });
+  } else {
+    console.error("Element #game-list not found.");
+  }
+}
   displayGames(games);
   </script>
 </body>
