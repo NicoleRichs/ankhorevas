@@ -15,39 +15,34 @@
       justify-content: center;
       height: 100vh;
     }
-    .gold-particles {
+    body {
+      background-image: url('https://st2.depositphotos.com/23211858/46353/i/450/depositphotos_463537338-stock-photo-yellow-glow-christmas-black-background.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    .pixel-glow {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      overflow: hidden;
+      background: repeating-radial-gradient(circle, rgba(255, 215, 0, 0.05) 1px, transparent 2px);
+      background-size: 50px 50px;
+      animation: moveGlow 30s linear infinite;
       z-index: -1;
     }
 
-    .gold-particles::before {
-      content: '';
-      position: absolute;
-      width: 300%;
-      height: 300%;
-      background: radial-gradient(circle, rgba(255, 215, 0, 0.5) 0%, transparent 70%),
-                  radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%),
-                  radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%);
-      background-size: 80px 80px;
-      animation: animateGold 60s linear infinite;
-      opacity: 0.4;
-      filter: blur(2px);
-    }
-
-    @keyframes animateGold {
+    @keyframes moveGlow {
       0% {
-      transform: translate3d(0, 0, 0);
+      background-position: 0 0;
     }
       100% {
-      transform: translate3d(-50%, -50%, 0);
+    background-position: 200px 200px;
     }
-    }
+  }
     .menu-container {
       background-color: #000;
       width: 400px;
@@ -167,7 +162,7 @@
   </style>
 </head>
 <body>
-  <div class="gold-particles"></div>
+  <div class="pixel-glow"></div>
   <div class="menu-container">
     <div class="header">
       <div class="top-bar">
