@@ -473,13 +473,14 @@
     });
   }
 });
-  categoryFilter.addEventListener("change", () => {
-    const categoryValue = categoryFilter.value;
-    filteredGames = categoryValue
-      ? games.filter((game) => game.category === categoryValue)
-      : games;
-    displayGames(filteredGames);
-  });
+  document.addEventListener("DOMContentLoaded", function() {
+  const myButton = document.getElementById("myButton");
+  if (myButton) {
+    myButton.addEventListener("click", function() {
+      // some action
+    });
+  }
+});
  function scrollToGames() {
   // Mengambil elemen game list
   const gameList = document.querySelector(".game-list");
