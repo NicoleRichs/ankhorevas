@@ -146,7 +146,9 @@
     }
     .tags {
       display: flex;
+      flex-wrap: nowrap;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       padding: 8px;
       gap: 8px;
       border: 1px solid gold;  
@@ -160,6 +162,7 @@
       border-radius: 20px;
       cursor: pointer;
       white-space: nowrap;
+      flex-shrink: 0; 
     }
     .tag.active {
       background: #000;
