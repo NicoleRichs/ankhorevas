@@ -431,137 +431,98 @@
       }
     ];
   
-    const gameDetail = document.getElementById('gameDetail');
-    const gameImg = document.getElementById('gameImg');
-    const gameTitle = document.getElementById('gameTitle');
-    const gameName = document.getElementById('gameName');
-    const gameType = document.getElementById('gameType');
-    const gamePayline = document.getElementById('gamePayline');
-    const gameAdjustable = document.getElementById('gameAdjustable');
-    const lineDisplay = document.getElementById('lineDisplay');
-    const betValues = document.getElementById('betValues');
-    const gameList = document.getElementById('gameList');
-    const gameTags = document.getElementById('gameTags');
+     const searchBox = document.getElementById("searchBox");
+  const gameList = document.getElementById("gameList");
+  const platformTags = document.querySelectorAll(".platform-tags div");
+  const closeDetailBtn = document.getElementById("closeDetail");
+  const gameTags = document.getElementById("gameTags");
+  const betValuesBox = document.getElementById("betValues");
+  let selectedPlatform = "All";
+  let selectedLine = 1;
 
-    let currentGame = null;
-    let currentLine = 1;
+  function displayGames() {
+    gameList.innerHTML = "";
+    const keyword = searchBox.value.toLowerCase();
 
-    function renderGames() {
-      gameList.innerHTML = '';
-      games.forEach((game, index) => {
-        const div = document.createElement('div');
-        div.className = 'game-item';
-        div.textContent = game.name;
-        div.onclick = () => showGameDetail(index);
-        gameList.appendChild(div);
-      });
-    }
-     document.addEventListener("DOMContentLoaded", function () {
-  const searchInput = document.getElementById("search");
-  const tagButtons = document.querySelectorAll(".tag-button");
-  const gameItems = document.querySelectorAll(".game-item");
+    const filteredGames = games.filter(game => {
+      const matchKeyword = game.name.toLowerCase().includes(keyword);
+      const matchPlatform = selectedPlatform === "All" || game.tags.includes(selectedPlatform);
+      return matchKeyword && matchPlatform;
+    });
 
-  let activeTags = [];
-
-  // Fungsi untuk memfilter game berdasarkan pencarian dan tag
-  function filterGames() {
-    const searchValue = searchInput.value.toLowerCase();
-
-    gameItems.forEach(game => {
-      const title = game.querySelector(".game-title").textContent.toLowerCase();
-      const tags = game.querySelector(".game-tags").textContent.toLowerCase();
-
-      const matchesSearch = title.includes(searchValue);
-      const matchesTags = activeTags.length === 0 || activeTags.some(tag => tags.includes(tag.toLowerCase()));
-
-      if (matchesSearch && matchesTags) {
-        game.style.display = "block";
-      } else {
-        game.style.display = "none";
-      }
+    filteredGames.forEach((game, index) => {
+      const gameItem = document.createElement("div");
+      gameItem.className = "game-item";
+      gameItem.textContent = game.name;
+      gameItem.onclick = () => showGameDetail(game);
+      gameList.appendChild(gameItem);
     });
   }
 
-  // Event listener untuk pencarian
-  searchInput.addEventListener("input", filterGames);
+  function showGameDetail(game) {
+    gameImg.src = game.image;
+    gameTitle.textContent = game.name;
+    gameName.textContent = game.name;
+    gameType.textContent = "Type: " + game.type;
+    gamePayline.textContent = "Paylines: " + game.payline;
+    gameAdjustable.textContent = "Adjustable Lines: " + (game.adjustable ? "Yes" : "No");
 
-  // Event listener untuk tombol tag
-  tagButtons.forEach(button => {
-    button.addEventListener("click", function () {
-      const tag = this.textContent;
-      this.classList.toggle("active");
+    selectedLine = 1;
+    updateLineDisplay();
+    displayBetValues(game);
 
-      if (this.classList.contains("active")) {
-        activeTags.push(tag);
-      } else {
-        activeTags = activeTags.filter(t => t !== tag);
-      }
+    gameTags.innerHTML = "";
+    game.tags.forEach(tag => {
+      const tagDiv = document.createElement("div");
+      tagDiv.className = `tag-item ${tag.toLowerCase()}`;
+      tagDiv.textContent = tag;
+      gameTags.appendChild(tagDiv);
+    });
 
-      filterGames();
+    gameDetail.classList.add("active");
+    gameDetail.dataset.gameName = game.name; // Simpan game aktif untuk referensi line/bet
+  }
+
+  function updateLineDisplay() {
+    lineDisplay.textContent = `Line: ${selectedLine}`;
+  }
+
+  function displayBetValues(game) {
+    const lineBets = game.bets[selectedLine] || [];
+    betValuesBox.innerHTML = "";
+    lineBets.forEach(bet => {
+      const betDiv = document.createElement("div");
+      betDiv.textContent = bet;
+      betValuesBox.appendChild(betDiv);
+    });
+  }
+
+  function changeLine(change) {
+    const game = games.find(g => g.name === gameDetail.dataset.gameName);
+    const availableLines = Object.keys(game.bets).map(Number);
+    const minLine = Math.min(...availableLines);
+    const maxLine = Math.max(...availableLines);
+
+    selectedLine = Math.max(minLine, Math.min(maxLine, selectedLine + change));
+    updateLineDisplay();
+    displayBetValues(game);
+  }
+
+  platformTags.forEach(tag => {
+    tag.addEventListener("click", () => {
+      platformTags.forEach(t => t.classList.remove("active-tag"));
+      tag.classList.add("active-tag");
+      selectedPlatform = tag.textContent.toUpperCase() === "ALL" ? "All" : tag.textContent.toUpperCase();
+      displayGames();
     });
   });
-});
-const closeDetail = document.getElementById('closeDetail');
 
-
-// Populate game list
-function renderGames() {
-  gameList.innerHTML = '';
-  games.forEach((game, index) => {
-    const item = document.createElement('div');
-    item.className = 'game-item';
-    item.textContent = game.name;
-    item.addEventListener('click', () => showDetail(game));
-    gameList.appendChild(item);
+  searchBox.addEventListener("input", displayGames);
+  closeDetailBtn.addEventListener("click", () => {
+    gameDetail.classList.remove("active");
   });
-}
 
-// Show detail panel
-function showDetail(game) {
-  gameImg.src = game.image;
-  gameTitle.textContent = game.name;
-  gameName.textContent = `Name: ${game.name}`;
-  gameType.textContent = `Type: ${game.type}`;
-  gamePayline.textContent = `Paylines: ${game.payline}`;
-  gameAdjustable.textContent = `Adjustable Lines: ${game.adjustable ? 'Yes' : 'No'}`;
-  gameTags.innerHTML = game.tags.map(tag => `<span class="tag-item ${tag.toLowerCase()}">${tag}</span>`).join('');
-  currentLine = 1;
-  updateBetValues(game);
-  lineDisplay.textContent = `Line: ${currentLine}`;
-  gameDetail.classList.add('active');
-}
-
-// Update bet values
-function updateBetValues(game) {
-  betValues.innerHTML = '';
-  const values = game.bets[currentLine] || [];
-  values.forEach(val => {
-    const div = document.createElement('div');
-    div.textContent = val;
-    betValues.appendChild(div);
-  });
-}
-
-// Line change
-function changeLine(delta) {
-  const game = games.find(g => g.name === gameTitle.textContent);
-  if (!game || !game.bets) return;
-  const availableLines = Object.keys(game.bets).map(Number);
-  const maxLine = Math.max(...availableLines);
-  const minLine = Math.min(...availableLines);
-  currentLine += delta;
-  if (currentLine < minLine) currentLine = minLine;
-  if (currentLine > maxLine) currentLine = maxLine;
-  lineDisplay.textContent = `Line: ${currentLine}`;
-  updateBetValues(game);
-}
-
-// Close detail
-closeDetail.addEventListener('click', () => {
-  gameDetail.classList.remove('active');
-});
-
-renderGames();
+  displayGames(); // Initial display
 </script>
 </body>
 </html>
