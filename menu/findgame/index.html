@@ -460,7 +460,23 @@
     );
     displayGames(filteredGames);
   });
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("searchInput");
+  
+  if (searchInput) {
+    searchInput.addEventListener("input", function () {
+      const filter = searchInput.value.toLowerCase();
+      const gameCards = document.querySelectorAll(".game-card");
 
+      gameCards.forEach((card) => {
+        const title = card.querySelector(".game-title").textContent.toLowerCase();
+        card.style.display = title.includes(filter) ? "block" : "none";
+      });
+    });
+  } else {
+    console.error('Element #searchInput not found!');
+  }
+});
   categoryFilter.addEventListener("change", () => {
     const categoryValue = categoryFilter.value;
     filteredGames = categoryValue
