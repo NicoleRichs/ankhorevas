@@ -188,61 +188,38 @@
 ];
 
 // Menampilkan semua game
-function renderGames(keyword = '') {
-    const gameList = document.getElementById('gameList');
-    gameList.innerHTML = '';
-    
-    const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
-    const filteredGames = games.filter(game => {
-        const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
-        const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
-        return matchTag && matchKeyword;
+document.querySelectorAll('.filter-buttons button').forEach(button => {
+  button.addEventListener('click', () => {
+    const platform = button.getAttribute('data-platform');
+
+    document.querySelectorAll('.filter-buttons button').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+
+    document.querySelectorAll('.game-item').forEach(item => {
+      if (platform === 'all' || item.dataset.platform === platform) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
     });
-
-    filteredGames.forEach(game => {
-        const li = document.createElement('li');
-        li.className = 'game-item';
-        li.innerHTML = `<i>🎰</i> ${game.name}`;
-        li.onclick = () => showGameDetail(game);
-        gameList.appendChild(li);
-    });
-}
-
-// Menampilkan detail game
-function showGameDetail(game) {
-    document.getElementById('gameDetailName').textContent = game.name;
-    document.getElementById('gameDetailTags').textContent = `Tags: ${game.tags.join(', ')}`;
-    document.getElementById('gameDetailImage').src = game.image;
-    document.getElementById('gameDetailType').textContent = game.type;
-    document.getElementById('gameDetailPayline').textContent = game.payline;
-    document.getElementById('gameDetailAdjustable').textContent = game.adjustable;
-    document.getElementById('gameDetailBets').textContent = game.bets;
-
-    document.getElementById('gameDetailPanel').style.display = 'block';
-}
-
-// Menutup panel detail game
-function closeGameDetail() {
-    document.getElementById('gameDetailPanel').style.display = 'none';
-}
-
-// Fungsi pencarian
-function filterGames() {
-    const searchInput = document.getElementById('searchInput').value;
-    renderGames(searchInput);
-}
-
-// Event listener untuk tag
-document.querySelectorAll('.tag').forEach(tag => {
-    tag.addEventListener('click', () => {
-        document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
-        tag.classList.add('active');
-        renderGames(document.getElementById('searchInput').value);
-    });
+  });
 });
 
-// Render semua game ketika pertama kali dimuat
-renderGames();
+// Detail Panel Logic
+function openDetail(platform, gameName, code) {
+  const detail = `
+    <h2>${gameName}</h2>
+    <p><strong>Platform:</strong> ${platform}</p>
+    <p><strong>Code:</strong> ${code}</p>
+    <p>Game description or additional info can go here.</p>
+  `;
+  document.getElementById('detailContent').innerHTML = detail;
+  document.getElementById('detailPanel').classList.add('active');
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('active');
+}
 </script>
 </body>
 </html>
