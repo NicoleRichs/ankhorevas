@@ -578,7 +578,8 @@
 
     // Filter game berdasarkan kata kunci dan platform yang dipilih
     const filteredGames = games.filter(game => {
-      const matchKeyword = game.name.toLowerCase().includes(keyword); // Cek kecocokan dengan kata kunci
+      const matchKeyword = game.name.toLowerCase().includes(keyword) || 
+      (game.alias && game.alias.toLowerCase().includes(keyword)); // Cek kecocokan dengan kata kunci
       const matchPlatform = selectedPlatform === "All" ||  game.tags.some(tag => tag.toLowerCase() === selectedPlatform.toLowerCase());  // Filter berdasarkan platform
       return matchKeyword && matchPlatform; // Gabungkan kondisi pencarian dan platform
     });
