@@ -1,201 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gold Themed Game List</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gold Game List</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
       background-color: #000;
       color: gold;
+      font-family: Arial, sans-serif;
     }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
+    header {
       padding: 20px;
-      border: 2px solid gold;
-      border-radius: 10px;
+      text-align: center;
+      font-size: 2em;
+      font-weight: bold;
+      border-bottom: 2px solid gold;
     }
-
-    .search-bar {
+    .controls {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .search-bar input {
-      width: 100%;
-      max-width: 400px;
       padding: 10px;
+      gap: 10px;
+    }
+    .controls input, .controls button {
+      padding: 10px;
+      font-size: 1em;
       border: 1px solid gold;
       background-color: #111;
       color: gold;
       border-radius: 5px;
     }
-
-    .tags {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .tag {
-      padding: 8px 16px;
-      background-color: gold;
-      color: black;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
     .game-list {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      align-items: center;
+      padding: 20px;
     }
-
     .game-item {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      border: 2px solid gold;
+      border-radius: 10px;
       padding: 10px;
-      background-color: #111;
-      border: 1px solid gold;
-      border-radius: 8px;
+      margin: 10px;
+      width: 90%;
       cursor: pointer;
+      background-color: #111;
     }
-
     .game-item img {
-      width: 80px;
-      height: 80px;
-      margin-right: 15px;
-      border-radius: 8px;
+      width: 100px;
+      height: 60px;
+      border-radius: 5px;
     }
-
     .game-detail {
       position: fixed;
       top: 0;
       right: -100%;
-      width: 300px;
-      height: 100vh;
-      background-color: #111;
-      border-left: 2px solid gold;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      color: gold;
       padding: 20px;
-      transition: right 0.3s ease;
       overflow-y: auto;
+      transition: right 0.5s ease;
+      z-index: 10;
     }
-
     .game-detail.active {
       right: 0;
     }
-
     .bet-controls {
       display: flex;
       align-items: center;
       gap: 10px;
       margin: 10px 0;
     }
-
     .bet-controls button {
-      background-color: gold;
-      color: black;
-      border: none;
       padding: 5px 10px;
-      border-radius: 5px;
+      background-color: #222;
+      border: 1px solid gold;
+      color: gold;
+      font-size: 1.2em;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: 1px solid gold;
+      padding: 5px 10px;
+      color: gold;
+      font-size: 1em;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search game...">
-    </div>
-    <div class="tags">
-      <div class="tag" onclick="filterByPlatform('all')">All</div>
-      <div class="tag" onclick="filterByPlatform('918kiss')">918kiss</div>
-      <div class="tag" onclick="filterByPlatform('mega888')">Mega888</div>
-      <div class="tag" onclick="filterByPlatform('pussy888')">Pussy888</div>
-    </div>
-    <div class="game-list" id="gameList"></div>
+  <header>Gold Game List</header>
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="Search game...">
+    <button onclick="filterByPlatform('918kiss')">918kiss</button>
+    <button onclick="filterByPlatform('mega888')">mega888</button>
+    <button onclick="filterByPlatform('pussy888')">pussy888</button>
   </div>
-
-  <div class="game-detail" id="gameDetail"></div>
+  <div class="game-list" id="gameList"></div>
+  <div class="game-detail" id="gameDetail">
+    <button class="close-btn" onclick="closeDetail()">Close</button>
+    <h2 id="detailTitle"></h2>
+    <img id="detailImage" src="" alt="" style="width: 200px; height: auto; border: 2px solid gold;">
+    <p>Platform: <span id="detailPlatform"></span></p>
+    <p>Line: <span id="detailLine"></span></p>
+    <div class="bet-controls">
+      <button onclick="changeBetLine(-1)">-</button>
+      <span id="currentBets"></span>
+      <button onclick="changeBetLine(1)">+</button>
+    </div>
+  </div>
 
   <script>
     const games = [
-      {
-        name: 'Dragon King',
-        platform: '918kiss',
-        image: 'https://via.placeholder.com/80',
-        lines: 3,
-        betOptions: {
-          1: [0.10, 0.20, 0.30, 0.40],
-          2: [0.50, 0.60, 0.70, 0.80, 0.90],
-          3: [10.00, 10.05, 10.20]
-        }
-      },
-      {
-        name: 'Pirate Gold',
-        platform: 'mega888',
-        image: 'https://via.placeholder.com/80',
-        lines: 2,
-        betOptions: {
-          1: [0.10, 0.20, 0.30],
-          2: [0.50, 0.60, 0.70]
-        }
-      }
+      { name: "Dragon Gold", platform: "918kiss", image: "https://via.placeholder.com/100x60", lines: 5 },
+      { name: "Panda Mega", platform: "mega888", image: "https://via.placeholder.com/100x60", lines: 3 },
+      { name: "Tiger Strike", platform: "pussy888", image: "https://via.placeholder.com/100x60", lines: 9 }
     ];
 
-    let currentPlatform = 'all';
+    const betOptionsData = {
+      9: [0.09, 0.45, 0.90, 2.25, 4.50, 9.00, 45.00, 90.00, 135.00, 180.00],
+      8: [0.08, 0.40, 0.80, 2.00, 4.00, 8.00, 40.00, 80.00, 120.00, 160.00],
+      7: [0.07, 0.35, 0.70, 1.75, 3.50, 7.00, 35.00, 70.00, 105.00, 140.00],
+      6: [0.06, 0.30, 0.60, 1.50, 3.00, 6.00, 30.00, 60.00, 90.00, 120.00],
+      5: [0.05, 0.25, 0.50, 1.25, 2.50, 5.00, 25.00, 50.00, 75.00, 100.00],
+      4: [0.04, 0.20, 0.40, 1.00, 2.00, 4.00, 20.00, 40.00, 60.00, 80.00],
+      3: [0.03, 0.15, 0.30, 0.75, 1.50, 3.00, 15.00, 30.00, 45.00, 60.00],
+      2: [0.02, 0.10, 0.20, 0.50, 1.00, 2.00, 10.00, 20.00, 30.00, 40.00],
+      1: [0.01, 0.05, 0.10, 0.25, 0.50, 1.00, 5.00, 10.00, 15.00, 20.00]
+    };
+
+    let filteredGames = games;
+    let currentGame = null;
 
     function renderGames() {
       const list = document.getElementById('gameList');
-      const searchText = document.getElementById('searchInput').value.toLowerCase();
       list.innerHTML = '';
-      games.filter(game => {
-        return (currentPlatform === 'all' || game.platform === currentPlatform) && game.name.toLowerCase().includes(searchText);
-      }).forEach(game => {
+      filteredGames.forEach(game => {
         const div = document.createElement('div');
         div.className = 'game-item';
-        div.innerHTML = `<img src="${game.image}" /><span>${game.name}</span>`;
+        div.innerHTML = `
+          <img src="${game.image}" alt="${game.name}">
+          <span>${game.name} (${game.platform})</span>
+        `;
         div.onclick = () => showDetail(game);
         list.appendChild(div);
       });
     }
 
     function filterByPlatform(platform) {
-      currentPlatform = platform;
+      filteredGames = games.filter(g => g.platform === platform);
       renderGames();
     }
 
-    document.getElementById('searchInput').addEventListener('input', renderGames);
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      filteredGames = games.filter(g => g.name.toLowerCase().includes(searchTerm));
+      renderGames();
+    });
 
     function showDetail(game) {
-      const detail = document.getElementById('gameDetail');
-      let content = `<h2>${game.name}</h2>`;
-      for (let line = 1; line <= game.lines; line++) {
-        content += `<div><strong>Line ${line}:</strong></div><div class='bet-controls'>`;
-        content += `<button onclick="changeBet('${game.name}', ${line}, -1)">-</button>`;
-        content += `<span id="bet-${game.name}-${line}">${game.betOptions[line][0]}</span>`;
-        content += `<button onclick="changeBet('${game.name}', ${line}, 1)">+</button>`;
-        content += `</div>`;
-      }
-      detail.innerHTML = content;
-      detail.classList.add('active');
+      currentGame = game;
+      document.getElementById('detailTitle').textContent = game.name;
+      document.getElementById('detailPlatform').textContent = game.platform;
+      document.getElementById('detailLine').textContent = game.lines;
+      document.getElementById('detailImage').src = game.image;
+      updateBetOptions();
+      document.getElementById('gameDetail').classList.add('active');
     }
 
-    const betIndex = {};
-    function changeBet(name, line, delta) {
-      const game = games.find(g => g.name === name);
-      const key = `${name}-${line}`;
-      betIndex[key] = (betIndex[key] ?? 0) + delta;
-      const opts = game.betOptions[line];
-      if (betIndex[key] < 0) betIndex[key] = 0;
-      if (betIndex[key] >= opts.length) betIndex[key] = opts.length - 1;
-      document.getElementById(`bet-${name}-${line}`).innerText = opts[betIndex[key]].toFixed(2);
+    function closeDetail() {
+      document.getElementById('gameDetail').classList.remove('active');
+    }
+
+    function updateBetOptions() {
+      const bets = betOptionsData[currentGame.lines];
+      document.getElementById('currentBets').textContent = bets.join(', ');
+    }
+
+    function changeBetLine(delta) {
+      const newLines = currentGame.lines + delta;
+      if (newLines >= 1 && newLines <= 9) {
+        currentGame.lines = newLines;
+        document.getElementById('detailLine').textContent = newLines;
+        updateBetOptions();
+      }
     }
 
     renderGames();
