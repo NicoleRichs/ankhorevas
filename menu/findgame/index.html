@@ -512,17 +512,17 @@
   const betValues = lineBet.map(bet => `<span class="game-bet-value">${bet}</span>`).join(' ');
   
   // Mengatur jumlah garis taruhan yang awalnya ditampilkan
-  window.currentLines = payline; 
+  window.currentLines = window.currentLines || 1;
   
   // Kontrol untuk memilih jumlah garis taruhan
   const lineControl = `
-    <div class="line-control">
-      <button onclick="adjustLines(-1)">-</button>
-      <span id="lineCount">${window.currentLines}</span>
-      <button onclick="adjustLines(1)">+</button>
-    </div>
-    <div id="lineDisplay">${window.currentLines} lines</div>
-  `;
+  <div class="line-control">
+    <button onclick="adjustLines(-1)">-</button>
+    <span id="lineCount">${window.currentLines}</span>
+    <button onclick="adjustLines(1)">+</button>
+  </div>
+  <div id="lineDisplay">${window.currentLines} lines</div>
+`;
 
   box.innerHTML = `
     <div class="close-btn" onclick="goBack()">Close</div>
@@ -552,8 +552,13 @@
   let current = parseInt(linesEl.textContent);
   let maxLines = parseInt(document.querySelector('.game-detail.active .game-section .box:nth-child(2) b').textContent);
 
-  // Mengatur batasan jumlah taruhan yang diperbolehkan
+  console.log("Current:", current);
+  console.log("Max Lines:", maxLines);
+
   current = Math.max(1, Math.min(maxLines, current + amount)); // Menjaga agar nilai tetap dalam rentang yang valid
+
+  console.log("Updated Current:", current);
+
   linesEl.textContent = current;
   displayEl.textContent = `${current} lines`;
 }
