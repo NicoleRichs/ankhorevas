@@ -345,6 +345,17 @@
   border-radius: 6px;
   font-size: 14px;
 }
+  .bet-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+ .bet-control button {
+  padding: 5px 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
     .platform-badge {
      display: flex;
      align-items: center;
@@ -461,12 +472,12 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-   function showGameDetail(name, platforms, imageUrl, type, payline, adjustable, lineBet) {
-  const box = document.getElementById('gameDetail');
-  const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase()}">🎰 ${p}</span>`).join(' ');
+   let currentBetIndex = 0;
 
-  // Senaraikan semua nilai bet dalam bentuk grid
-  const betValues = lineBet.map(b => `<span class="bet-box">${b}</span>`).join('');
+function showGameDetail(name, tags, imageUrl, type, payline, adjustable, lineBet) {
+  const platformTags = tags.map(tag => `<span>${tag}</span>`).join('');
+
+  const currentBet = lineBet && lineBet.length > 0 ? lineBet[currentBetIndex] : 0;
 
   box.innerHTML = `
     <div class="close-btn" onclick="goBack()">Close</div>
@@ -478,11 +489,32 @@
         <div class="box">Type: <b>${type}</b></div>
         <div class="box">Paylines: <b>${payline}</b></div>
         <div class="box">Adjustable: <b>${adjustable}</b></div>
-        <div class="box">Game Bet: <div class="bet-grid">${betValues}</div></div>
+
+        <div class="box">
+          Game Bet:
+          <div class="bet-control">
+            <button onclick="changeBet(-1)">−</button>
+            <span id="bet-value">${currentBet}</span>
+            <button onclick="changeBet(1)">+</button>
+          </div>
+        </div>
       </div>
     </div>
   `;
-  box.classList.add('active');
+
+  // simpan lineBet ke global untuk akses fungsi changeBet()
+  window.currentLineBet = lineBet;
+}
+
+   function changeBet(direction) {
+  if (!window.currentLineBet || window.currentLineBet.length === 0) return;
+
+  currentBetIndex += direction;
+
+  if (currentBetIndex < 0) currentBetIndex = 0;
+  if (currentBetIndex >= window.currentLineBet.length) currentBetIndex = window.currentLineBet.length - 1;
+
+  document.getElementById("bet-value").textContent = window.currentLineBet[currentBetIndex];
 }
 
     function adjustLines(amount) {
