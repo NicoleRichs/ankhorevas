@@ -17,7 +17,7 @@
     } 
     .container {
       position: relative;
-      width: 2vw;
+      width: 20vw;
       min-height: 750px;
       background: #000;
       border-radius: 20px;
@@ -1005,7 +1005,7 @@
     filtered.forEach((game, index) => {
       const li = document.createElement('li');
       li.className = 'game-item';
-      if (keyword === '' && index >= 8) {
+      if (keyword === '' && index >= 10) {
       li.classList.add('hidden'); // Sembunyikan jika lebih dari 8 dan tiada keyword
      }
       li.setAttribute('data-tag', game.tags.join(' '));
