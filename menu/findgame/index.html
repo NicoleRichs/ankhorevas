@@ -5,165 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Game</title>
     <style>
-       body {
-    font-family: Arial, sans-serif;
-    background-color: #121212;
-    color: white;
+    body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #000;
+  color: #FFD700;
 }
 
-/* Container */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
 }
 
-/* Header */
-header h1 {
-    text-align: center;
-    margin-bottom: 20px;
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #FFD700;
 }
 
-/* Search Bar */
-.search-bar input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 2px solid #f39c12;
-    background-color: #222;
-    color: white;
-    border-radius: 5px;
+.filter-buttons {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-/* Tag Filter */
-.tags {
-    text-align: center;
-    margin-bottom: 20px;
+.filter-buttons button {
+  background-color: #111;
+  border: 2px solid #FFD700;
+  color: #FFD700;
+  padding: 0.5rem 1.2rem;
+  margin: 0 0.5rem;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s;
 }
 
-.tag {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 5px;
-    background-color: #333;
-    color: #f39c12;
-    border-radius: 5px;
-    cursor: pointer;
+.filter-buttons button.active,
+.filter-buttons button:hover {
+  background-color: #FFD700;
+  color: #000;
 }
 
-.tag.active {
-    background-color: #f39c12;
-    color: black;
-}
-
-.tag:hover {
-    background-color: #444;
-}
-
-/* Game List */
 .game-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
 }
 
 .game-item {
-    background-color: #333;
-    color: #f39c12;
-    padding: 15px;
-    border-radius: 10px;
-    width: 150px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s;
+  background-color: #111;
+  border: 1px solid #FFD700;
+  border-radius: 10px;
+  width: 200px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.3s;
 }
 
 .game-item:hover {
-    transform: scale(1.05);
+  background-color: #222;
+  transform: scale(1.05);
 }
 
-.game-item i {
-    font-size: 2em;
-    margin-bottom: 10px;
+.game-item img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 1rem;
 }
 
-/* Game Detail Panel */
-.game-detail-panel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: none;
-    padding: 20px;
-    color: white;
-    overflow-y: auto;
+.detail-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 300px;
+  height: 100%;
+  background-color: #111;
+  color: #FFD700;
+  padding: 1.5rem;
+  box-shadow: -2px 0 10px rgba(255, 215, 0, 0.4);
+  transition: right 0.3s ease;
+  z-index: 999;
 }
 
-.game-detail-panel h2 {
-    font-size: 2em;
-    margin-bottom: 10px;
-}
-
-.game-detail-panel img {
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 20px;
-}
-
-.game-detail-panel p {
-    font-size: 1.2em;
-    margin-bottom: 10px;
+.detail-panel.active {
+  right: 0;
 }
 
 .close-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: #f39c12;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    color: black;
-    font-size: 1.5em;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  color: #FFD700;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
 }
 
+@media (max-width: 600px) {
+  .game-item {
+    width: 100%;
+  }
+}
 </style>
 </head>
 <body>
-   <div class="container">
-        <header>
-            <h1>Game List</h1>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search games..." onkeyup="filterGames()">
-            </div>
-        </header>
-
-        <div class="tags">
-            <span class="tag active" data-tag="all">All</span>
-            <span class="tag" data-tag="918kiss">918Kiss</span>
-            <span class="tag" data-tag="mega888">Mega888</span>
-            <span class="tag" data-tag="pussy888">Pussy888</span>
-        </div>
-
-        <ul id="gameList" class="game-list">
-            <!-- Game items will be displayed here -->
-        </ul>
-
-        <div id="gameDetailPanel" class="game-detail-panel">
-            <div class="close-btn" onclick="closeGameDetail()">X</div>
-            <h2 id="gameDetailName"></h2>
-            <div id="gameDetailTags"></div>
-            <img id="gameDetailImage" src="" alt="Game Image">
-            <p><strong>Type:</strong> <span id="gameDetailType"></span></p>
-            <p><strong>Payline:</strong> <span id="gameDetailPayline"></span></p>
-            <p><strong>Adjustable:</strong> <span id="gameDetailAdjustable"></span></p>
-            <p><strong>Bets:</strong> <span id="gameDetailBets"></span></p>
-        </div>
+  <div class="container">
+    <h1 class="title">Find Your Game</h1>
+    <div class="filter-buttons">
+      <button data-platform="all" class="active">All</button>
+      <button data-platform="918kiss">918Kiss</button>
+      <button data-platform="mega888">Mega888</button>
+      <button data-platform="pussy888">Pussy888</button>
     </div>
-  </body>
+
+    <div class="game-list">
+      <!-- Example game item -->
+      <div class="game-item" data-platform="918kiss" onclick="openDetail('918kiss', 'Great Blue', 'GB123')">
+        <img src="https://via.placeholder.com/100x100" alt="Great Blue">
+        <div class="game-info">
+          <h2>Great Blue</h2>
+          <p>918Kiss</p>
+        </div>
+      </div>
+
+      <div class="game-item" data-platform="mega888" onclick="openDetail('mega888', 'Safari Heat', 'SH567')">
+        <img src="https://via.placeholder.com/100x100" alt="Safari Heat">
+        <div class="game-info">
+          <h2>Safari Heat</h2>
+          <p>Mega888</p>
+        </div>
+      </div>
+
+      <div class="game-item" data-platform="pussy888" onclick="openDetail('pussy888', 'Panther Moon', 'PM321')">
+        <img src="https://via.placeholder.com/100x100" alt="Panther Moon">
+        <div class="game-info">
+          <h2>Panther Moon</h2>
+          <p>Pussy888</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Panel -->
+  <div class="detail-panel" id="detailPanel">
+    <button class="close-btn" onclick="closeDetail()">✖</button>
+    <div class="detail-content" id="detailContent"></div>
+  </div>
+</body>
 <script>
     const games = [
     {
