@@ -231,7 +231,7 @@
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('clock').textContent = ${hours}:${minutes};
+      document.getElementById('clock').textContent = `${hours}:${minutes}`;
     }
     setInterval(updateClock, 1000);
     updateClock();
@@ -263,7 +263,7 @@
     function showGameDetail(name) {
       const detailBox = document.getElementById('gameDetail');
       const gameLines = 40;
-      detailBox.innerHTML = 
+      detailBox.innerHTML = `
         <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Close</div>
         <img src="https://placehold.co/600x200" alt="Game Banner">
         <h3>${name}</h3>
@@ -291,7 +291,7 @@
             <span id="lineDisplay">${gameLines} lines</span>
             <button onclick="adjustLines(1)">+</button>
           </div>
-        </div>;
+        </div>`;
       detailBox.classList.add('active');
       window.currentLines = gameLines;
     }
@@ -299,7 +299,7 @@
     function adjustLines(amount) {
       window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
       document.getElementById('lineCount').textContent = window.currentLines;
-      document.getElementById('lineDisplay').textContent = ${window.currentLines} lines;
+      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
     }
 
     const games = [
@@ -318,7 +318,7 @@
       const li = document.createElement('li');
       li.className = 'game-item';
       li.setAttribute('data-tag', game.tag);
-      li.innerHTML = <i>🎰</i> ${game.name};
+      li.innerHTML = `<i>🎰</i> ${game.name}`;
       li.onclick = () => showGameDetail(game.name);
       gameList.appendChild(li);
     });
