@@ -168,6 +168,17 @@
 </table>
 
 <script>
+   const betToPecahan = {
+    "2.50": [5.00, 15.00, 20.00, 25.00],
+    "3.00": [20.00, 30.00, 50.00, 60.00],
+    "5.00": [10.00, 25.00, 35.00, 45.00],
+    "10.00": [20.00, 40.00, 60.00, 80.00],
+    // Tambah lagi ikut keperluan
+  };
+  function rnd(min, max, dec = 2){
+    return parseFloat((Math.random() * (max - min) + min).toFixed(dec));
+  }
+
   let globalTime = null;
 
   function setNow(){
