@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Find Game</title>
   <style>
-     body {
+    body {
       font-family: sans-serif;
       margin: 0;
       min-height: 100vh;
@@ -355,8 +355,6 @@
   .platform-badge.plat-pussy888 {
      background-color: #3c8dbc;
    }
-    /* Semua CSS yang sudah ada di dalam kode Anda */
-    /* CSS di sini tetap sama seperti yang sudah Anda buat */
   </style>
 </head>
 <body>
@@ -393,34 +391,34 @@
 </div>
   <script>
     const games = [
-      {
-        name: 'SILVER BULLET',
-        tags: ['918kiss', 'mega888', 'pussy888'],
-        image: 'https://i.imgur.com/3faMy9F.png',
-        type: 'Slot',
-        payline: 25,
-        adjustable: 'Yes',
-        lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
-      },
-      {
-        name: 'SILENT SAMURAI',
-        tags: ['918kiss', 'mega888', 'pussy888'],
-        image: 'https://i.imgur.com/3faMy9F.png',
-        type: 'Slot',
-        payline: 25,
-        adjustable: 'Yes',
-        lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
-      },
-      {
-        name: 'SILENT SAMURAI P',
-        tags: ['918kiss', 'mega888', 'pussy888'],
-        image: 'https://i.imgur.com/3faMy9F.png',
-        type: 'Slot',
-        payline: 25,
-        adjustable: 'Yes',
-        lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
-      },
-    ];
+   {
+    name: 'SILVER BULLET',
+    tags: ['918kiss', 'mega888', 'pussy888'],
+    image: 'https://i.imgur.com/3faMy9F.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
+  },
+   {
+    name: 'SILENT SAMURAI',
+    tags: ['918kiss', 'mega888', 'pussy888'],
+    image: 'https://i.imgur.com/3faMy9F.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
+  },
+  {
+    name: 'SILENT SAMURAI P',
+    tags: ['918kiss', 'mega888', 'pussy888'],
+    image: 'https://i.imgur.com/3faMy9F.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'Yes',
+    lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
+  },
+  ];
 
     function goBack() {
       document.getElementById('gameDetail').classList.remove('active');
@@ -451,12 +449,10 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable, lineBet) {
+    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
       const box = document.getElementById('gameDetail');
-      const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`).join(' ');
-      
-      let betOptionsHtml = lineBet.map(amount => `<span class="bet-option">${amount}</span>`).join('');
-      
+      const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`
+).join(' ');
       box.innerHTML = `
         <div class="close-btn" onclick="goBack()">Close</div>
         <div class="detail-inner">
@@ -478,7 +474,8 @@
           <div class="bet-section">
             <strong>Bet Options</strong><br>
             <div class="bet-values">
-              ${betOptionsHtml}
+              <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span>
+              <span>8.00</span><span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
             </div>
             <div class="line-control">
               <button onclick="adjustLines(-1)">-</button>
@@ -503,33 +500,35 @@
       gameList.innerHTML = '';
       const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
       const filtered = games.filter(game => {
-        const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
-        const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
-        return matchTag && matchKeyword;
-      });
+      const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
+      const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
+      return matchTag && matchKeyword;
+    });
+    
+     function displayGameDetails(game) {
+      console.log("Menampilkan detail game:", game);
+     }
+    filtered.forEach((game, index) => {
+      const li = document.createElement('li');
+      li.className = 'game-item';
+      if (keyword === '' && index >= 130) {
+      li.classList.add('hidden'); // Sembunyikan jika lebih dari 8 dan tiada keyword
+     }
+      li.setAttribute('data-tag', game.tags.join(' '));
+      li.innerHTML = `<i>🎰</i> ${game.name}`;
+      li.onclick = () => showGameDetail(
+      game.name,
+      game.tags.map(t => t.toUpperCase()),
+      game.image,
+      game.type,
+      game.payline,
+      game.adjustable
+    );
+    gameList.appendChild(li);
+  });
+}
 
-      filtered.forEach((game, index) => {
-        const li = document.createElement('li');
-        li.className = 'game-item';
-        if (keyword === '' && index >= 130) {
-          li.classList.add('hidden'); // Sembunyikan jika lebih dari 8 dan tiada keyword
-        }
-        li.setAttribute('data-tag', game.tags.join(' '));
-        li.innerHTML = `<i>🎰</i> ${game.name}`;
-        li.onclick = () => showGameDetail(
-          game.name,
-          game.tags.map(t => t.toUpperCase()),
-          game.image,
-          game.type,
-          game.payline,
-          game.adjustable,
-          game.lineBet
-        );
-        gameList.appendChild(li);
-      });
-    }
-
-    renderGames();
+renderGames();
   </script>
 </body>
 </html>
