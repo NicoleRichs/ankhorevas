@@ -399,7 +399,7 @@
         payline: 20,
         adjustable: true,
         image: "https://i.imgur.com/QCoOwFg.png",
-        tags: ["918KISS", "Mega888", "Pussy888"],
+        tags: ["918KISS", "Mega888"],
         bets: {
           1: [0.50, 1.00, 2.00, 5.00, 10.00],
           2: [0.10, 10.00, 20.00, 30.00, 40.00, 500, 600, 700, 800, 900, 1000, 1100, 1200]
@@ -411,7 +411,7 @@
         payline: 20,
         adjustable: true,
         image: "https://i.imgur.com/QCoOwFg.png",
-        tags: ["918KISS", "Mega888", "Pussy888"],
+        tags: ["Pussy888"],
         bets: {
           1: [0.50, 1.00, 2.00, 5.00, 10.00],
           2: [0.10, 10.00, 20.00, 30.00, 40.00, 500, 600, 700, 800, 900, 1000, 1100, 1200]
@@ -431,7 +431,7 @@
       }
     ];
   
-     const searchBox = document.getElementById("searchBox");
+  const searchBox = document.getElementById("searchBox");
   const gameList = document.getElementById("gameList");
   const platformTags = document.querySelectorAll(".platform-tags div");
   const closeDetailBtn = document.getElementById("closeDetail");
@@ -440,17 +440,21 @@
   let selectedPlatform = "All";
   let selectedLine = 1;
 
+  // Fungsi untuk menampilkan game berdasarkan pencarian dan platform yang dipilih
   function displayGames() {
-    gameList.innerHTML = "";
-    const keyword = searchBox.value.toLowerCase();
+    gameList.innerHTML = ""; // Reset tampilan game list
 
+    const keyword = searchBox.value.toLowerCase(); // Ambil nilai pencarian
+
+    // Filter game berdasarkan kata kunci dan platform yang dipilih
     const filteredGames = games.filter(game => {
-      const matchKeyword = game.name.toLowerCase().includes(keyword);
-      const matchPlatform = selectedPlatform === "All" || game.tags.includes(selectedPlatform);
-      return matchKeyword && matchPlatform;
+      const matchKeyword = game.name.toLowerCase().includes(keyword); // Cek kecocokan dengan kata kunci
+      const matchPlatform = selectedPlatform === "All" || game.tags.includes(selectedPlatform); // Filter berdasarkan platform
+      return matchKeyword && matchPlatform; // Gabungkan kondisi pencarian dan platform
     });
 
-    filteredGames.forEach((game, index) => {
+    // Tampilkan setiap game yang sesuai dengan filter
+    filteredGames.forEach((game) => {
       const gameItem = document.createElement("div");
       gameItem.className = "game-item";
       gameItem.textContent = game.name;
@@ -459,6 +463,7 @@
     });
   }
 
+  // Fungsi untuk menampilkan detail game
   function showGameDetail(game) {
     gameImg.src = game.image;
     gameTitle.textContent = game.name;
@@ -483,10 +488,12 @@
     gameDetail.dataset.gameName = game.name; // Simpan game aktif untuk referensi line/bet
   }
 
+  // Update tampilan jumlah garis
   function updateLineDisplay() {
     lineDisplay.textContent = `Line: ${selectedLine}`;
   }
 
+  // Tampilkan bet values berdasarkan garis yang dipilih
   function displayBetValues(game) {
     const lineBets = game.bets[selectedLine] || [];
     betValuesBox.innerHTML = "";
@@ -497,6 +504,7 @@
     });
   }
 
+  // Ubah jumlah garis ketika tombol -/+ ditekan
   function changeLine(change) {
     const game = games.find(g => g.name === gameDetail.dataset.gameName);
     const availableLines = Object.keys(game.bets).map(Number);
@@ -508,21 +516,22 @@
     displayBetValues(game);
   }
 
+  // Fungsi ketika tag platform diklik
   platformTags.forEach(tag => {
     tag.addEventListener("click", () => {
-      platformTags.forEach(t => t.classList.remove("active-tag"));
-      tag.classList.add("active-tag");
-      selectedPlatform = tag.textContent.toUpperCase() === "ALL" ? "All" : tag.textContent.toUpperCase();
-      displayGames();
+      platformTags.forEach(t => t.classList.remove("active-tag")); // Hapus highlight dari tag lain
+      tag.classList.add("active-tag"); // Beri highlight pada tag yang dipilih
+      selectedPlatform = tag.textContent.toUpperCase() === "ALL" ? "All" : tag.textContent.toUpperCase(); // Set platform yang dipilih
+      displayGames(); // Tampilkan game sesuai platform yang dipilih
     });
   });
 
-  searchBox.addEventListener("input", displayGames);
+  searchBox.addEventListener("input", displayGames); // Setiap kali input pada search box, tampilkan game
   closeDetailBtn.addEventListener("click", () => {
-    gameDetail.classList.remove("active");
+    gameDetail.classList.remove("active"); // Tutup detail game
   });
 
-  displayGames(); // Initial display
+  displayGames(); // Initial display untuk menampilkan semua game
 </script>
 </body>
 </html>
