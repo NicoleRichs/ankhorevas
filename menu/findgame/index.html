@@ -494,12 +494,11 @@ document.addEventListener("DOMContentLoaded", () => {
     gameList.scrollIntoView({ behavior: "smooth" });
   }
 }
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function() {
+  // Pastikan elemen dengan id 'searchInput' ada
   const searchInput = document.getElementById("searchInput");
-  
-  // Pastikan elemen ditemukan sebelum menambahkan event listener
   if (searchInput) {
-    searchInput.addEventListener("input", function () {
+    searchInput.addEventListener("input", function() {
       const filter = searchInput.value.toLowerCase();
       const gameCards = document.querySelectorAll(".game-card");
 
@@ -508,8 +507,15 @@ document.addEventListener("DOMContentLoaded", () => {
         card.style.display = title.includes(filter) ? "block" : "none";
       });
     });
-  } else {
-    console.error('Element #searchInput not found!');
+  }
+
+  // Pastikan elemen lain ada sebelum menambahkan event listener
+  const gameDetailsButton = document.getElementById("game-details-button");
+  if (gameDetailsButton) {
+    gameDetailsButton.addEventListener("click", function() {
+      // Tindakan yang dilakukan ketika tombol "Lihat Detail" diklik
+      console.log("Game details button clicked");
+    });
   }
 });
   displayGames(games);
