@@ -398,19 +398,20 @@
     <div class="close-btn" onclick="goBack()">Close</div>
 </div>
   <script>
-    const games = [
+  const games = [
   {
-  name: "Panther Moon",
-  type: "Slot",
-  payline: 2,
-  adjustable: true,
-  image: "img/panthermoon.jpg",
-  tags: ["918KISS"],
-  bets: {
-    1: [0.50, 1.00, 2.00, 5.00, 10.00],
-    2: [0.10, 10.00, 20.00, 30.00, 40.00]
+    name: "Panther Moon",
+    type: "Slot",
+    payline: 2,
+    adjustable: true,
+    image: "img/panthermoon.jpg",
+    tags: ["918KISS"],
+    bets: {
+      1: [0.50, 1.00, 2.00, 5.00, 10.00],
+      2: [0.10, 10.00, 20.00, 30.00, 40.00]
+    }
   }
-}
+];
   function goBack() {
    console.log("goBack function called");
    document.getElementById('gameDetail').classList.remove('active');
