@@ -464,15 +464,15 @@
         <p><strong>Payline:</strong> ${payline}</p>
         <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
       </div>
-      <div class="line-control">
-        <button onclick="adjustLines(-1)">-</button>
-        <span id="lineDisplay">${window.currentLines} lines</span>
-        <button onclick="adjustLines(1)">+</button>
-      </div>
       <div class="bet-section">
         <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
         <div id="betValuesContainer" class="bet-values"></div>
         <div style="margin-top: 8px;"></div>
+      </div>
+      <div class="line-control">
+        <button onclick="adjustLines(-1)">-</button>
+        <span id="lineDisplay">${window.currentLines} lines</span>
+        <button onclick="adjustLines(1)">+</button>
       </div>
     </div>
   `;
