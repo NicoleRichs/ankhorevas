@@ -24,6 +24,18 @@
   </style>
 </head>
 <body>
+<select id="gameSelect">
+  <option value="Great88">Great88</option>
+  <option value="SeaWorld">SeaWorld</option>
+</select>
+
+<select id="betSelect"></select>
+
+<button onclick="generateLogs()">Change</button>
+
+<table id="gameLogTable">
+  <!-- Generated logs will appear here -->
+</table>
 
 <h3>Game Log Table</h3>
 <table id="gameTable">
@@ -76,18 +88,7 @@ for (let i = 0; i < logs; i++) {
   });
   currentEnd = beginMoney;
 }
-<select id="gameSelect">
-  <option value="Great88">Great88</option>
-  <option value="SeaWorld">SeaWorld</option>
-</select>
 
-<select id="betSelect"></select>
-
-<button onclick="generateLogs()">Change</button>
-
-<table id="gameLogTable">
-  <!-- Generated logs will appear here -->
-</table>
 // Insert Set Score row
 const setScoreRow = document.createElement("tr");
 setScoreRow.innerHTML = `
