@@ -78,7 +78,24 @@
       box-shadow: 0 0 10px gold;
       transform: scale(1.02);
      }
-    
+     .platform-box {
+      position: relative;
+      border: 2px solid #FFD700;
+      border-radius: 10px;
+      padding: 20px 10px 10px;
+      margin-top: 20px;
+     }
+     .platform-title {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #1e1e1e; /* Sesuaikan dengan background kamu */
+      padding: 0 10px;
+      font-weight: bold;
+      font-size: 12px;
+      color: #FFD700;
+     }
     .game-list {
       display: flex;
       flex-direction: column;
@@ -262,6 +279,10 @@
       <p id="gameType"></p>
       <p id="gamePayline"></p>
       <p id="gameAdjustable"></p>
+    </div>
+      <div class="platform-box">
+      <div class="platform-title">PLATFORM</div>
+      <div id="gameTags" class="platform-tags"></div>
     </div>
       <div class="platforms-available" id="gameTags"></div>
       <div class="bet-values-box" id="betValues"></div>
