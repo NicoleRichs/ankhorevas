@@ -333,27 +333,47 @@
     .user { 
      color: gold;
     }
-    .bet-grid {
+    .bet-section {
+  background: yellow;
+  padding: 15px;
+  border-radius: 5px;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.bet-grid-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.bet-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 5px;
- }
-  .bet-box {
-  background: #f1f1f1;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 14px;
-}
-  .bet-control {
-  display: flex;
-  align-items: center;
+  justify-content: center;
   gap: 10px;
 }
- .bet-control button {
+.bet-grid span {
+  background: white;
+  border: 1px solid #333;
   padding: 5px 10px;
-  font-size: 18px;
-  cursor: pointer;
+  border-radius: 4px;
+}
+.line-controls {
+  margin: 15px 0;
+}
+.line-controls button {
+  background: black;
+  color: yellow;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  font-weight: bold;
+}
+#line-count {
+  display: inline-block;
+  min-width: 30px;
+}
+.line-info {
+  font-weight: bold;
 }
 
     .platform-badge {
@@ -382,7 +402,6 @@
 </head>
 <body>
   <div class="floating-dots"></div>
-  <div id="box"></div>
   <div class="container">
 
   <div class="left-panel">
@@ -412,6 +431,17 @@
       On Development<br>
       Might be unstable.
     </div>
+    <div class="bet-section">
+  <div class="bet-grid-title">Game Bet:</div>
+  <div class="bet-grid" id="bet-grid"></div>
+
+  <div class="line-controls">
+    <button onclick="adjustLines(-1)">-</button>
+    <span id="line-count">1</span>
+    <button onclick="adjustLines(1)">+</button>
+  </div>
+  <div class="line-info"><span id="line-label">1</span> lines</div>
+</div>
 </div>
   <script>
     const games = [
@@ -523,7 +553,27 @@ function showGameDetail(name, tags, imageUrl, type, payline, adjustable, lineBet
       document.getElementById('lineCount').textContent = window.currentLines;
       document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
     }
+    const allBets = [0.25, 0.5, 0.75, 1, 1.25, 1.75, 2.5, 3, 3.75, 5, 7.5, 10, 12.5, 15, 25, 37.5, 50, 75, 100, 200, 300];
+let currentLines = 1;
 
+function updateBetGrid() {
+  const filteredBets = allBets.filter(bet => Number.isInteger(bet * currentLines));
+  const betGridHTML = filteredBets.map(bet => <span>${bet}</span>).join('');
+  document.getElementById('bet-grid').innerHTML = betGridHTML;
+}
+
+function adjustLines(delta) {
+  currentLines += delta;
+  if (currentLines < 1) currentLines = 1;
+
+  document.getElementById('line-count').textContent = currentLines;
+  document.getElementById('line-label').textContent = currentLines;
+  updateBetGrid();
+}
+
+window.onload = () => {
+  updateBetGrid();
+};
     const gameList = document.getElementById('gameList');
 
     function renderGames(keyword = '') {
