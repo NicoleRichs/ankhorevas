@@ -106,11 +106,17 @@
     .game-item:hover {
       background-color: transparent;
     }
+    .left-panel {
+      width: 50%;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
     .game-detail {
-      position: absolute;
+      position: relative;
       top: 0;
       left: 100%;
-      width: 100%;
+      width: 50%;
       height: 100%;
       background: #000;
       color: white;
@@ -219,10 +225,10 @@
 </head>
 <body>
   <div class="container">
-    <div id="game-list"></div>
-    <div id="game-details"></div>
+
+  <div class="left-panel">
     <div class="header">
-      <a class="home-link " href="https://searcfile.github.io/5G88-editor/menu/">🏠 Home</a>
+      <a class="home-link" href="https://searcfile.github.io/5G88-editor/menu/">🏠 Home</a>
       <div id="clock" class="time">--:--</div>
       <div class="user">5G88</div>
     </div>
@@ -241,12 +247,14 @@
     </div>
 
     <ul class="game-list" id="gameList"></ul>
-    <div id="gameDetail" class="game-detail"></div>
 
     <div class="footer">
       On Development<br>
       Might be unstable.
     </div>
+</div>
+  <!-- KANAN: detail game -->
+  <div id="gameDetail" class="game-detail"></div>
   </div>
 
   <script>
