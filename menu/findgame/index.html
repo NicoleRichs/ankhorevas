@@ -249,6 +249,50 @@
  #homeButton:hover {
     color: #fff;
  }
+ @media (max-width: 768px) {
+  .container {
+    margin-top: 100px;
+    width: 95vw;
+    max-width: 100%;
+  }
+
+  .game-detail {
+    width: 100%;
+    padding: 15px;
+    border-left: none;
+    border-top: 2px solid #ffd700;
+    top: auto;
+    bottom: 0;
+    height: 70%;
+    right: -100%;
+  }
+
+  .game-detail.active {
+    right: 0;
+  }
+
+  #homeButton {
+    font-size: 12px;
+    top: 10px;
+    left: 10px;
+  }
+
+  .line-controls {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .bet-values-box {
+    gap: 3px;
+    font-size: 10px;
+  }
+
+  .platform-tags {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+ }
+ 
   </style>
 </head>
 <body>
