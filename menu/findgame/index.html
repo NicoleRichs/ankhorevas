@@ -404,7 +404,7 @@
     type: "Slot",
     payline: 2,
     adjustable: true,
-    image: "img/panthermoon.jpg",
+    image: "https://i.imgur.com/QCoOwFg.png",
     tags: ["918KISS"],
     bets: {
       1: [0.50, 1.00, 2.00, 5.00, 10.00],
@@ -575,7 +575,23 @@ function updateBetDisplay() {
     gameList.appendChild(li);
   });
 }
+function showGameDetail(game) {
+  console.log("Game image URL:", game.image);
 
+  window.currentLines = game.payline;
+  window.currentBetIndex = 0;
+  window.currentBets = game.bets[game.payline] || [];
+
+  const gameDetail = document.getElementById('gameDetail');
+  gameDetail.classList.add('active');
+
+  gameDetail.innerHTML = `
+    <div class="close-btn" onclick="goBack()">Close</div>
+    <div class="detail-inner">
+      <h2>${game.name}</h2>
+      <img src="${game.image}" alt="${game.name}" style="max-width: 100%; height: auto; margin-bottom: 10px;" />
+      ...
+  `;
 renderGames();
   </script>
 </body>
