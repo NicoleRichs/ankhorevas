@@ -504,7 +504,7 @@ function updateBetDisplay() {
     `<span class="${idx === window.currentBetIndex ? 'active-bet' : ''}">${val.toFixed(2)}</span>`
   ).join('');
 }
-    ffunction adjustLines(amount) {
+  function adjustLines(amount) {
   const possibleLines = Object.keys(currentGame.bets).map(n => parseInt(n));
   let newLines = currentLines + amount;
 
