@@ -444,39 +444,42 @@
     }
 
     function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
-      window.currentGame = { name, tags, image, type, payline, adjustable, bets };
-      const gameDetail = document.getElementById('gameDetail');
+  window.currentGame = { name, tags, image, type, payline, adjustable, bets };
+  const gameDetail = document.getElementById('gameDetail');
 
-      // Inisialisasi state global
-      window.currentLines = Object.keys(bets)[0];
-      window.currentLines = parseInt(window.currentLines); // pastikan int
-      window.currentBets = bets[window.currentLines];
-      window.currentBetIndex = 0;
+  // Inisialisasi state global
+  window.currentLines = Object.keys(bets)[0];
+  window.currentLines = parseInt(window.currentLines); // pastikan int
+  window.currentBets = bets[window.currentLines];
+  window.currentBetIndex = 0;
 
-      gameDetail.innerHTML = `
-        <div class="close-btn" onclick="goBack()">Close</div>
-        <div class="detail-inner">
-        <img src="${image}" alt="${name}" />
-        <h3>${name}</h3>
-        <div class="detail-box">
+  gameDetail.innerHTML = `
+    <div class="close-btn" onclick="goBack()">Close</div>
+    <div class="detail-inner">
+      <img src="${image}" alt="${name}" />
+      <h3>${name}</h3>
+      <div class="detail-box">
         <p><strong>Platform:</strong> ${tags.join(', ')}</p>
         <p><strong>Type:</strong> ${type}</p>
         <p><strong>Payline:</strong> ${payline}</p>
         <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
       </div>
       <div class="line-control">
-      <button onclick="adjustLines(-1)">-</button>
-      <span id="lineDisplay">${window.currentLines} lines</span>
-      <button onclick="adjustLines(1)">+</button>
+        <button onclick="adjustLines(-1)">-</button>
+        <span id="lineDisplay">${window.currentLines} lines</span>
+        <button onclick="adjustLines(1)">+</button>
       </div>
       <div class="bet-section">
-      <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
-      <div id="betValuesContainer" class="bet-values"></div>
-      <div style="margin-top: 8px;">
+        <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
+        <div id="betValuesContainer" class="bet-values"></div>
+        <div style="margin-top: 8px;"></div>
+      </div>
     </div>
-  </div>
-</div>
-      `;
+  `;
+
+  updateBetDisplay();
+  gameDetail.classList.add('active');
+}
 
       updateBetDisplay();
       gameDetail.classList.add('active');
@@ -489,16 +492,16 @@
     }
 
     function updateBetDisplay() {
-      const betDisplay = document.getElementById('currentBet');
-      const betContainer = document.getElementById('betValuesContainer');
+  const betDisplay = document.getElementById('currentBet');
+  const betContainer = document.getElementById('betValuesContainer');
 
-      if (!window.currentBets || !betDisplay || !betContainer) return;
+  if (!window.currentBets || !betDisplay || !betContainer) return;
 
-      betDisplay.textContent = window.currentBets[window.currentBetIndex].toFixed(2);
-      betContainer.innerHTML = window.currentBets.map((val, idx) =>
-        `<span class="${idx === window.currentBetIndex ? 'active-bet' : ''}">${val.toFixed(2)}</span>`
-      ).join('');
-    }
+  betDisplay.textContent = window.currentBets[window.currentBetIndex].toFixed(2);
+  betContainer.innerHTML = window.currentBets.map((val, idx) =>
+    `<span class="${idx === window.currentBetIndex ? 'active-bet' : ''}">${val.toFixed(2)}</span>`
+  ).join('');
+}
 
     function adjustLines(amount) {
       const possibleLines = Object.keys(window.currentGame.bets).map(n => parseInt(n));
