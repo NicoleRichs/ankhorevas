@@ -1003,7 +1003,7 @@
     filtered.forEach((game, index) => {
       const li = document.createElement('li');
       li.className = 'game-item';
-      if (keyword === '' && index >= 10) {
+      if (keyword === '' && index >= 50) {
       li.classList.add('hidden'); // Sembunyikan jika lebih dari 8 dan tiada keyword
      }
       li.setAttribute('data-tag', game.tags.join(' '));
