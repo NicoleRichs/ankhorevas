@@ -305,11 +305,23 @@
       display: flex;
       align-items: center;
       gap: 12px;
+     justify-content: center;
     }
     .line-control button {
-      padding: 6px 12px;
-      font-size: 16px;
-    }
+     padding: 6px 12px;
+     font-size: 16px;
+     background: gold;
+     color: black;
+     border: none;
+     border-radius: 4px;
+     cursor: pointer;
+   }
+   #lineDisplay {
+     text-align: center;
+     color: gold;
+     margin-top: 6px;
+     font-weight: bold;
+   }
     .time {
       font-size: 14px;
       color: #ccc;
@@ -498,6 +510,8 @@
   const box = document.getElementById('gameDetail');
   const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`).join(' ');
   const betValues = lineBet.map(bet => `<span class="game-bet-value">${bet}</span>`).join(' ');
+  window.currentLines = payline; const lineControl = `<div class="line-control"><button onclick="adjustLines(-1)">-</button><span id="lineCount">${window.currentLines}</span><button onclick="adjustLines(1)">+</button></div>
+  <div id="lineDisplay">${window.currentLines} lines</div>
 
   box.innerHTML = `
     <div class="close-btn" onclick="goBack()">Close</div>
@@ -517,10 +531,19 @@
 }
 
     function adjustLines(amount) {
-      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
-      document.getElementById('lineCount').textContent = window.currentLines;
-      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
-    }
+  const gameDetail = document.getElementById('gameDetail');
+  const linesEl = gameDetail.querySelector('#lineCount');
+  const displayEl = gameDetail.querySelector('#lineDisplay');
+
+  if (!linesEl || !displayEl) return;
+
+  let current = parseInt(linesEl.textContent);
+  let maxLines = parseInt(document.querySelector('.game-detail.active .game-section .box:nth-child(2) b').textContent);
+  
+  current = Math.max(1, Math.min(maxLines, current + amount));
+  linesEl.textContent = current;
+  displayEl.textContent = `${current} lines`;
+}
 
     const gameList = document.getElementById('gameList');
 
