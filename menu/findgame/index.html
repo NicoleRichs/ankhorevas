@@ -15,7 +15,7 @@
     }
 
     .container {
-      margin-top: 100px;
+      margin-top: 180px;
     }
 
     #searchBox {
@@ -33,7 +33,7 @@
       display: flex;
       gap: 10px;
       justify-content: center;
-      margin: 20px auto 0 auto;
+      margin: 20px auto 40px auto;
     }
 
     .platform-tags div {
@@ -109,6 +109,11 @@
       padding: 10px;
       margin-top: 15px;
     }
+
+    .platforms-available {
+      margin-top: 10px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -128,6 +133,7 @@
     <img id="gameImg" src="" alt="Game Image">
     <h2 id="gameTitle"></h2>
     <p id="gameName"></p>
+    <div class="platforms-available" id="gameTags"></div>
 
     <div class="line-controls">
       <button onclick="changeLine(-1)">-</button>
@@ -151,7 +157,7 @@
         payline: 20,
         adjustable: true,
         image: "https://i.imgur.com/QCoOwFg.png",
-        tags: ["918KISS", "Mega888", "puss888"],
+        tags: ["918KISS", "Mega888", "Pussy888"],
         bets: {
           1: [0.50, 1.00, 2.00, 5.00, 10.00],
           2: [0.10, 10.00, 20.00, 30.00, 40.00]
@@ -169,6 +175,7 @@
     const lineDisplay = document.getElementById('lineDisplay');
     const betValues = document.getElementById('betValues');
     const gameList = document.getElementById('gameList');
+    const gameTags = document.getElementById('gameTags');
 
     let currentGame = null;
     let currentLine = 1;
@@ -193,6 +200,7 @@
       gameType.textContent = 'Type: ' + game.type;
       gamePayline.textContent = 'Payline: ' + game.payline;
       gameAdjustable.textContent = 'Adjustable Payline: ' + (game.adjustable ? 'Yes' : 'No');
+      gameTags.textContent = 'Available On: ' + game.tags.join(', ');
       currentLine = 1;
       updateBetValues();
       lineDisplay.textContent = 'Line: ' + currentLine;
