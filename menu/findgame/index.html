@@ -250,15 +250,31 @@
     color: #fff;
  }
  @media (max-width: 480px) {
-  .game-detail {
+ body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}  
+.game-detail {
     min-width: 21vw !important; /* Guna 90% daripada lebar skrin */
     font-size: 14px; /* Kurangkan saiz font jika perlu */
     height: auto; 
-}
+  }
 
   .game-detail img {
     height: auto;
   }
+  .container {
+   position: fixed;
+   top: 50%;
+   transform: translateY(-50%);
+   left: 0;
+   right: 0;
+   margin: 0 auto;
+   width: 90vw;
+   max-width: 400px;
+ }
 
   .line-controls button {
     padding: 4px 8px;
