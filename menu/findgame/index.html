@@ -443,7 +443,7 @@
   let selectedLine = 1;
 
   // Fungsi untuk menampilkan game berdasarkan pencarian dan platform yang dipilih
-  function displayGames() {
+ function displayGames() {
     gameList.innerHTML = ""; // Reset tampilan game list
 
     const keyword = searchBox.value.toLowerCase(); // Ambil nilai pencarian
@@ -451,11 +451,23 @@
     // Filter game berdasarkan kata kunci dan platform yang dipilih
     const filteredGames = games.filter(game => {
       const matchKeyword = game.name.toLowerCase().includes(keyword); // Cek kecocokan dengan kata kunci
-      const matchPlatform = selectedPlatform === "All" ||  game.tags.some(tag => tag.toLowerCase() === selectedPlatform.toLowerCase());  // Filter berdasarkan platform
+      const matchPlatform = selectedPlatform === "All" || game.tags.some(tag => tag.toLowerCase() === selectedPlatform.toLowerCase());  // Filter berdasarkan platform
       return matchKeyword && matchPlatform; // Gabungkan kondisi pencarian dan platform
     });
 
-    // Tampilkan setiap game yang sesuai dengan filter
+    renderGameList(filteredGames); // Render list setelah filtering
+  }
+
+  // Fungsi untuk render daftar game yang sudah difilter
+  function renderGameList(filteredGames) {
+    gameList.innerHTML = ""; // Reset the game list
+
+    if (filteredGames.length === 0) {
+      gameList.innerHTML = '<div class="no-result">No games found</div>';
+      return;
+    }
+
+    // Render filtered games
     filteredGames.forEach((game) => {
       const gameItem = document.createElement("div");
       gameItem.className = "game-item";
@@ -467,31 +479,54 @@
 
   // Fungsi untuk menampilkan detail game
   function showGameDetail(game) {
-  const detail = document.getElementById('gameDetail');
-  if (!detail) return;
+    const detail = document.getElementById('gameDetail');
+    if (!detail) return;
 
-  detail.innerHTML = `
-    <p><strong>Game Name:</strong> ${game.name}</p>
-    <p><strong>Type:</strong> ${game.type || 'N/A'}</p>
-    <p><strong>Paylines:</strong> ${game.payline || 'N/A'}</p>
-    <p><strong>Adjustable:</strong> ${game.adjustable ? 'Yes' : 'No'}</p>
-    selectedLine = 1;
-    updateLineDisplay();
-    displayBetValues(game);
+    // Menampilkan detail game
+    detail.innerHTML = `
+      <button id="closeDetail" style="position:absolute;top:10px;right:10px;background:#ffd700;border:none;color:#000;font-weight:bold;padding:5px 10px;cursor:pointer;border-radius:4px;">X</button>
+      <img id="gameImg" src="${game.image}" alt="Game Image">
+      <h2 id="gameTitle">${game.name}</h2>
+      <p id="gameName">Name: ${game.name}</p>
+
+      <div class="info-border">
+        <p id="gameType">Type: ${game.type || 'N/A'}</p>
+        <p id="gamePayline">Paylines: ${game.payline || 'N/A'}</p>
+        <p id="gameAdjustable">Adjustable: ${game.adjustable ? 'Yes' : 'No'}</p>
+      </div>
+      <div class="platform-box">
+        <div class="platform-title">PLATFORM</div>
+        <div id="gameTags" class="platform-tags"></div>
+      </div>
+      <div class="bet-values-box" id="betValues"></div>
+      <div class="line-controls">
+        <button onclick="changeLine(-1)">-</button>
+        <span id="lineDisplay">Line: 1</span>
+        <button onclick="changeLine(1)">+</button>
+      </div>
     `;
-}
+
+    // Menampilkan platform tags
     gameTags.innerHTML = "";
     game.tags.forEach(tag => {
       const tagDiv = document.createElement("div");
       tagDiv.className = `tag-item tag-${tag.toLowerCase()}`;
       tagDiv.textContent = tag;
       gameTags.appendChild(tagDiv);
-  
-    gameDetail.classList.add("active"); {
+    });
+
+    // Mengaktifkan game detail
+    gameDetail.classList.add("active");
     gameDetail.dataset.gameName = game.name; // Simpan game aktif untuk referensi line/bet
-    }
-  // Udate tampilan jumlah garis
+
+    selectedLine = 1;
+    updateLineDisplay();
+    displayBetValues(game);
+  }
+
+  // Update tampilan jumlah garis
   function updateLineDisplay() {
+    const lineDisplay = document.getElementById("lineDisplay");
     lineDisplay.textContent = `Line: ${selectedLine}`;
   }
 
@@ -505,54 +540,36 @@
       betValuesBox.appendChild(betDiv);
     });
   }
-   
-   function renderGameList(filteredGames) {
-  const list = document.getElementById('gameList');
-  list.innerHTML = '';
 
-  if (filteredGames.length === 0) {
-    list.innerHTML = '<div class="no-result">No games found</div>';
-    return;
-  }
-
-  filteredGames.forEach((game, index) => {
-    const div = document.createElement('div');
-    div.className = 'game-item';
-    div.textContent = game.name;
-    div.addEventListener('click', () => showGameDetail(game));
-    list.appendChild(div);
-  });
-}
-  // Ubah jumlah garis ketika tombol -/+ ditekan
-  function changeLine(change) {
-    const game = games.find(g => g.name === gameDetail.dataset.gameName);
-    const availableLines = Object.keys(game.bets).map(Number);
-    const minLine = Math.min(...availableLines);
-    const maxLine = Math.max(...availableLines);
-
-    selectedLine = Math.max(minLine, Math.min(maxLine, selectedLine + change));
+  // Fungsi untuk mengubah jumlah garis yang dipilih
+  function changeLine(delta) {
+    selectedLine += delta;
+    if (selectedLine < 1) selectedLine = 1; // Batasi minimum garis
     updateLineDisplay();
-    displayBetValues(game);
+    displayBetValues(games.find(game => game.name === gameDetail.dataset.gameName)); // Update bet values
   }
 
-  // Fungsi ketika tag platform diklik
-      platformTags.forEach(tag => {
-      tag.addEventListener("click", () => {
-      platformTags.forEach(t => t.classList.remove("active-tag")); // Hapus highlight dari tag lain
-      tag.classList.add("active-tag"); // Beri highlight pada tag yang dipilih
-      selectedPlatform = tag.textContent.toUpperCase();
-      if (selectedPlatform === "ALL") selectedPlatform = "All";
- 
-      displayGames(); // Tampilkan game sesuai platform yang dipilih
-    });
+  // Event listener untuk menutup detail game
+  closeDetailBtn.onclick = () => {
+    gameDetail.classList.remove("active");
+  };
+
+  // Event listener untuk platform tags
+  platformTags.forEach(tag => {
+    tag.onclick = () => {
+      platformTags.forEach(t => t.classList.remove("active-tag")); // Remove active class from all tags
+      tag.classList.add("active-tag"); // Add active class to selected tag
+      selectedPlatform = tag.textContent === "All" ? "All" : tag.textContent; // Set selected platform
+      displayGames(); // Refresh game list based on selected platform
+    };
   });
 
-  searchBox.addEventListener("input", displayGames); // Setiap kali input pada search box, tampilkan game
-  closeDetailBtn.addEventListener("click", () => {
-    gameDetail.classList.remove("active"); // Tutup detail game
-  });
+  // Event listener untuk pencarian
+  searchBox.addEventListener("input", displayGames);
 
-  displayGames(); // Initial display untuk menampilkan semua game
+  // Inisialisasi tampilan game saat pertama kali
+  displayGames();
+</script>
 </script>
 </body>
 </html>
