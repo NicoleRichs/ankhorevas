@@ -484,7 +484,16 @@ document.addEventListener("DOMContentLoaded", () => {
       : games;
     displayGames(filteredGames);
   });
-
+ function scrollToGames() {
+  // Mengambil elemen game list
+  const gameList = document.querySelector(".game-list");
+  
+  // Memastikan elemen ditemukan
+  if (gameList) {
+    // Menggulir ke elemen game list
+    gameList.scrollIntoView({ behavior: "smooth" });
+  }
+}
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchInput");
   
