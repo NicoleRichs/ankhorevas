@@ -1,118 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gold Themed Container</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>918Kiss Download Panel</title>
   <style>
-      body {
-      background-color: #000;
-      color: #fff;
-      font-family: sans-serif;
+    body {
+      background: #000;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .main-container {
+      min-width: 750px;
+      max-width: 750px;
+      min-height: 300px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid gold;
+      border-radius: 10px;
+      padding: 20px;
+      box-sizing: border-box;
       text-align: center;
     }
 
-    .buttons-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 15px;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background: rgba(255, 215, 0, 0.05);
-      border: 2px solid gold;
-      border-radius: 8px;
-    }
-
-    .copy-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      transition: transform 0.2s;
-      color: gold;
-    }
-
-    .copy-btn:hover {
-      transform: scale(1.05);
-    }
-
-    .copy-btn img {
+    .promo-image {
       width: 100%;
-      height: auto;
-      border: 1px solid gold;
-      border-radius: 5px;
+      max-height: 300px;
+      object-fit: contain;
+      margin-bottom: 20px;
     }
 
-    .btn-label {
-      margin-top: 5px;
-      font-size: 14px;
+    .download-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .download-buttons button {
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .download-buttons button:hover {
+      background: linear-gradient(to right, #ffcc00, #ff9900);
+    }
+
+    .grid-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .grid-box {
+      width: 160px;
+      height: 120px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid gold;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: gold;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
+  <div class="main-container">
+    <img src="https://i.imgur.com/QCoOwFg.png" alt="Promo" class="promo-image"/>
 
-<h1 style="color: gold;">Download App</h1>
+    <div class="download-buttons">
+      <button>KIOSK AGENT LINK 🚀</button>
+      <button>IOS DOWNLOAD 🚀</button>
+      <button>ANDROID DOWNLOAD 🚀</button>
+      <button>PC DOWNLOAD 🚀</button>
+      <button>CASH SCORE 🚀</button>
+    </div>
 
-<div class="buttons-container" id="buttonsContainer"></div>
-
-<script>
-  const buttonData = [
-    { name: "918Kiss", link: "https://example.com/918kiss.apk" },
-    { name: "Mega888", link: "https://example.com/mega888.apk" },
-    { name: "Pussy888", link: "https://example.com/pussy888.apk" },
-    { name: "Game 4", link: "https://example.com/game4.apk" },
-    { name: "Game 5", link: "https://example.com/game5.apk" },
-    { name: "Game 6", link: "https://example.com/game6.apk" },
-    { name: "Game 7", link: "https://example.com/game7.apk" },
-    { name: "Game 8", link: "https://example.com/game8.apk" },
-    { name: "Game 9", link: "https://example.com/game9.apk" },
-    { name: "Game 10", link: "https://example.com/game10.apk" },
-    { name: "Game 11", link: "https://example.com/game11.apk" },
-    { name: "Game 12", link: "https://example.com/game12.apk" },
-    { name: "Game 13", link: "https://example.com/game13.apk" },
-    { name: "Game 14", link: "https://example.com/game14.apk" },
-    { name: "Game 15", link: "https://example.com/game15.apk" },
-    { name: "Game 16", link: "https://example.com/game16.apk" },
-    { name: "Game 17", link: "https://example.com/game17.apk" },
-    { name: "Game 18", link: "https://example.com/game18.apk" },
-    { name: "Game 19", link: "https://example.com/game19.apk" },
-    { name: "Game 20", link: "https://example.com/game20.apk" },
-    { name: "Game 21", link: "https://example.com/game21.apk" },
-    { name: "Game 22", link: "https://example.com/game22.apk" },
-    { name: "Game 23", link: "https://example.com/game23.apk" },
-    { name: "Game 24", link: "https://example.com/game24.apk" },
-    { name: "Game 25", link: "https://example.com/game25.apk" },
-    { name: "Game 26", link: "https://example.com/game26.apk" },
-    { name: "Game 27", link: "https://example.com/game27.apk" },
-    { name: "Game 28", link: "https://example.com/game28.apk" },
-    { name: "Game 29", link: "https://example.com/game29.apk" },
-    { name: "Game 30", link: "https://example.com/game30.apk" },
-    { name: "Game 31", link: "https://example.com/game31.apk" },
-    { name: "Game 32", link: "https://example.com/game32.apk" },
-    { name: "Game 33", link: "https://example.com/game33.apk" },
-    { name: "Game 34", link: "https://example.com/game34.apk" },
-    { name: "Game 35", link: "https://example.com/game35.apk" },
-    { name: "Game 36", link: "https://example.com/game36.apk" }
-  ];
-
-  const container = document.getElementById("buttonsContainer");
-
-  buttonData.forEach((btn, index) => {
-    const button = document.createElement("button");
-    button.className = "copy-btn";
-    button.onclick = () => {
-      navigator.clipboard.writeText(btn.link).then(() => {
-        alert(`Link ${btn.name} disalin!`);
-      });
-    };
-    button.innerHTML = `
-      <img src="https://i.imgur.com/QCoOwFg.png" alt="${btn.name}">
-      <div class="btn-label">${btn.name}</div>
-    `;
-    container.appendChild(button);
-  });
-</script>
-
+    <div class="grid-section">
+      <div class="grid-box">1</div>
+      <div class="grid-box">2</div>
+      <div class="grid-box">3</div>
+      <div class="grid-box">4</div>
+      <div class="grid-box">5</div>
+      <div class="grid-box">6</div>
+      <div class="grid-box">7</div>
+      <div class="grid-box">8</div>
+      <div class="grid-box">9</div>
+    </div>
+  </div>
 </body>
 </html>
