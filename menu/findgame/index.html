@@ -488,10 +488,10 @@
       gameTags.appendChild(tagDiv);
     });
 
-    gameDetail.classList.add("active");
+    gameDetail.classList.add("active");{
     gameDetail.dataset.gameName = game.name; // Simpan game aktif untuk referensi line/bet
-
-  // Update tampilan jumlah garis
+    }
+  // Udate tampilan jumlah garis
   function updateLineDisplay() {
     lineDisplay.textContent = `Line: ${selectedLine}`;
   }
