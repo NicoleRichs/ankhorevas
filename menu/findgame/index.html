@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -116,13 +116,13 @@
 
     .game-detail {
       position: absolute;
-      top: 0;
+      top: 150px;
       left: 100%;
       width: 100%;
-      height: calc(100% - 170px);
+      bottom: 0;
       background: #fff4dc;
       padding: 20px;
-      border-radius: 40px;
+      border-radius: 40px 40px 0 0;
       transition: left 0.4s ease;
       overflow-y: auto;
       z-index: 10;
@@ -192,47 +192,39 @@
 <body>
   <div class="container">
     <div class="header">
-      <div class="back" onclick="goBack()">⬅ kembali</div>
+      <div class="back" onclick="goBack()">⬅ Back</div>
       <div id="clock" class="time">--:--</div>
-      <div>Pengguna</div>
+      <div>User</div>
     </div>
-    <div class="title" onclick="scrollToGames()">Cari Game</div>
+    <div class="title" onclick="scrollToGames()">Find Game</div>
 
     <div class="search-bar">
       <div>🔍</div>
-      <input type="text" placeholder="Cari" oninput="filterGames(this.value)">
+      <input type="text" placeholder="Search" oninput="filterGames(this.value)">
     </div>
 
     <div class="tags">
-      <div class="tag active" data-tag="all">Semua</div>
+      <div class="tag active" data-tag="all">All</div>
       <div class="tag" data-tag="918kiss">918kiss</div>
       <div class="tag" data-tag="mega888">Mega888</div>
       <div class="tag" data-tag="pussy888">Pussy888</div>
     </div>
 
     <ul class="game-list" id="gameList">
-      <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Wolf Run')"><i>🎰</i> Wolf Run</li>
-      <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Sticky Bandits Wild Return')"><i>🎰</i> Sticky Bandits Wild Return</li>
-      <li class="game-item" data-tag="mega888" onclick="showGameDetail('Six Acrobats')"><i>🎰</i> Six Acrobats</li>
-      <li class="game-item" data-tag="mega888" onclick="showGameDetail('Great88')"><i>🎰</i> Great88</li>
-      <li class="game-item" data-tag="pussy888" onclick="showGameDetail('Wild Fireworks')"><i>🎰</i> Wild Fireworks</li>
-      <li class="game-item" data-tag="pussy888" onclick="showGameDetail('Conan')"><i>🎰</i> Conan</li>
-      <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Floating Dragon')"><i>🎰</i> Floating Dragon</li>
-      <li class="game-item" data-tag="mega888" onclick="showGameDetail('Fortune Tiger')"><i>🎰</i> Fortune Tiger</li>
+      <!-- Game items will be populated dynamically -->
     </ul>
 
     <div id="gameDetail" class="game-detail"></div>
 
     <div class="footer">
-      Dalam Pengembangan<br>
-      Bisa tidak stabil.
+      In Development<br>
+      Might be unstable.
     </div>
   </div>
 
   <script>
     function goBack() {
-      const detailBox = document.getElementById('gameDetail');
-      detailBox.classList.remove('active');
+      document.getElementById('gameDetail').classList.remove('active');
     }
 
     function updateClock() {
@@ -272,16 +264,16 @@
       const detailBox = document.getElementById('gameDetail');
       const gameLines = 40;
       detailBox.innerHTML = `
-        <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Kembali</div>
+        <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Close</div>
         <img src="https://placehold.co/600x200" alt="Game Banner">
         <h3>${name}</h3>
-        <p><strong>Nama Game:</strong> ${name.replace(/ /g, '')}</p>
+        <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
         <div class="game-section">
           <div class="box">
-            <strong>Info Game</strong><br>
-            Jenis: Slot<br>
+            <strong>Game Info</strong><br>
+            Type: Slot<br>
             Payline: <span id="lineCount">${gameLines}</span><br>
-            Payline Bisa Diubah: Ya
+            Adjustable Lines: Yes
           </div>
           <div class="box">
             <strong>Platform</strong><br>
@@ -289,7 +281,7 @@
           </div>
         </div>
         <div class="bet-section">
-          <strong>Bet Game</strong><br>
+          <strong>Bet Options</strong><br>
           <div class="bet-values">
             <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span><span>8.00</span>
             <span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
@@ -309,6 +301,28 @@
       document.getElementById('lineCount').textContent = window.currentLines;
       document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
     }
+
+    // Example data load (you can replace this with actual data source)
+    const games = [
+      { name: 'Wolf Run', tag: '918kiss' },
+      { name: 'Sticky Bandits Wild Return', tag: '918kiss' },
+      { name: 'Six Acrobats', tag: 'mega888' },
+      { name: 'Great88', tag: 'mega888' },
+      { name: 'Wild Fireworks', tag: 'pussy888' },
+      { name: 'Conan', tag: 'pussy888' },
+      { name: 'Floating Dragon', tag: '918kiss' },
+      { name: 'Fortune Tiger', tag: 'mega888' },
+    ];
+
+    const gameList = document.getElementById('gameList');
+    games.forEach(game => {
+      const li = document.createElement('li');
+      li.className = 'game-item';
+      li.setAttribute('data-tag', game.tag);
+      li.innerHTML = `<i>🎰</i> ${game.name}`;
+      li.onclick = () => showGameDetail(game.name);
+      gameList.appendChild(li);
+    });
   </script>
 </body>
 </html>
