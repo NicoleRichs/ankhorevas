@@ -249,54 +249,30 @@
  #homeButton:hover {
     color: #fff;
  }
- @media (max-width: 768px) {
-  .container {
-    margin-top: 100px;
-    width: 95vw;
-    max-width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-
+ @media (max-width: 480px) {
   .game-detail {
-    width: 100%;
-    padding: 15px;
-    border-left: none;
-    border-top: 2px solid #ffd700;
-    top: auto;
-    bottom: 0;
-    height: 70%;
-    right: -100%;
-    
+    width: 90vw; /* Guna 90% daripada lebar skrin */
+    font-size: 14px; /* Kurangkan saiz font jika perlu */
   }
 
-  .game-detail.active {
-    right: 0;
+  .game-detail img {
+    height: auto;
   }
 
-  #homeButton {
+  .line-controls button {
+    padding: 4px 8px;
+  }
+
+  .bet-values-box div {
     font-size: 12px;
-    top: 10px;
-    left: 10px;
+    padding: 3px 6px;
   }
 
-  .line-controls {
-    flex-direction: column;
-    gap: 5px;
+  .info-border {
+    padding: 8px;
   }
+}
 
-  .bet-values-box {
-    gap: 3px;
-    font-size: 10px;
-  }
-
-  .platform-tags {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
- }
  
   </style>
 </head>
