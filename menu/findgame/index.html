@@ -147,7 +147,7 @@
       text-align: center;
       color: #777;
     }
-   .close-btn {
+    .close-btn {
       position: absolute;
       top: 12px;
       right: 16px;
@@ -204,7 +204,7 @@
       { name: "Highway Kings", platform: "mega888" },
       { name: "Safari Heat", platform: "mega888" },
       { name: "Aladdin Wishes", platform: "pussy888" },
-      { name: "Monkey Thunderbolt", platform: "pussy888" },
+      { name: "Monkey Thunderbolt", platform: "pussy888" }
     ];
 
     function populateGameList() {
@@ -217,6 +217,7 @@
         item.textContent = game.name;
         list.appendChild(item);
       });
+      filterGames(document.querySelector('.search-bar input').value);
     }
 
     function goBack() {
