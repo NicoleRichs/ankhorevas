@@ -333,7 +333,19 @@
     .user { 
      color: gold;
     }
-    
+    .platform-badge {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     height: 32px;
+     padding: 3px 6px;
+     border-radius: 6px;
+     display: inline-block;
+     margin: 4px 4px 0 0;
+     color: white;
+     font-size: 14px;
+     font-weight: bold;
+   }
    .platform-badge.plat-918kiss {
      background-color: #605ca8;
    }
@@ -343,8 +355,19 @@
   .platform-badge.plat-pussy888 {
      background-color: #3c8dbc;
    }
-#currentBet, #lineDisplay {
-  transition: all 0.2s ease;
+   .detail-box {
+  border: 1px solid gold;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 12px;
+  background-color: #111;
+}
+
+.detail-box p {
+  margin: 6px 0;
+}
+  #currentBet {
+  display: none;
 }
   </style>
 </head>
@@ -424,44 +447,42 @@
     }
 
     function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
-      window.currentGame = { name, tags, image, type, payline, adjustable, bets };
-      const gameDetail = document.getElementById('gameDetail');
+  window.currentGame = { name, tags, image, type, payline, adjustable, bets };
+  const gameDetail = document.getElementById('gameDetail');
 
-      // Inisialisasi state global
-      window.currentLines = Object.keys(bets)[0];
-      window.currentLines = parseInt(window.currentLines); // pastikan int
-      window.currentBets = bets[window.currentLines];
-      window.currentBetIndex = 0;
+  // Inisialisasi state global
+  window.currentLines = Object.keys(bets)[0];
+  window.currentLines = parseInt(window.currentLines); // pastikan int
+  window.currentBets = bets[window.currentLines];
+  window.currentBetIndex = 0;
 
-      gameDetail.innerHTML = `
-        <div class="close-btn" onclick="goBack()">Close</div>
-        <div class="detail-inner">
-          <img src="${image}" alt="${name}" />
-          <h3>${name}</h3>
-          <div><strong>Platform:</strong> ${tags.join(', ')}</div>
-          <div><strong>Type:</strong> ${type}</div>
-          <div><strong>Payline:</strong> ${payline}</div>
-          <div><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</div>
-          <div class="line-control">
-            <button onclick="adjustLines(-1)">-</button>
-            <span id="lineDisplay">${window.currentLines} lines</span>
-            <button onclick="adjustLines(1)">+</button>
-          </div>
-          <div class="bet-section">
-            <p><strong>Selected Bet:</strong> <span id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</span></p>
-            <div id="betValuesContainer" class="bet-values"></div>
-            <div style="margin-top: 8px;">
-              <button onclick="adjustBet(-1)">-</button>
-              <button onclick="adjustBet(1)">+</button>
-            </div>
-          </div>
-        </div>
-      `;
+  gameDetail.innerHTML = `
+    <div class="close-btn" onclick="goBack()">Close</div>
+    <div class="detail-inner">
+      <img src="${image}" alt="${name}" />
+      <h3>${name}</h3>
+      <div class="detail-box">
+        <p><strong>Platform:</strong> ${tags.join(', ')}</p>
+        <p><strong>Type:</strong> ${type}</p>
+        <p><strong>Payline:</strong> ${payline}</p>
+        <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
+      </div>
+      <div class="bet-section">
+        <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
+        <div id="betValuesContainer" class="bet-values"></div>
+        <div style="margin-top: 8px;"></div>
+      </div>
+      <div class="line-control">
+        <button onclick="adjustLines(-1)">-</button>
+        <span id="lineDisplay">${window.currentLines} lines</span>
+        <button onclick="adjustLines(1)">+</button>
+      </div>
+    </div>
+  `;
 
-      updateBetDisplay();
-      gameDetail.classList.add('active');
-    }
-
+  updateBetDisplay();
+  gameDetail.classList.add('active');
+}
     function adjustBet(direction) {
       if (!window.currentBets) return;
       window.currentBetIndex = Math.max(0, Math.min(window.currentBets.length - 1, window.currentBetIndex + direction));
@@ -469,16 +490,16 @@
     }
 
     function updateBetDisplay() {
-      const betDisplay = document.getElementById('currentBet');
-      const betContainer = document.getElementById('betValuesContainer');
+  const betDisplay = document.getElementById('currentBet');
+  const betContainer = document.getElementById('betValuesContainer');
 
-      if (!window.currentBets || !betDisplay || !betContainer) return;
+  if (!window.currentBets || !betDisplay || !betContainer) return;
 
-      betDisplay.textContent = window.currentBets[window.currentBetIndex].toFixed(2);
-      betContainer.innerHTML = window.currentBets.map((val, idx) =>
-        `<span class="${idx === window.currentBetIndex ? 'active-bet' : ''}">${val.toFixed(2)}</span>`
-      ).join('');
-    }
+  betDisplay.textContent = window.currentBets[window.currentBetIndex].toFixed(2);
+  betContainer.innerHTML = window.currentBets.map((val, idx) =>
+    `<span class="${idx === window.currentBetIndex ? 'active-bet' : ''}">${val.toFixed(2)}</span>`
+  ).join('');
+}
 
     function adjustLines(amount) {
       const possibleLines = Object.keys(window.currentGame.bets).map(n => parseInt(n));
@@ -503,7 +524,7 @@
       gameList.innerHTML = '';
       const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
       const filtered = games.filter(game => {
-        const matchTag = selectedTag === 'all' || game.tags.some(tag => tag.toLowerCase() === selectedTag.toLowerCase());
+        const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
         const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
         return matchTag && matchKeyword;
       });
