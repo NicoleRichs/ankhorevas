@@ -15,12 +15,23 @@
 </head>
 <body>
 
-<h2>Game Log</h2>
+<h2>Game Log Generator</h2>
+
+<label for="gameSelect">Game:</label>
+<select id="gameSelect">
+  <option value="Great88">Great88</option>
+  <option value="LuckyBall">LuckyBall</option>
+  <option value="MegaReel">MegaReel</option>
+  <option value="DragonSlot">DragonSlot</option>
+  <option value="SevenWin">SevenWin</option>
+</select>
+
 <label for="betGroup">Bet Group:</label>
 <select id="betGroup">
   <option value="groupA">0.01 – 10.00</option>
   <option value="groupB">0.02 – 20.00</option>
 </select>
+
 <button onclick="generateLog()">Change</button>
 
 <table id="gameLog">
@@ -44,8 +55,6 @@
 </table>
 
 <script>
-  const gameList = ["Great88", "LuckyBall", "MegaReel", "DragonSlot", "SevenWin"];
-
   const betGroups = {
     groupA: [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.25, 0.50, 1.00, 2.50, 5.00, 10.00],
     groupB: [0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.50, 1.00, 2.00, 5.00, 10.00, 20.00]
@@ -61,9 +70,10 @@
   }
 
   function generateLog() {
-    const tbody = document.querySelector("#gameLog tbody");
+    const gameName = document.getElementById("gameSelect").value;
     const selectedGroup = document.getElementById("betGroup").value;
     const bets = betGroups[selectedGroup];
+    const tbody = document.querySelector("#gameLog tbody");
 
     tbody.innerHTML = `
       <tr>
@@ -77,7 +87,6 @@
     let totalWin = 0;
 
     for (let i = 0; i < 10; i++) {
-      const game = gameList[Math.floor(Math.random() * gameList.length)];
       const bet = bets[Math.floor(Math.random() * bets.length)];
       const winChance = Math.random();
       const win = winChance > 0.7 ? getRandomFloat(0, bet * 3) : 0.00;
@@ -91,7 +100,7 @@
 
       const row = `
         <tr>
-          <td>${game}</td>
+          <td>${gameName}</td>
           <td>0</td>
           <td>${bet.toFixed(2)}</td>
           <td>${win.toFixed(2)}</td>
@@ -103,9 +112,9 @@
       tbody.innerHTML += row;
     }
 
-    const setScore = (totalWin - totalBet).toFixed(2);
-    document.getElementById("setScore").innerText = `Set score: ${setScore}`;
-    document.getElementById("setScore").style.color = "red"; // always negative visual
+    const setScoreValue = totalWin - totalBet;
+    document.getElementById("setScore").innerText = `Set score: ${setScoreValue.toFixed(2)}`;
+    document.getElementById("setScore").style.color = "red";
   }
 </script>
 
