@@ -228,9 +228,8 @@
       if (list) list.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function showGameDetail(name, platforms, imageUrl) {
+    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
   const detailBox = document.getElementById('gameDetail');
-  const gameLines = 40;
   const platformTags = platforms.map(p => `<span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin:4px 4px 0 0;">🎰 ${p}</span>`).join(' ');
 
   detailBox.innerHTML = `
@@ -242,9 +241,9 @@
       <div class="game-section">
         <div class="box">
           <strong>Game Info</strong><br>
-          Type: Slot<br>
-          Payline: <span id="lineCount">${gameLines}</span><br>
-          Adjustable Lines: Yes
+          Type: ${type}<br>
+          Payline: <span id="lineCount">${payline}</span><br>
+          Adjustable Lines: ${adjustable}
         </div>
         <div class="box">
           <strong>Platform</strong><br>
@@ -259,14 +258,14 @@
         </div>
         <div class="line-control">
           <button onclick="adjustLines(-1)">-</button>
-          <span id="lineDisplay">${gameLines} lines</span>
+          <span id="lineDisplay">${payline} lines</span>
           <button onclick="adjustLines(1)">+</button>
         </div>
       </div>
     </div>
   `;
   detailBox.classList.add('active');
-  window.currentLines = gameLines;
+  window.currentLines = payline;
 }
     function adjustLines(amount) {
       window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
@@ -275,17 +274,30 @@
     }
 
     const games = [
-      { name: 'Wolf Run', tags: ['mega888'], image: 'https://placehold.co/600x200?text=Wolf+Run' },
-      { name: 'Sticky Bandits Wild Return', tags: ['918kiss'], image: 'https://placehold.co/600x200?text=Sticky+Bandits' },
-      { name: 'Six Acrobats', tags: ['mega888'], image: 'https://placehold.co/600x200?text=Six+Acrobats' },
-      { name: 'Great88', tags: ['mega888'], image: 'https://placehold.co/600x200?text=Great88' },
-      { name: 'Wild Fireworks', tags: ['pussy888'], image: 'https://placehold.co/600x200?text=Wild+Fireworks' },
-      { name: 'Conan', tags: ['pussy888'], image: 'https://placehold.co/600x200?text=Conan' },
-      { name: 'Floating Dragon', tags: ['918kiss'], image: 'https://placehold.co/600x200?text=Floating+Dragon' },
-      { name: 'Fortune Tiger', tags: ['mega888'], image: 'https://placehold.co/600x200?text=Fortune+Tiger' },
-      { name: "XMAS MAGIC", tags: ["mega888", "918kiss"], image: "https://placehold.co/600x200?text=XMAS+MAGIC" },
-      { name: "AFRICAN WILDLIFE", tags: ["918kiss"], image: "https://placehold.co/600x200?text=AFRICAN+WILDLIFE" },
-      { name: "CAPTAIN'S TREASURE", tags: ["mega888", "pussy888"], image: "https://placehold.co/600x200?text=CAPTAIN'S+TREASURE" },
+      {
+    name: 'Wolf Run',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/qpNUBiu.png',
+    type: 'Slot',
+    payline: 40,
+    adjustable: 'Yes'
+  },
+  {
+    name: 'Sticky Bandits Wild Return',
+    tags: ['918kiss'],
+    image: 'https://i.imgur.com/fClLffH.png',
+    type: 'Slot',
+    payline: 25,
+    adjustable: 'No'
+  },
+  {
+    name: 'Great88',
+    tags: ['mega888'],
+    image: 'https://i.imgur.com/9rGbSaU.png',
+    type: 'Slot',
+    payline: 30,
+    adjustable: 'Yes'
+  },
     ];
 
     const gameList = document.getElementById('gameList');
@@ -294,7 +306,7 @@
       li.className = 'game-item';
       li.setAttribute('data-tag', game.tags.join(' '));
       li.innerHTML = `<i>🎰</i> ${game.name}`;
-      li.onclick = () => showGameDetail(game.name, game.tags.map(t => t.toUpperCase()), game.image);
+      li.onclick = () => showGameDetail(game.name, game.tags.map(t => t.toUpperCase()), game.image, game.type, game.payline, game.adjustable);
       gameList.appendChild(li);
     });
   </script>
