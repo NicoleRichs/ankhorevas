@@ -376,35 +376,6 @@
   border-top: 2px solid gold;
   border-bottom: 2px solid gold;
 }
-
-.detail-info {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-  gap: 30px;
-}
-
-.info-column {
-  flex: 1;
-  background: #1a1a1a;
-  border: 1px solid gold;
-  padding: 15px;
-  border-radius: 10px;
-}
-
-.info-column h4 {
-  color: gold;
-  margin-bottom: 10px;
-  font-size: 16px;
-  border-bottom: 1px solid gold;
-  padding-bottom: 5px;
-}
-
-.info-column p {
-  margin: 5px 0;
-  color: white;
-} 
-/* Bagian Game Info */
 .game-info {
   flex: 1;
   padding-left: 10px;
@@ -578,28 +549,10 @@
   window.currentBets = bets[window.currentLines];
   window.currentBetIndex = 0;
 
-  const infoColumn = `
-    <div class="info-column">
-      <h4>GAME INFO</h4>
-      <p><strong>Type:</strong> ${type}</p>
-      <p><strong>Payline:</strong> ${payline}</p>
-      <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
-    </div>`;
-
-  const platformColumn = `
-    <div class="info-column">
-      <h4>PLATFORMS</h4>
-      ${tags.map(tag => `<p>${tag}</p>`).join('')}
-    </div>`;
-
   gameDetail.innerHTML = `
     <div class="detail-header">
       <img src="${image}" alt="${name}" />
       <h2>${name}</h2>
-    </div>
-    <div class="detail-info">
-      ${infoColumn}
-      ${platformColumn}
     </div>
     <div class="line-control">
       <button onclick="changeLine(-1)">- Line</button>
