@@ -85,14 +85,14 @@
     const tbody = document.querySelector("#gameLog tbody");
 
     let logs = [];
-    let endMoney = rnd(3000, 4000); // nilai terakhir
+    let beginMoney = rnd(3000, 4000); // nilai awal
 
     for(let i = 0; i < 10; i++){
       const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
-      const beginMoney = parseFloat((endMoney + bet - win).toFixed(2));
+      const endMoney = parseFloat((beginMoney + bet - win).toFixed(2));
       const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
-      logs.unshift({
+      logs.push({
         game,
         tableID: 0,
         bet: bet.toFixed(2),
@@ -102,10 +102,10 @@
         dateTime: timeStamp
       });
 
-      endMoney = beginMoney;
+      beginMoney = endMoney;
     }
 
-    const data2 = logs[0];
+    const data2 = logs[logs.length - 1];
 
     let rows = `
       <tr class="set-score-row">
