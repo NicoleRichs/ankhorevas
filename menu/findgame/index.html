@@ -455,77 +455,80 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
-      const box = document.getElementById('gameDetail');
-      const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`
-).join(' ');
-      box.innerHTML = `
-        <div class="close-btn" onclick="goBack()">Close</div>
-        <div class="detail-inner">
-          <img src="${imageUrl}" alt="Game Banner">
-          <h3>${name}</h3>
-          <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
-          <div class="game-section">
-            <div class="box">
-              <strong>Game Info</strong><br>
-              Type: ${type}<br>
-              Payline: <span id="lineCount">${payline}</span><br>
-              Adjustable Lines: ${adjustable}
-            </div>
-            <div class="box">
-              <strong>Platform</strong><br>
-              ${platformTags}
-            </div>
-          </div>
-          <div class="bet-section">
-            <strong>Bet Options</strong><br>
-            <div class="bet-values">
-              <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span>
-              <span>8.00</span><span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
-            </div>
-            <div class="line-control">
-              <button onclick="adjustLines(-1)">-</button>
-              <span id="lineDisplay">${payline} lines</span>
-              <button onclick="adjustLines(1)">+</button>
-            </div>
-          </div>
-        </div>`;
-      box.classList.add('active');
-      window.currentLines = payline;
-    }
-    
-const payline = 25;
-  const lineBetOptions = [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00];
-  let currentIndex = 0; // Default ke 0.25
+   function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
+  const box = document.getElementById('gameDetail');
+  const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`).join(' ');
 
-  function updateDisplay() {
+  box.innerHTML = `
+    <div class="close-btn" onclick="goBack()">Close</div>
+    <div class="detail-inner">
+      <img src="${imageUrl}" alt="Game Banner">
+      <h3>${name}</h3>
+      <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
+      <div class="game-section">
+        <div class="box">
+          <strong>Game Info</strong><br>
+          Type: ${type}<br>
+          Payline: <span id="lineCount">${payline}</span><br>
+          Adjustable Lines: ${adjustable}
+        </div>
+        <div class="box">
+          <strong>Platform</strong><br>
+          ${platformTags}
+        </div>
+      </div>
+      <div class="bet-section">
+        <strong>Bet Options</strong><br>
+        <div class="bet-values" id="betValues">
+          <!-- Bet values akan diperbarui di sini -->
+        </div>
+        <div class="line-control">
+          <button onclick="adjustLines(-1)">-</button>
+          <span id="lineDisplay">${payline} lines</span>
+          <button onclick="adjustLines(1)">+</button>
+        </div>
+        <div>
+          <span>Bet per Line: <span id="lineBetDisplay">0.25</span></span><br>
+          <span>Total Bet: <span id="totalBetDisplay">0.25</span></span>
+        </div>
+      </div>
+    </div>`;
+
+  box.classList.add('active');
+  window.currentLines = payline;
+
+  // Update bet options
+  updateBetOptions();
+}
+
+const lineBetOptions = [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00];
+let currentIndex = 0; // Default ke 0.25
+
+// Fungsi untuk memperbarui tampilan bet options
+function updateBetOptions() {
+  const betValuesContainer = document.getElementById('betValues');
   const currentLineBet = lineBetOptions[currentIndex];
-  const totalBet = currentLineBet * window.currentLines;  // Sesuaikan total bet dengan payline
+  const totalBet = currentLineBet * window.currentLines;
+
+  // Update display untuk bet per line dan total bet
   document.getElementById('lineBetDisplay').textContent = currentLineBet.toFixed(2);
   document.getElementById('totalBetDisplay').textContent = totalBet.toFixed(2);
+
+  // Generate bet values
+  const betValuesHTML = lineBetOptions.map(bet => {
+    const totalBetForOption = bet * window.currentLines;
+    return `<span>${bet.toFixed(2)} / ${totalBetForOption.toFixed(2)}</span>`;
+  }).join(' ');
+  betValuesContainer.innerHTML = betValuesHTML;
 }
 
-  function kurangiBet() {
-  if (currentIndex > 0) {
-    currentIndex--;
-    updateDisplay();
-  }
-}
-
-function tambahBet() {
-  if (currentIndex < lineBetOptions.length - 1) {
-    currentIndex++;
-    updateDisplay();
-  }
-}
-
-  updateDisplay(); 
-    function adjustLines(amount) {
+// Fungsi untuk menambah atau mengurangi jumlah payline
+function adjustLines(amount) {
   window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
   document.getElementById('lineCount').textContent = window.currentLines;
   document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
 
-  // Perbarui tampilan bet options setelah payline diubah
+  // Perbarui bet options setelah payline diubah
   updateBetOptions();
 }
   function updateBetOptions() {
