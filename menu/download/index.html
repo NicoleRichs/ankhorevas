@@ -327,5 +327,19 @@
   </div>
 </div>
 
+<script>
+  document.querySelectorAll('.copy-link').forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.preventDefault(); // Mencegah buka link
+      const url = this.getAttribute('data-link');
+
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Link berhasil disalin: ' + url);
+      }).catch(err => {
+        console.error('Gagal menyalin', err);
+      });
+    });
+  });
+</script>
 </body>
 </html>
