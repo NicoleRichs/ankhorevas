@@ -15,7 +15,7 @@
     }
 
     .container {
-      margin-top: 250px;
+      margin-top: 300px;
     }
 
     #searchBox {
@@ -33,7 +33,7 @@
       display: flex;
       gap: 10px;
       justify-content: center;
-      margin: 30px auto 30px auto;
+      margin: 40px auto 30px auto;
     }
 
     .platform-tags div {
@@ -124,11 +124,26 @@
       border: 2px solid #ffd700;
       padding: 10px;
       margin-top: 15px;
+      position: relative;
+    }
+
+    .info-border::before {
+      content: "GAME INFO";
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111;
+      padding: 0 10px;
+      font-weight: bold;
     }
 
     .platforms-available {
-      margin-top: 10px;
+      margin-top: 15px;
       font-weight: bold;
+      border: 2px solid #ffd700;
+      padding: 10px;
+      text-align: center;
     }
   </style>
 </head>
@@ -149,7 +164,6 @@
     <img id="gameImg" src="" alt="Game Image">
     <h2 id="gameTitle"></h2>
     <p id="gameName"></p>
-    <div class="platforms-available" id="gameTags"></div>
 
     <div class="info-border">
       <p id="gameType"></p>
@@ -164,6 +178,8 @@
       <span id="lineDisplay">Line: 1</span>
       <button onclick="changeLine(1)">+</button>
     </div>
+
+    <div class="platforms-available" id="gameTags"></div>
   </div>
 
   <script>
@@ -217,7 +233,7 @@
       gameType.textContent = 'Type: ' + game.type;
       gamePayline.textContent = 'Payline: ' + game.payline;
       gameAdjustable.textContent = 'Adjustable Payline: ' + (game.adjustable ? 'Yes' : 'No');
-      gameTags.textContent = 'Available On: ' + game.tags.join(', ');
+      gameTags.textContent = 'PLATFORM: ' + game.tags.join(', ');
       currentLine = 1;
       updateBetValues();
       lineDisplay.textContent = 'Line: ' + currentLine;
