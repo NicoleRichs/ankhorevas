@@ -129,10 +129,20 @@
         opacity: 0;
       }
     }
+   #rain-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* supaya tidak mengganggu klik elemen lain */
+    z-index: 99999; /* pastikan di atas segalanya */
+    overflow: hidden;
+   }
 </style>
 </head>
 <body>
-<div class="rain"></div>
+<div id="rain-container"></div>
 <h1 style="text-align:center; color:gold; margin-bottom: 30px;">🎰 LINK DOWNLOAD 🎰</h1>
 
 <a href="https://searcfile.github.io/5G88-editor/menu/" class="home-btn">Home</a>
@@ -382,16 +392,22 @@ function copyLink(event, element) {
   });
 }
 
-const numDrops = 100;
-
-  for (let i = 0; i < numDrops; i++) {
+ function createRainDrop() {
     const drop = document.createElement('div');
     drop.className = 'rain';
     drop.style.left = Math.random() * 100 + 'vw';
-    drop.style.animationDuration = (Math.random() * 1 + 1.5) + 's';
-    drop.style.animationDelay = Math.random() * 3 + 's';
-    document.body.appendChild(drop);
+    drop.style.animationDuration = (0.5 + Math.random()) + 's';
+    drop.style.animationDelay = Math.random() + 's';
+
+    const container = document.getElementById('rain-container');
+    container.appendChild(drop);
+
+    setTimeout(() => {
+      drop.remove();
+    }, 2000);
   }
+
+  setInterval(createRainDrop, 100);
 </script>
 </body>
 </html>
