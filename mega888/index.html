@@ -10,7 +10,7 @@
     th { background-color: #0073e6; color: white; }
     button { padding: 8px 15px; font-size: 16px; margin-top: 10px; margin-right: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
     button:hover { background-color: #218838; }
-    select { padding: 5px 10px; font-size: 16px; margin-left: 10px; }
+    select, input { padding: 6px 10px; font-size: 16px; margin-left: 10px; }
     #nowTime { font-weight: bold; margin-left: 10px; color: #0073e6; }
   </style>
 </head>
@@ -27,11 +27,8 @@
   <option value="SevenWin">SevenWin</option>
 </select>
 
-<label for="betGroup">Bet Group:</label>
-<select id="betGroup">
-  <option value="groupA">0.01 – 10.00</option>
-  <option value="groupB">0.02 – 20.00</option>
-</select>
+<label for="betValue">Bet:</label>
+<input type="number" id="betValue" value="2.50" step="0.01" min="0.01" max="9999.99">
 
 <button onclick="setNow()">Now (Current Time)</button>
 <span id="nowTime">No time set</span>
@@ -54,17 +51,13 @@
   <tbody>
     <tr>
       <td>-</td>
-      <td id="setScore" colspan="6" style="color: red; font-weight: bold;">Set score: -0.00</td>
+      <td colspan="1" id="setScoreCell" style="color: red; font-weight: bold;">Set score: -0.00</td>
+      <td colspan="5"></td>
     </tr>
   </tbody>
 </table>
 
 <script>
-  const betGroups = {
-    groupA: [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.25, 0.50, 1.00, 2.50, 5.00, 10.00],
-    groupB: [0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.50, 1.00, 2.00, 5.00, 10.00, 20.00]
-  };
-
   let globalTime = null;
 
   function setNow() {
@@ -79,14 +72,14 @@
 
   function generateLog() {
     const gameName = document.getElementById("gameSelect").value;
-    const selectedGroup = document.getElementById("betGroup").value;
-    const bets = betGroups[selectedGroup];
+    const bet = parseFloat(document.getElementById("betValue").value);
     const tbody = document.querySelector("#gameLog tbody");
 
     tbody.innerHTML = `
       <tr>
         <td>-</td>
-        <td id="setScore" colspan="6" style="color: red; font-weight: bold;">Set score: -0.00</td>
+        <td colspan="1" id="setScoreCell" style="color: red; font-weight: bold;">Set score: -0.00</td>
+        <td colspan="5"></td>
       </tr>
     `;
 
@@ -95,7 +88,6 @@
     let lastEndMoney = currentMoney;
 
     for (let i = 0; i < 10; i++) {
-      const bet = bets[Math.floor(Math.random() * bets.length)];
       const winChance = Math.random();
       const win = winChance > 0.7 ? getRandomFloat(0, bet * 3) : 0.00;
       const beginMoney = currentMoney;
@@ -120,7 +112,8 @@
     }
 
     const setScore = lastEndMoney - beginMoneyFirst;
-    document.getElementById("setScore").innerText = `Set score: ${setScore.toFixed(2)}`;
+    const finalScore = setScore < 0 ? setScore : -Math.abs(setScore);
+    document.getElementById("setScoreCell").innerText = `Set score: ${finalScore.toFixed(2)}`;
   }
 </script>
 
