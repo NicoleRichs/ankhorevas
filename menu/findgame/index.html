@@ -16,6 +16,7 @@
     .platform-tags {
       display: flex;
       gap: 10px;
+      justify-content: center;
       margin-bottom: 20px;
     }
 
@@ -34,21 +35,23 @@
       border: 2px solid #ffd700;
       background: #000;
       color: #ffd700;
-      margin-bottom: 20px;
+      margin: 0 auto 20px auto;
+      display: block;
+      text-align: center;
     }
 
     .game-list {
       display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .game-item {
-      border: 2px solid #ffd700;
       padding: 10px;
       border-radius: 8px;
       cursor: pointer;
       background: #222;
+      color: #ffd700;
     }
 
     .game-detail {
@@ -137,7 +140,7 @@
         payline: 20,
         adjustable: true,
         image: "https://i.imgur.com/QCoOwFg.png",
-        tags: ["918KISS","Mega888","puss888"],
+        tags: ["918KISS", "Mega888", "puss888"],
         bets: {
           1: [0.50, 1.00, 2.00, 5.00, 10.00],
           2: [0.10, 10.00, 20.00, 30.00, 40.00]
