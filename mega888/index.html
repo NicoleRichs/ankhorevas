@@ -84,11 +84,11 @@
     const tbody = document.querySelector("#gameLog tbody");
 
     let logs = [];
-    let endMoney = rnd(3000, 4000); // starting from the last endMoney going backward
+    let beginMoney = rnd(3000, 4000); // start balance
 
     for(let i = 0; i < 10; i++){
       const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
-      const beginMoney = parseFloat((endMoney + bet - win).toFixed(2));
+      const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
       const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
       logs.push({
@@ -101,10 +101,8 @@
         dateTime: timeStamp
       });
 
-      endMoney = beginMoney;
+      beginMoney = endMoney; // update for next loop
     }
-
-    logs.reverse(); // supaya urut dari atas ke bawah (logikanya waktu ke depan)
 
     const data2 = logs[logs.length - 1];
 
