@@ -334,117 +334,37 @@
      color: gold;
     }
     .platform-badge {
-  border: 2px dashed white; /* contoh beda border */
-  background: transparent;
-  color: white;
-  padding: 4px 10px;
-  margin: 4px 4px 0 0;
-  font-size: 12px;
-  border-radius: 4px;
-}
-
-.platform-badge.plat-918kiss {
-  border-color: #605ca8;
-  color: #605ca8;
-}
-
-.platform-badge.plat-mega888 {
-  border-color: #f39c12;
-  color: #f39c12;
-}
-
-.platform-badge.plat-pussy888 {
-  border-color: #3c8dbc;
-  color: #3c8dbc;
-}
- .detail-box {
-  border: 1px solid gold; /* Tetap emas agar elegan */
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     height: 32px;
+     padding: 3px 6px;
+     border-radius: 6px;
+     display: inline-block;
+     margin: 4px 4px 0 0;
+     color: white;
+     font-size: 14px;
+     font-weight: bold;
+   }
+   .platform-badge.plat-918kiss {
+     background-color: #605ca8;
+   }
+   .platform-badge.plat-mega888 {
+     background-color: #f39c12;
+   }
+  .platform-badge.plat-pussy888 {
+     background-color: #3c8dbc;
+   }
+   .detail-box {
+  border: 1px solid gold;
   border-radius: 8px;
   padding: 10px;
-  background-color: #111;
   margin-top: 12px;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.2); /* Tambahan efek glow */
+  background-color: #111;
 }
+
 .detail-box p {
   margin: 6px 0;
-}
- .game-info-platforms {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 12px;
-  padding: 10px 0;
-  border-top: 2px solid gold;
-  border-bottom: 2px solid gold;
-}
-.game-info {
-  flex: 1;
-  padding-left: 10px;
-  text-align: left;
-}
-
-.game-info strong {
-  display: block;
-  text-align: center;
-  margin-bottom: 8px;
-  font-size: 16px;
-}
-
-.game-info p {
-  margin: 6px 0;
-}
-
-/* Bagian Platforms */
-.platforms {
-  flex: 1;
-  padding-right: 10px;
-  text-align: left;
-}
-
-.platforms strong {
-  display: block;
-  text-align: center;
-  margin-bottom: 8px;
-  font-size: 16px;
-}
-
-.platform-badge {
-  display: inline-block;
-  margin-right: 8px;
-  background-color: gold;
-  padding: 4px 8px;
-  border-radius: 5px;
-  color: black;
-  font-weight: bold;
-}
- .info-platform-wrapper {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-
-.info-box {
-  border: 2px solid gold;
-  padding: 10px 20px;
-  border-radius: 10px;
-  background-color: #111;
-  width: 200px;
-}
-
-.info-title {
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 10px;
-  border-bottom: 1px solid gold;
-  padding-bottom: 5px;
-  color: gold;
-}
-
-.info-row {
-  padding: 5px 0;
-  border-bottom: 1px solid #333;
-  color: white;
 }
   #currentBet {
   display: none;
@@ -478,7 +398,6 @@
         Might be unstable.
       </div>
       <div class="close-btn" onclick="goBack()">Close</div>
-      <div id="game-info-container" class="info-platform-wrapper"></div>
     </div>
   </div>
 
@@ -497,22 +416,7 @@
         }
       }
     ];
-  const selectedGame = games[0]; // nanti kamu bisa ubah berdasarkan yang dipilih user
 
-  const container = document.getElementById("game-info-container");
-
-  container.innerHTML = `
-    <div class="info-box">
-      <div class="info-title">GAME INFO</div>
-      <div class="info-row">Type: ${selectedGame.type}</div>
-      <div class="info-row">Payline: ${selectedGame.payline}</div>
-      <div class="info-row">Adjustable: ${selectedGame.adjustable ? "Yes" : "No"}</div>
-    </div>
-    <div class="info-box">
-      <div class="info-title">PLATFORMS</div>
-      ${selectedGame.tags.map(tag => `<div class="info-row">${tag.toUpperCase()}</div>`).join('')}
-    </div>
-  `;
     function goBack() {
       document.getElementById('gameDetail').classList.remove('active');
     }
@@ -542,29 +446,42 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
- function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
-  const gameDetail = document.getElementById("gameDetail");
+    function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
   window.currentGame = { name, tags, image, type, payline, adjustable, bets };
+  const gameDetail = document.getElementById('gameDetail');
+
+  // Inisialisasi state global
   window.currentLines = Object.keys(bets)[0];
+  window.currentLines = parseInt(window.currentLines); // pastikan int
   window.currentBets = bets[window.currentLines];
   window.currentBetIndex = 0;
 
   gameDetail.innerHTML = `
-    <div class="detail-header">
+    <div class="close-btn" onclick="goBack()">Close</div>
+    <div class="detail-inner">
       <img src="${image}" alt="${name}" />
-      <h2>${name}</h2>
-    </div>
-    <div class="line-control">
-      <button onclick="changeLine(-1)">- Line</button>
-      <span>Lines: <span id="lineCount">${window.currentLines}</span></span>
-      <button onclick="changeLine(1)">+ Line</button>
-    </div>
-    <div class="bet-values">
-      ${window.currentBets.map((v, i) => `<span onclick="selectBet(${i})">${v.toFixed(2)}</span>`).join('')}
+      <h3>${name}</h3>
+      <div class="detail-box">
+        <p><strong>Platform:</strong> ${tags.join(', ')}</p>
+        <p><strong>Type:</strong> ${type}</p>
+        <p><strong>Payline:</strong> ${payline}</p>
+        <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
+      </div>
+      <div class="bet-section">
+        <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
+        <div id="betValuesContainer" class="bet-values"></div>
+        <div style="margin-top: 8px;"></div>
+      </div>
+      <div class="line-control">
+        <button onclick="adjustLines(-1)">-</button>
+        <span id="lineDisplay">${window.currentLines} lines</span>
+        <button onclick="adjustLines(1)">+</button>
+      </div>
     </div>
   `;
 
-  gameDetail.classList.add("active");
+  updateBetDisplay();
+  gameDetail.classList.add('active');
 }
     function adjustBet(direction) {
       if (!window.currentBets) return;
