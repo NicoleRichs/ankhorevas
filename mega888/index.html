@@ -217,42 +217,42 @@
   let logs = [];
   let balance = rnd(3000, 4000);
 
-  // Ambil waktu awal dari globalTime
- const manualInput = document.getElementById("manualTime").value.trim();let baseTime;
+  // Ambil waktu dasar dari input manual atau globalTime
+  const manualInput = document.getElementById("manualTime").value.trim();
+  let baseTime;
   if (manualInput) {
-  baseTime = new Date(manualInput.replace(" ", "T")); // ubah ke format ISO
-} else if (globalTime) {
-  baseTime = new Date(globalTime.replace(" ", "T"));
-} else {
-  baseTime = new Date(); // fallback jika semua kosong
-}
-  baseTime.setSeconds(baseTime.getSeconds() - Math.floor(Math.random() * 5 + 1));
+    baseTime = new Date(manualInput.replace(" ", "T"));
+  } else if (globalTime) {
+    baseTime = new Date(globalTime.replace(" ", "T"));
+  } else {
+    baseTime = new Date();
+  }
 
-const timeStamp = baseTime.toISOString().replace("T"," ").substring(0,19);
-
+  // Buat 10 log dengan waktu mundur 3–60 detik tiap baris
   for (let i = 0; i < 10; i++) {
-  const beginMoney = balance;
-  const win = Math.random() > 0.7 ? rnd(0, selectedPecahan) : 0.00;
-  const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
+    const beginMoney = balance;
+    const win = Math.random() > 0.7 ? rnd(0, selectedPecahan) : 0.00;
+    const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
 
-  const formattedTime = baseTime.toISOString().replace("T", " ").substring(0, 19);
+    const formattedTime = baseTime.toISOString().replace("T", " ").substring(0, 19);
 
-  logs.push({
-    game,
-    tableID: `<span class="table-id-highlight">0</span>`,
-    bet: bet.toFixed(2),
-    win: win.toFixed(2),
-    beginMoney: beginMoney.toFixed(2),
-    endMoney: endMoney.toFixed(2),
-    dateTime: formattedTime
-  });
+    logs.push({
+      game,
+      tableID: `<span class="table-id-highlight">0</span>`,
+      bet: bet.toFixed(2),
+      win: win.toFixed(2),
+      beginMoney: beginMoney.toFixed(2),
+      endMoney: endMoney.toFixed(2),
+      dateTime: formattedTime
+    });
 
-  balance = endMoney;
+    balance = endMoney;
 
-  // Mundurkan waktu secara acak 3–60 detik
-  baseTime.setSeconds(baseTime.getSeconds() - Math.floor(Math.random() * 58 + 3));
-}
+    // Mundurkan waktu 3–60 detik acak untuk log selanjutnya
+    baseTime.setSeconds(baseTime.getSeconds() - Math.floor(Math.random() * 58 + 3));
+  }
 
+  // Tampilkan log (log paling atas = waktu terbaru)
   const setScoreMoney = logs[0].endMoney;
 
   let rows = `
@@ -283,7 +283,6 @@ const timeStamp = baseTime.toISOString().replace("T"," ").substring(0,19);
 
   tbody.innerHTML = rows;
 }
-
 </script>
 
 </body>
