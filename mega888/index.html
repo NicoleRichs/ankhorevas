@@ -50,7 +50,6 @@
     </tr>
   </thead>
   <tbody>
-    <!-- Baris Set Score -->
     <tr>
       <td>-</td>
       <td id="setScoreCell" style="color:red;font-weight:bold;">Set score: -0.00</td>
@@ -77,7 +76,7 @@
     const bet = parseFloat(document.getElementById("betValue").value);
     const tbody = document.querySelector("#gameLog tbody");
 
-    tbody.innerHTML = `
+    let rows = `
       <tr>
         <td>-</td>
         <td id="setScoreCell" style="color:red;font-weight:bold;">Set score: -0.00</td>
@@ -100,7 +99,7 @@
 
       const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
-      tbody.innerHTML += `
+      rows += `
         <tr>
           <td>${game}</td>
           <td>0</td>
@@ -113,7 +112,9 @@
       `;
     }
 
-    // Set Score hanya ikut EndMoney baris 2, negatif
+    tbody.innerHTML = rows;
+
+    // Update Set Score sesuai EndMoney baris ke-2
     if(endMoneyBaris2 !== null){
       const setScore = -Math.abs(endMoneyBaris2);
       document.getElementById("setScoreCell").innerText = `Set score: ${setScore.toFixed(2)}`;
