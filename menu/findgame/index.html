@@ -506,13 +506,24 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-   function showGameDetail(name, platforms, imageUrl, type, payline, adjustable, lineBet) {
+  function showGameDetail(name, platforms, imageUrl, type, payline, adjustable, lineBet) {
   const box = document.getElementById('gameDetail');
   const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`).join(' ');
   const betValues = lineBet.map(bet => `<span class="game-bet-value">${bet}</span>`).join(' ');
-  window.currentLines = payline; const lineControl = `<div class="line-control"><button onclick="adjustLines(-1)">-</button><span id="lineCount">${window.currentLines}</span><button onclick="adjustLines(1)">+</button></div>
-  <div id="lineDisplay">${window.currentLines} lines</div>
- `;
+  
+  // Mengatur jumlah garis taruhan yang awalnya ditampilkan
+  window.currentLines = payline; 
+  
+  // Kontrol untuk memilih jumlah garis taruhan
+  const lineControl = `
+    <div class="line-control">
+      <button onclick="adjustLines(-1)">-</button>
+      <span id="lineCount">${window.currentLines}</span>
+      <button onclick="adjustLines(1)">+</button>
+    </div>
+    <div id="lineDisplay">${window.currentLines} lines</div>
+  `;
+
   box.innerHTML = `
     <div class="close-btn" onclick="goBack()">Close</div>
     <div class="detail-inner">
@@ -523,14 +534,15 @@
         <div class="box">Type: <b>${type}</b></div>
         <div class="box">Paylines: <b>${payline}</b></div>
         <div class="box">Adjustable: <b>${adjustable}</b></div>
-        <div class="box">Game Bet: <b>${betValues}</b></div> <!-- Menampilkan Game Bet -->
+        <div class="box">Game Bet: <b>${betValues}</b></div>
       </div>
+      ${lineControl} <!-- Menambahkan kontrol untuk taruhan -->
     </div>
   `;
   box.classList.add('active');
 }
 
-    function adjustLines(amount) {
+  function adjustLines(amount) {
   const gameDetail = document.getElementById('gameDetail');
   const linesEl = gameDetail.querySelector('#lineCount');
   const displayEl = gameDetail.querySelector('#lineDisplay');
@@ -539,8 +551,9 @@
 
   let current = parseInt(linesEl.textContent);
   let maxLines = parseInt(document.querySelector('.game-detail.active .game-section .box:nth-child(2) b').textContent);
-  
-  current = Math.max(1, Math.min(maxLines, current + amount));
+
+  // Mengatur batasan jumlah taruhan yang diperbolehkan
+  current = Math.max(1, Math.min(maxLines, current + amount)); // Menjaga agar nilai tetap dalam rentang yang valid
   linesEl.textContent = current;
   displayEl.textContent = `${current} lines`;
 }
