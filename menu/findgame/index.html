@@ -2,198 +2,252 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gold Game List</title>
+  <title>Game List Gold Theme</title>
   <style>
     body {
-      margin: 0;
       background-color: #000;
       color: gold;
       font-family: Arial, sans-serif;
-    }
-    header {
+      margin: 0;
       padding: 20px;
-      text-align: center;
-      font-size: 2em;
-      font-weight: bold;
-      border-bottom: 2px solid gold;
     }
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 10px;
-      gap: 10px;
+
+    .search-bar {
+      margin-bottom: 20px;
     }
-    .controls input, .controls button {
+
+    input[type="text"] {
+      width: 100%;
       padding: 10px;
-      font-size: 1em;
-      border: 1px solid gold;
-      background-color: #111;
+      font-size: 16px;
+      border: 2px solid gold;
+      background: black;
       color: gold;
-      border-radius: 5px;
     }
+
+    .tags {
+      margin-bottom: 20px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 12px;
+      margin: 0 5px 5px 0;
+      border: 1px solid gold;
+      cursor: pointer;
+      background: black;
+    }
+
+    .tag.active {
+      background: gold;
+      color: black;
+    }
+
     .game-list {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      padding: 20px;
+      gap: 10px;
     }
-    .game-item {
+
+    .game-card {
+      border: 1px solid gold;
+      padding: 10px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      border: 2px solid gold;
-      border-radius: 10px;
-      padding: 10px;
-      margin: 10px;
-      width: 90%;
       cursor: pointer;
-      background-color: #111;
+      transition: background 0.3s;
+      background: #111;
     }
-    .game-item img {
-      width: 100px;
-      height: 60px;
-      border-radius: 5px;
+
+    .game-card:hover {
+      background: #222;
     }
+
+    .game-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+
     .game-detail {
       position: fixed;
       top: 0;
-      right: -100%;
-      width: 100%;
+      right: -400px;
+      width: 400px;
       height: 100%;
-      background-color: #000;
-      color: gold;
+      background: #111;
+      border-left: 2px solid gold;
       padding: 20px;
       overflow-y: auto;
-      transition: right 0.5s ease;
-      z-index: 10;
+      transition: right 0.3s ease-in-out;
+      z-index: 1000;
     }
+
     .game-detail.active {
       right: 0;
     }
-    .bet-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 10px 0;
-    }
-    .bet-controls button {
-      padding: 5px 10px;
-      background-color: #222;
-      border: 1px solid gold;
-      color: gold;
-      font-size: 1.2em;
-    }
+
     .close-btn {
       position: absolute;
       top: 10px;
       right: 10px;
-      background: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: gold;
+    }
+
+    .bet-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .bet-controls button {
+      background: black;
+      color: gold;
       border: 1px solid gold;
       padding: 5px 10px;
-      color: gold;
-      font-size: 1em;
       cursor: pointer;
+    }
+
+    .bet-value {
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <header>Gold Game List</header>
-  <div class="controls">
-    <input type="text" id="searchInput" placeholder="Search game...">
-    <button onclick="filterByPlatform('918kiss')">918kiss</button>
-    <button onclick="filterByPlatform('mega888')">mega888</button>
-    <button onclick="filterByPlatform('pussy888')">pussy888</button>
+
+  <div class="search-bar">
+    <input type="text" id="search" placeholder="Search games...">
   </div>
+
+  <div class="tags">
+    <div class="tag" data-tag="918KISS">918KISS</div>
+    <div class="tag" data-tag="Mega888">Mega888</div>
+    <div class="tag" data-tag="puss888">Pussy888</div>
+  </div>
+
   <div class="game-list" id="gameList"></div>
+
   <div class="game-detail" id="gameDetail">
-    <button class="close-btn" onclick="closeDetail()">Close</button>
-    <h2 id="detailTitle"></h2>
-    <img id="detailImage" src="" alt="" style="width: 200px; height: auto; border: 2px solid gold;">
-    <p>Platform: <span id="detailPlatform"></span></p>
-    <p>Line: <span id="detailLine"></span></p>
+    <span class="close-btn" onclick="closeDetail()">✖</span>
+    <h2 id="detailName"></h2>
+    <img id="detailImage" src="" alt="" style="width: 100%; margin: 10px 0;">
+    <p><strong>Type:</strong> <span id="detailType"></span></p>
+    <p><strong>Paylines:</strong> <span id="detailPayline"></span></p>
     <div class="bet-controls">
       <button onclick="changeBetLine(-1)">-</button>
-      <span id="currentBets"></span>
+      <span>Bet Line: <span id="currentLine">1</span></span>
       <button onclick="changeBetLine(1)">+</button>
     </div>
+    <p>Available Bets:</p>
+    <ul id="betOptions"></ul>
   </div>
 
   <script>
     const games = [
-      { name: "Dragon Gold", platform: "918kiss", image: "https://via.placeholder.com/100x60", lines: 5 },
-      { name: "Panda Mega", platform: "mega888", image: "https://via.placeholder.com/100x60", lines: 3 },
-      { name: "Tiger Strike", platform: "pussy888", image: "https://via.placeholder.com/100x60", lines: 9 }
+      {
+        name: "Panther Moon",
+        type: "Slot",
+        payline: 20,
+        adjustable: true,
+        image: "https://i.imgur.com/QCoOwFg.png",
+        tags: ["918KISS", "Mega888", "puss888"],
+        bets: {
+          1: [0.50, 1.00, 2.00, 5.00, 10.00],
+          2: [0.10, 10.00, 20.00, 30.00, 40.00]
+        }
+      }
     ];
 
-    const betOptionsData = {
-      9: [0.09, 0.45, 0.90, 2.25, 4.50, 9.00, 45.00, 90.00, 135.00, 180.00],
-      8: [0.08, 0.40, 0.80, 2.00, 4.00, 8.00, 40.00, 80.00, 120.00, 160.00],
-      7: [0.07, 0.35, 0.70, 1.75, 3.50, 7.00, 35.00, 70.00, 105.00, 140.00],
-      6: [0.06, 0.30, 0.60, 1.50, 3.00, 6.00, 30.00, 60.00, 90.00, 120.00],
-      5: [0.05, 0.25, 0.50, 1.25, 2.50, 5.00, 25.00, 50.00, 75.00, 100.00],
-      4: [0.04, 0.20, 0.40, 1.00, 2.00, 4.00, 20.00, 40.00, 60.00, 80.00],
-      3: [0.03, 0.15, 0.30, 0.75, 1.50, 3.00, 15.00, 30.00, 45.00, 60.00],
-      2: [0.02, 0.10, 0.20, 0.50, 1.00, 2.00, 10.00, 20.00, 30.00, 40.00],
-      1: [0.01, 0.05, 0.10, 0.25, 0.50, 1.00, 5.00, 10.00, 15.00, 20.00]
-    };
+    const gameListEl = document.getElementById("gameList");
+    const searchEl = document.getElementById("search");
+    const tagsEls = document.querySelectorAll(".tag");
+    const detailEl = document.getElementById("gameDetail");
 
+    let activeTag = null;
     let filteredGames = games;
-    let currentGame = null;
+    let selectedGame = null;
+    let currentLine = 1;
 
     function renderGames() {
-      const list = document.getElementById('gameList');
-      list.innerHTML = '';
+      gameListEl.innerHTML = "";
       filteredGames.forEach(game => {
-        const div = document.createElement('div');
-        div.className = 'game-item';
-        div.innerHTML = `
+        const card = document.createElement("div");
+        card.className = "game-card";
+        card.innerHTML = `
           <img src="${game.image}" alt="${game.name}">
-          <span>${game.name} (${game.platform})</span>
+          <div>
+            <h3>${game.name}</h3>
+            <p>${game.tags.join(", ")}</p>
+          </div>
         `;
-        div.onclick = () => showDetail(game);
-        list.appendChild(div);
+        card.onclick = () => showDetail(game);
+        gameListEl.appendChild(card);
       });
     }
 
-    function filterByPlatform(platform) {
-      filteredGames = games.filter(g => g.platform === platform);
-      renderGames();
-    }
-
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase();
-      filteredGames = games.filter(g => g.name.toLowerCase().includes(searchTerm));
-      renderGames();
-    });
-
     function showDetail(game) {
-      currentGame = game;
-      document.getElementById('detailTitle').textContent = game.name;
-      document.getElementById('detailPlatform').textContent = game.platform;
-      document.getElementById('detailLine').textContent = game.lines;
-      document.getElementById('detailImage').src = game.image;
+      selectedGame = game;
+      currentLine = Object.keys(game.bets)[0];
+      document.getElementById("detailName").innerText = game.name;
+      document.getElementById("detailImage").src = game.image;
+      document.getElementById("detailType").innerText = game.type;
+      document.getElementById("detailPayline").innerText = game.payline;
       updateBetOptions();
-      document.getElementById('gameDetail').classList.add('active');
+      detailEl.classList.add("active");
     }
 
     function closeDetail() {
-      document.getElementById('gameDetail').classList.remove('active');
+      detailEl.classList.remove("active");
     }
 
     function updateBetOptions() {
-      const bets = betOptionsData[currentGame.lines];
-      document.getElementById('currentBets').textContent = bets.join(', ');
+      const betList = document.getElementById("betOptions");
+      const currentLineDisplay = document.getElementById("currentLine");
+      betList.innerHTML = "";
+      const bets = selectedGame.bets[currentLine];
+      if (bets) {
+        bets.forEach(bet => {
+          const li = document.createElement("li");
+          li.textContent = `RM ${bet.toFixed(2)}`;
+          betList.appendChild(li);
+        });
+      }
+      currentLineDisplay.innerText = currentLine;
     }
 
-    function changeBetLine(delta) {
-      const newLines = currentGame.lines + delta;
-      if (newLines >= 1 && newLines <= 9) {
-        currentGame.lines = newLines;
-        document.getElementById('detailLine').textContent = newLines;
+    function changeBetLine(change) {
+      const lines = Object.keys(selectedGame.bets).map(n => parseInt(n)).sort((a, b) => a - b);
+      let index = lines.indexOf(currentLine);
+      if (index + change >= 0 && index + change < lines.length) {
+        currentLine = lines[index + change];
         updateBetOptions();
       }
+    }
+
+    searchEl.addEventListener("input", () => {
+      const keyword = searchEl.value.toLowerCase();
+      filterGames(keyword, activeTag);
+    });
+
+    tagsEls.forEach(tag => {
+      tag.addEventListener("click", () => {
+        tagsEls.forEach(t => t.classList.remove("active"));
+        tag.classList.add("active");
+        activeTag = tag.dataset.tag;
+        filterGames(searchEl.value.toLowerCase(), activeTag);
+      });
+    });
+
+    function filterGames(keyword, tag) {
+      filteredGames = games.filter(game =>
+        game.name.toLowerCase().includes(keyword) &&
+        (!tag || game.tags.includes(tag))
+      );
+      renderGames();
     }
 
     renderGames();
