@@ -78,6 +78,23 @@
       box-shadow: 0 0 10px gold;
       transform: scale(1.02);
      }
+     .platform-section {
+      position: relative;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px 12px 8px;
+      margin-top: 20px;
+    }
+    .platform-label {
+     position: absolute;
+     top: -10px;
+     left: 20px;
+     background-color: #fff; /* Sesuaikan dengan background container utama */
+     padding: 0 8px;
+     font-size: 12px;
+     font-weight: bold;
+     color: #555;
+    }
     .game-list {
       display: flex;
       flex-direction: column;
@@ -238,12 +255,16 @@
   <div class="container">
     <a href="https://searcfile.github.io/5G88-editor/menu/" id="homeButton">Home</a>
     <input type="text" id="searchBox" placeholder="Search game...">
-
+    
+    <div class="platform-section">
+    <div class="platform-label">PLATFORM</div>
+    <div id="gameTags" class="platform-tags">
     <div class="platform-tags">
       <div class="active-tag">All</div>
       <div>918kiss</div>
       <div>Mega888</div>
       <div>Pussy888</div>
+    </div>
     </div>
 
     <div class="game-list" id="gameList"></div>
