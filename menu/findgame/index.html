@@ -624,38 +624,50 @@ function displayGames(games) {
 }
 
    function renderGames(keyword = '') {
-  const gameList = document.getElementById('gameList');
-  gameList.innerHTML = ''; // Clear previous games
-  
-  const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
-  
-  // Filter game berdasarkan tag dan keyword pencarian
-  const filtered = games.filter(game => {
-    const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
-    const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
-    return matchTag && matchKeyword;
-  });
-  
-  // Tampilkan game yang sudah difilter
-  filtered.forEach(game => {
-    const li = document.createElement('li');
-    li.className = 'game-item';
-    li.setAttribute('data-tag', game.tags.join(' '));
-    li.innerHTML = `<i>🎰</i> ${game.name}`;
-    li.onclick = () => showGameDetail(
-      game.name,
-      game.tags.map(t => t.toUpperCase()),
-      game.image,
-      game.type,
-      game.payline,
-      game.adjustable,
-      game.bets
-    );
-    gameList.appendChild(li);
-  });
-}
+    const gameList = document.getElementById('gameList'); // Mengambil elemen gameList
+    gameList.innerHTML = ''; // Kosongkan list game sebelumnya
 
-    renderGames();
+    const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag'); // Menentukan tag yang aktif
+    const filtered = games.filter(game => {
+      const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag); // Filter berdasarkan tag
+      const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase()); // Filter berdasarkan keyword
+      return matchTag && matchKeyword;
+    });
+
+    filtered.forEach(game => {
+      const li = document.createElement('li');
+      li.className = 'game-item';
+      li.setAttribute('data-tag', game.tags.join(' '));
+      li.innerHTML = `<i>🎰</i> ${game.name}`;
+      li.onclick = () => showGameDetail(
+        game.name,
+        game.tags.map(t => t.toUpperCase()),
+        game.image,
+        game.type,
+        game.payline,
+        game.adjustable,
+        game.bets
+      );
+      gameList.appendChild(li); // Menambahkan game yang difilter ke dalam daftar
+    });
+  }
+
+  // Fungsi untuk menangani pencarian berdasarkan input
+  function filterGames(keyword) {
+    renderGames(keyword); // Mengupdate daftar game dengan keyword pencarian
+  }
+
+  // Event listener untuk klik tag
+  document.querySelectorAll('.tag').forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active')); // Hapus kelas 'active' dari semua tag
+      el.classList.add('active'); // Tambahkan kelas 'active' ke tag yang dipilih
+      filterGames(document.querySelector('.search-bar input').value); // Panggil fungsi filter dengan input pencarian
+    });
+  });
+
+  // Menampilkan semua game pada halaman pertama kali
+  renderGames();
   </script>
 </body>
 </html>
