@@ -105,22 +105,20 @@
     });
   }
 
-  const data2 = logs[2];  // baris ke-3 ambil EndMoney dan DateTime
+  const data2 = logs[0];  // ambil EndMoney & DateTime dari baris pertama log (sesuai gambar)
 
-  // Baris pertama: set score dengan nilai negatif EndMoney baris 3
   let rows = `
     <tr class="set-score-row">
       <td>-</td>
       <td class="setscore">Set score: ${(-Math.abs(parseFloat(data2.endMoney))).toFixed(2)}</td>
-      <td class="negatif">-</td>  <!-- Bet -->
-      <td class="negatif">-</td>  <!-- Win -->
-      <td class="negatif">-</td>  <!-- BeginMoney -->
-      <td class="negatif">-</td>  <!-- EndMoney -->
+      <td class="negatif">-</td>
+      <td class="negatif">-</td>
+      <td class="negatif">-</td>
+      <td class="negatif">-</td>
       <td>${data2.dateTime}</td>
     </tr>
   `;
 
-  // Baris log data 10 baris
   logs.forEach(log => {
     rows += `
       <tr>
