@@ -258,6 +258,29 @@
       opacity: 0;
       pointer-events: none;
     }
+     .info-platform-container {
+  display: flex;
+  justify-content: space-between; /* Membuat kolom game info dan platforms sejajar */
+  align-items: flex-start;
+}
+
+.game-info, .platforms {
+  width: 45%; /* Tentukan lebar kolom */
+}
+
+.game-info h3, .platforms h3 {
+  text-align: center;
+  color: gold;
+}
+
+.game-info p, .platforms p {
+  color: white;
+  text-align: center; /* Teks di tengah */
+}
+
+.game-info p strong, .platforms p strong {
+  color: gold;
+}
     .game-detail.active {
     opacity: 1;
     transform: translateX(0%);
@@ -484,21 +507,27 @@
   window.currentBetIndex = 0;
 
   gameDetail.innerHTML = `
-    <div class="close-btn" onclick="goBack()">Close</div>
-    <div class="detail-inner">
-      <img src="${image}" alt="${name}" />
-      <h3>${name}</h3>
-      <div class="game-detail-grid">
+    <div class="game-detail">
+  <div class="close-btn" onclick="goBack()">Close</div>
+  <div class="detail-inner">
+    <img src="${image}" alt="${name}" />
+    <h3>${name}</h3>
+    <div class="detail-box">
+      <div class="info-platform-container">
         <div class="game-info">
+          <h3>GAME INFO</h3>
           <p><strong>Type:</strong> ${type}</p>
           <p><strong>Payline:</strong> ${payline}</p>
           <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
         </div>
         <div class="platforms">
-          <p><strong>Platforms:</strong></p>
-          ${tags.map(tag => `<p>${tag}</p>`).join('')}
+          <h3>PLATFORMS</h3>
+          <p>${tags.join(', ')}</p>
         </div>
       </div>
+    </div>
+  </div>
+</div>
       <div class="bet-section">
         <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
         <div id="betValuesContainer" class="bet-values"></div>
