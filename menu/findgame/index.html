@@ -365,9 +365,16 @@
   margin-top: 12px;
   box-shadow: 0 0 8px rgba(255, 215, 0, 0.2); /* Tambahan efek glow */
 }
-
 .detail-box p {
   margin: 6px 0;
+}
+ .game-info {
+  border-bottom: 2px solid gold;
+  padding-bottom: 12px;
+}
+.platforms {
+  border-top: 2px solid gold;
+  padding-top: 12px;
 }
   #currentBet {
   display: none;
@@ -466,27 +473,35 @@
   }).join(' ');
 
   gameDetail.innerHTML = `
-    <div class="close-btn" onclick="goBack()">Close</div>
-    <div class="detail-inner">
-      <img src="${image}" alt="${name}" />
-      <h3>${name}</h3>
-      <div class="detail-box">
-        <p><strong>Platforms:</strong> <span class="platforms">${platformHTML}</span></p>
-        <p><strong>Type:</strong> ${type}</p>
-        <p><strong>Payline:</strong> ${payline}</p>
-        <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
-      </div>
-      <div class="bet-section">
-        <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
-        <div id="betValuesContainer" class="bet-values"></div>
-        <div style="margin-top: 8px;"></div>
-      </div>
-      <div class="line-control">
-        <button onclick="adjustLines(-1)">-</button>
-        <span id="lineDisplay">${window.currentLines} lines</span>
-        <button onclick="adjustLines(1)">+</button>
-      </div>
+   <div class="game-detail active">
+  <div class="close-btn" onclick="goBack()">Close</div>
+  <div class="detail-inner">
+    <img src="${image}" alt="${name}" />
+    <h3>${name}</h3>
+    <div class="detail-box game-info">
+      <p><strong>Type:</strong> ${type}</p>
+      <p><strong>Payline:</strong> ${payline}</p>
+      <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
     </div>
+    <div class="detail-box platforms">
+      <p><strong>Platforms:</strong></p>
+      ${tags.map(tag => {
+        const lower = tag.toLowerCase();
+        return `<span class="platform-badge plat-${lower}">${tag}</span>`;
+      }).join('')}
+    </div>
+    <div class="bet-section">
+      <p id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</p>
+      <div id="betValuesContainer" class="bet-values"></div>
+      <div style="margin-top: 8px;"></div>
+    </div>
+    <div class="line-control">
+      <button onclick="adjustLines(-1)">-</button>
+      <span id="lineDisplay">${window.currentLines} lines</span>
+      <button onclick="adjustLines(1)">+</button>
+    </div>
+  </div>
+</div>
   `;
 
   updateBetDisplay();
