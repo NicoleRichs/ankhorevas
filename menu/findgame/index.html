@@ -14,7 +14,45 @@
       background: #000;
       justify-content: center; 
       align-items: center;
-    } 
+    }
+    .floating-dots {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      z-index: -1; /* Pastikan ia di belakang semua elemen */
+      background-image: url('https://i.imgur.com/qRqmq9g.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+   }
+
+    .floating-dots::before,
+    .floating-dots::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: radial-gradient(circle, gold 2px, transparent 2px) 0 0 / 50px 50px,
+              radial-gradient(circle, gold 2px, transparent 2px) 25px 25px / 50px 50px;
+      animation: floatDots 30s linear infinite;
+      opacity: 0.2;
+    }
+    .floating-dots::after {
+      animation-delay: 15s;
+      opacity: 0.1;
+    }
+    @keyframes floatDots {
+      0% {
+    transform: translateY(0);
+    }
+      100% {
+      transform: translateY(-100%);
+    }
+    }
     .container {
       position: relative;
       margin: 0 auto;
@@ -225,6 +263,7 @@
   </style>
 </head>
 <body>
+  <div class="floating-dots"></div>
   <div class="container">
 
   <div class="left-panel">
