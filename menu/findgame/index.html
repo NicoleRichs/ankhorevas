@@ -441,38 +441,46 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-   function showGameDetail(game) {
-      const gameDetail = document.getElementById('gameDetail');
-      gameDetail.innerHTML = `
-        <h2>${game.name}</h2>
-        <img src="${game.image}" alt="${game.name}" style="max-width: 100%; height: auto;" />
-        <p><strong>Platform:</strong> ${game.platform}</p>
-        <p><strong>Payline:</strong> ${game.payline}</p>
-        <p><strong>Type:</strong> ${game.type}</p>
-        <p><strong>Adjustable:</strong> ${game.adjustable ? 'Yes' : 'No'}</p>
-      `;
+   function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
+  const gameDetail = document.getElementById('gameDetail');
 
-      const controlPanel = document.createElement('div');
-      controlPanel.innerHTML = `
-        <div>
-          <label>Lines: <button onclick="adjustLines(${game.id}, -1)">-</button> 
-          <span id="lines-${game.id}">${game.defaultLines}</span> 
-          <button onclick="adjustLines(${game.id}, 1)">+</button></label>
+  // Inisialisasi state global
+  window.currentLines = Object.keys(bets)[0];
+  window.currentLines = parseInt(window.currentLines); // pastikan int
+  window.currentBets = bets[window.currentLines];
+  window.currentBetIndex = 0;
+
+  gameDetail.innerHTML = `
+    <div class="close-btn" onclick="goBack()">Close</div>
+    <div class="detail-inner">
+      <img src="${image}" alt="${name}" />
+      <h3>${name}</h3>
+      <div><strong>Platform:</strong> ${tags.join(', ')}</div>
+      <div><strong>Type:</strong> ${type}</div>
+      <div><strong>Payline:</strong> ${payline}</div>
+      <div><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</div>
+
+      <div class="line-control">
+        <button onclick="adjustLines(-1)">-</button>
+        <span id="lineDisplay">${window.currentLines} lines</span>
+        <button onclick="adjustLines(1)">+</button>
+      </div>
+
+      <div class="bet-section">
+        <p><strong>Selected Bet:</strong> <span id="currentBet">${window.currentBets[window.currentBetIndex].toFixed(2)}</span></p>
+        <div id="betValuesContainer" class="bet-values"></div>
+        <div style="margin-top: 8px;">
+          <button onclick="adjustBet(-1)">-</button>
+          <button onclick="adjustBet(1)">+</button>
         </div>
-        <div>
-          <label>Bet: <button onclick="adjustBet(${game.id}, -1)">-</button> 
-          <span id="bet-${game.id}">${game.betValues[game.defaultLines][0]}</span> 
-          <button onclick="adjustBet(${game.id}, 1)">+</button></label>
-        </div>
-      `;
-      gameDetail.appendChild(controlPanel);
+      </div>
+    </div>
+  `;
 
-      currentLines = game.defaultLines;
-      currentBetIndex = 0;
-      currentGame = game;
+  updateBetDisplay();
 
-      gameDetail.style.display = 'block';
-    }
+  gameDetail.classList.add('active');
+}
 function adjustBet(direction) {
   if (!window.currentBets) return;
 
@@ -495,18 +503,43 @@ function updateBetDisplay() {
     `<span class="${idx === window.currentBetIndex ? 'active-bet' : ''}">${val.toFixed(2)}</span>`
   ).join('');
 }
-    function adjustLines(amount) {
-  const newLines = Math.max(1, Math.min(100, window.currentLines + amount));
-  window.currentLines = newLines;
+    ffunction adjustLines(amount) {
+  const possibleLines = Object.keys(currentGame.bets).map(n => parseInt(n));
+  let newLines = currentLines + amount;
+
+  // Cari nilai line terdekat yang valid
+  if (!possibleLines.includes(newLines)) {
+    newLines = possibleLines.reduce((acc, val) => {
+      return Math.abs(val - newLines) < Math.abs(acc - newLines) ? val : acc;
+    }, possibleLines[0]);
+  }
+
+  currentLines = newLines;
+  currentBets = currentGame.bets[currentLines] || [];
+  currentBetIndex = 0;
 
   document.getElementById('lineDisplay').textContent = `${newLines} lines`;
-  document.getElementById('lineDisplay').textContent = `${newLines} lines`;
-
-  const bets = window.currentBets[newLines] || [];
-  const betHTML = bets.map(val => `<span>${val.toFixed(2)}</span>`).join('');
-  document.getElementById('betValues').innerHTML = betHTML;
+  updateBetDisplay();
 }
 
+function adjustBet(direction) {
+  if (!window.currentBets) return;
+
+  currentBetIndex = Math.max(0, Math.min(currentBets.length - 1, currentBetIndex + direction));
+  updateBetDisplay();
+}
+
+function updateBetDisplay() {
+  const betDisplay = document.getElementById('currentBet');
+  const betContainer = document.getElementById('betValuesContainer');
+
+  if (!currentBets || !betDisplay || !betContainer) return;
+
+  betDisplay.textContent = currentBets[currentBetIndex].toFixed(2);
+  betContainer.innerHTML = currentBets.map((val, idx) =>
+    `<span class="${idx === currentBetIndex ? 'active-bet' : ''}">${val.toFixed(2)}</span>`
+  ).join('');
+}
     const gameList = document.getElementById('gameList');
 
     function renderGames(keyword = '') {
