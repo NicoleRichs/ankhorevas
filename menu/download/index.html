@@ -328,18 +328,16 @@
 </div>
 
 <script>
-  document.querySelectorAll('.copy-link').forEach(link => {
-    link.addEventListener('click', function(event) {
-      event.preventDefault(); // Mencegah buka link
-      const url = this.getAttribute('data-link');
-
-      navigator.clipboard.writeText(url).then(() => {
-        alert('Link berhasil disalin: ' + url);
-      }).catch(err => {
-        console.error('Gagal menyalin', err);
-      });
+function copyLink(button) {
+  const link = button.getAttribute('data-link');
+  navigator.clipboard.writeText(link)
+    .then(() => {
+      alert("Link copied: " + link);
+    })
+    .catch(err => {
+      console.error("Failed to copy link: ", err);
     });
-  });
+}
 </script>
 </body>
 </html>
