@@ -193,14 +193,14 @@
      color: white;
      font-weight: bold;
    }
-   .platform-badge.918kiss {
-     background-color: purple;
+   .platform-badge.plat-918kiss {
+     background-color: #605ca8;
    }
-   .platform-badge.mega888 {
-     background-color: orange;
+   .platform-badge.plat-mega888 {
+     background-color: #f39c12;
    }
-   .platform-badge.pussy888 {
-     background-color: skyblue;
+  .platform-badge.plat-pussy888 {
+     background-color: #3c8dbc;
    }
   </style>
 </head>
@@ -733,7 +733,7 @@
 
     function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
       const box = document.getElementById('gameDetail');
-      const platformTags = platforms.map(p => `<span class="platform-badge ${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`
+      const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`
 ).join(' ');
       box.innerHTML = `
         <div class="close-btn" onclick="goBack()">❌</div>
