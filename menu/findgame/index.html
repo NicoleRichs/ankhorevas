@@ -253,7 +253,7 @@
 </head>
 <body>
   <div class="container">
-    <a href="5g88-menu.vercel.app" id="homeButton">Home</a>
+    <a href="https://5g88-menu.vercel.app" id="homeButton">Home</a>
     <input type="text" id="searchBox" placeholder="Search game...">
     
     <div class="platform-tags">
@@ -558,7 +558,16 @@
     updateLineDisplay();
     displayBetValues(game);
   }
-
+    function goToPage(url) {
+    // Tambahkan https:// jika belum ada
+    if (!url.startsWith("http")) {
+      url = "https://" + url;
+    }
+    window.location.href = url;
+  }
+     function goToPage(page) {
+     window.location.href = page;
+   }
   // Fungsi ketika tag platform diklik
       platformTags.forEach(tag => {
       tag.addEventListener("click", () => {
