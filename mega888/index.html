@@ -8,9 +8,10 @@
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { padding: 8px; border: 1px solid #ccc; text-align: center; }
     th { background-color: #0073e6; color: white; }
-    button { padding: 10px 20px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    button { padding: 8px 15px; font-size: 16px; margin-top: 10px; margin-right: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
     button:hover { background-color: #218838; }
     select { padding: 5px 10px; font-size: 16px; margin-left: 10px; }
+    #nowTime { font-weight: bold; margin-left: 10px; color: #0073e6; }
   </style>
 </head>
 <body>
@@ -32,6 +33,10 @@
   <option value="groupB">0.02 – 20.00</option>
 </select>
 
+<button onclick="setNow()">Now (Current Time)</button>
+<span id="nowTime">No time set</span>
+
+<br><br>
 <button onclick="generateLog()">Change</button>
 
 <table id="gameLog">
@@ -60,13 +65,16 @@
     groupB: [0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.50, 1.00, 2.00, 5.00, 10.00, 20.00]
   };
 
-  function getRandomFloat(min, max, decimals = 2) {
-    return parseFloat((Math.random() * (max - min) + min).toFixed(decimals));
+  let globalTime = null;
+
+  function setNow() {
+    const now = new Date();
+    globalTime = now.toISOString().replace("T", " ").substring(0, 19);
+    document.getElementById("nowTime").innerText = globalTime;
   }
 
-  function getCurrentDateTime() {
-    const now = new Date();
-    return now.toISOString().replace("T", " ").substring(0, 19);
+  function getRandomFloat(min, max, decimals = 2) {
+    return parseFloat((Math.random() * (max - min) + min).toFixed(decimals));
   }
 
   function generateLog() {
@@ -83,8 +91,8 @@
     `;
 
     let currentMoney = getRandomFloat(3000, 4000);
-    let totalBet = 0;
-    let totalWin = 0;
+    const beginMoneyFirst = currentMoney;
+    let lastEndMoney = currentMoney;
 
     for (let i = 0; i < 10; i++) {
       const bet = bets[Math.floor(Math.random() * bets.length)];
@@ -92,11 +100,10 @@
       const win = winChance > 0.7 ? getRandomFloat(0, bet * 3) : 0.00;
       const beginMoney = currentMoney;
       const endMoney = beginMoney - bet + win;
-      const dateTime = getCurrentDateTime();
-
-      totalBet += bet;
-      totalWin += win;
       currentMoney = endMoney;
+      lastEndMoney = endMoney;
+
+      const dateTime = globalTime || new Date().toISOString().replace("T", " ").substring(0, 19);
 
       const row = `
         <tr>
@@ -112,9 +119,8 @@
       tbody.innerHTML += row;
     }
 
-    const setScoreValue = totalWin - totalBet;
-    document.getElementById("setScore").innerText = `Set score: ${setScoreValue.toFixed(2)}`;
-    document.getElementById("setScore").style.color = "red";
+    const setScore = lastEndMoney - beginMoneyFirst;
+    document.getElementById("setScore").innerText = `Set score: ${setScore.toFixed(2)}`;
   }
 </script>
 
