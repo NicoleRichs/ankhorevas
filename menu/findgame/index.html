@@ -441,6 +441,7 @@
     <button onclick="adjustLines(1)">+</button>
   </div>
   <div class="line-info"><span id="line-label">1</span> lines</div>
+  <div id="box"></div>
 </div>
 </div>
   <script>
@@ -550,7 +551,7 @@ function showGameDetail(name, tags, imageUrl, type, payline, adjustable, lineBet
 
     function adjustLines(amount) {
       window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
-      document.getElementById('lineCount').textContent = window.currentLines;
+      document.getElementById('line-count').textContent = window.currentLines;
       document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
     }
     const allBets = [0.25, 0.5, 0.75, 1, 1.25, 1.75, 2.5, 3, 3.75, 5, 7.5, 10, 12.5, 15, 25, 37.5, 50, 75, 100, 200, 300];
@@ -558,19 +559,15 @@ let currentLines = 1;
 
 function updateBetGrid() {
   const filteredBets = allBets.filter(bet => Number.isInteger(bet * currentLines));
-  const betGridHTML = filteredBets.map(bet => <span>${bet}</span>).join('');
+  const betGridHTML = filteredBets.map(bet => `<span>${bet}</span>`).join('');
   document.getElementById('bet-grid').innerHTML = betGridHTML;
 }
-
-function adjustLines(delta) {
-  currentLines += delta;
-  if (currentLines < 1) currentLines = 1;
-
-  document.getElementById('line-count').textContent = currentLines;
-  document.getElementById('line-label').textContent = currentLines;
-  updateBetGrid();
+function adjustLines(amount) {
+    window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
+    document.getElementById('line-count').textContent = window.currentLines;
+    document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
+    updateBetGrid();
 }
-
 window.onload = () => {
   updateBetGrid();
 };
