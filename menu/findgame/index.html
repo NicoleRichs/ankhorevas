@@ -80,7 +80,6 @@
     margin-left: 0;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
   }
 
   .game-detail {
@@ -101,11 +100,18 @@
 
   .tag {
     font-size: 9px;
-    padding: 4px 8px; 
+    padding: 6px 12px;
     line-height: 1.5;
     height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
   }
- 
+  .tags {
+    overflow-x: auto;
+    padding: 8px;
+  }
   .game-item {
     font-size: 10px;
   }
