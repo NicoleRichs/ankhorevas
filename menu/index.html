@@ -11,9 +11,29 @@
       padding: 0;
       background-color: #000;
       font-family: 'Arial', sans-serif;
-      
-     
+      display: flex;          
+      align-items: center;
+      justify-content: center;    
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
     }
+    .bg-img {
+      position: fixed;
+      z-index: -1;
+      width: 150px; /* ubah ikut saiz */
+      height: auto;
+      opacity: 0.9; /* boleh tambah efek */
+    }
+    .img1 { top: 0; left: 0; }
+    .img2 { top: 0; right: 0; }
+    .img3 { bottom: 0; left: 0; }
+    .img4 { bottom: 0; right: 0; }
+    .img5 { top: 50%; left: 0; transform: translateY(-50%); }
+    .img6 { top: 50%; right: 0; transform: translateY(-50%); }
+    .img7 { top: 0; left: 50%; transform: translateX(-50%); }
+    .img8 { bottom: 0; left: 50%; transform: translateX(-50%); }
+    .img9 { top: 50%; left: 50%; transform: translate(-50%, -50%); }
     .floating-dots {
       position: fixed;
       width: 100%;
@@ -72,6 +92,60 @@
       100% {
     background-position: 200px 200px;
     }
+  }
+    @media (max-width: 768px) {
+  .menu-container {
+    width: 90vw;
+    min-height: auto;
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .menu {
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 0;
+  }
+
+  .icon-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+
+  .icon-wrapper img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .menu-item {
+    font-size: 14px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 400px) {
+  .icon-wrapper {
+    width: 70px;
+    height: 70px;
+  }
+
+  .icon-wrapper img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
   }
     .menu-container {
       background-color: #000;
@@ -193,6 +267,15 @@
   </style>
 </head>
 <body>
+  <img src="https://i.imgur.com/tbgEfYb.png" class="bg-img img1">
+  <img src="https://i.imgur.com/UUIOKtv.png" class="bg-img img2">
+  <img src="https://i.imgur.com/6erYlMx.png" class="bg-img img3">
+  <img src="https://i.imgur.com/6erYlMx.png" class="bg-img img4">
+  <img src="https://i.imgur.com/bGqb6dJ.png" class="bg-img img5">
+  <img src="https://i.imgur.com/MfhKshi.png" class="bg-img img6">
+  <img src="https://i.imgur.com/QtwH03L.png" class="bg-img img7">
+  <img src="img8.png" class="bg-img img8">
+  <img src="img9.png" class="bg-img img9">
   <div class="floating-dots"></div>
   <div class="pixel-glow"></div>
   <div class="menu-container">
