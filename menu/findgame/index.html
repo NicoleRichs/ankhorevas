@@ -557,7 +557,6 @@ function renderGames() {
     filteredGames = games.filter(game =>
       game.tags.map(tag => tag.toUpperCase()).includes(activePlatform)
     );
-  }
 
     renderGames();
   </script>
