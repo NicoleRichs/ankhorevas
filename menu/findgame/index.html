@@ -146,13 +146,21 @@
     }
     .tags {
       display: flex;
+      flex-direction: row;
       flex-wrap: nowrap;
       overflow-x: auto;
+      overflow-y: hidden;
       -webkit-overflow-scrolling: touch;
       padding: 8px;
       gap: 8px;
       border: 1px solid gold;  
       background: #000;
+      scrollbar-width: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+     .tags::-webkit-scrollbar {
+       display: none; /* Chrome/Safari */
     }
     .tag {
       background: #000;
