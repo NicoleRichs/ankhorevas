@@ -10,7 +10,6 @@
       padding: 0;
       background-color: #f8edc2;
       font-family: 'Poppins', sans-serif;
-      overflow-x: hidden;
     }
 
     .container {
@@ -21,6 +20,7 @@
       border-radius: 40px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       position: relative;
+      overflow: hidden;
     }
 
     .header {
@@ -114,33 +114,22 @@
       text-align: center;
     }
 
-    .game-detail-panel {
-      position: fixed;
+    .game-detail {
+      position: absolute;
       top: 0;
-      right: -100%;
+      left: 100%;
       width: 100%;
-      max-width: 400px;
       height: 100%;
       background: #fff4dc;
-      z-index: 1000;
       padding: 20px;
-      box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+      border-radius: 40px;
+      transition: left 0.4s ease;
       overflow-y: auto;
-      transition: right 0.3s ease-in-out;
+      z-index: 10;
     }
 
-    .game-detail-panel.active {
-      right: 0;
-    }
-
-    .close-btn {
-      background: #c4a000;
-      color: white;
-      padding: 6px 12px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-bottom: 10px;
+    .game-detail.active {
+      left: 0;
     }
 
     .game-detail img {
@@ -232,24 +221,18 @@
       <li class="game-item" data-tag="mega888" onclick="showGameDetail('Fortune Tiger')"><i>🎰</i> Fortune Tiger</li>
     </ul>
 
+    <div id="gameDetail" class="game-detail"></div>
+
     <div class="footer">
       Dalam Pengembangan<br>
       Bisa tidak stabil.
     </div>
   </div>
 
-  <div id="gameDetailPanel" class="game-detail-panel">
-    <button class="close-btn" onclick="closeGameDetail()">⬅ Kembali</button>
-    <div id="gameDetail" class="game-detail"></div>
-  </div>
-
   <script>
     function goBack() {
-      closeGameDetail();
-    }
-
-    function closeGameDetail() {
-      document.getElementById('gameDetailPanel').classList.remove('active');
+      const detailBox = document.getElementById('gameDetail');
+      detailBox.classList.remove('active');
     }
 
     function updateClock() {
@@ -289,6 +272,7 @@
       const detailBox = document.getElementById('gameDetail');
       const gameLines = 40;
       detailBox.innerHTML = `
+        <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Kembali</div>
         <img src="https://placehold.co/600x200" alt="Game Banner">
         <h3>${name}</h3>
         <p><strong>Nama Game:</strong> ${name.replace(/ /g, '')}</p>
@@ -316,7 +300,7 @@
             <button onclick="adjustLines(1)">+</button>
           </div>
         </div>`;
-      document.getElementById('gameDetailPanel').classList.add('active');
+      detailBox.classList.add('active');
       window.currentLines = gameLines;
     }
 
