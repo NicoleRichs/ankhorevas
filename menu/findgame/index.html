@@ -389,6 +389,7 @@
       Might be unstable.
     </div>
     <div>
+  <div>
   <button onclick="kurangiBet()">-</button>
   <span id="lineBetDisplay">0.25</span> / line
   <button onclick="tambahBet()">+</button>
@@ -493,18 +494,24 @@
       window.currentLines = payline;
     }
     
+const payline = 25;
+
+// Line Bet dari game kamu
 const lineBetOptions = [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00];
-const payline = 25; // tetap, tidak diubah
-let currentIndex = 0; // index line bet saat ini
 
+// Mulai dari index pertama (0.25)
+let currentIndex = 0;
+
+// Update tampilan nilai bet
 function updateDisplay() {
-  const currentBet = lineBetOptions[currentIndex];
-  const totalBet = currentBet * payline;
+  const currentLineBet = lineBetOptions[currentIndex];
+  const totalBet = currentLineBet * payline;
 
-  document.getElementById("lineBetDisplay").textContent = currentBet.toFixed(2);
+  document.getElementById("lineBetDisplay").textContent = currentLineBet.toFixed(2);
   document.getElementById("totalBetDisplay").textContent = totalBet.toFixed(2);
 }
 
+// Fungsi untuk tombol -
 function kurangiBet() {
   if (currentIndex > 0) {
     currentIndex--;
@@ -512,6 +519,7 @@ function kurangiBet() {
   }
 }
 
+// Fungsi untuk tombol +
 function tambahBet() {
   if (currentIndex < lineBetOptions.length - 1) {
     currentIndex++;
@@ -519,8 +527,8 @@ function tambahBet() {
   }
 }
 
-// Inisialisasi tampilan awal
-updateDisplay();// Tampilkan nilai awal saat load
+// Jalankan saat awal
+updateDisplay();
 
     function adjustLines(amount) {
       window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
