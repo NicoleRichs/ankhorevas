@@ -1,11 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Find Game</title>
   <style>
-    /* [SEMUA CSS TIDAK DIUBAH – biarkan seperti aslinya] */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f8edc2;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 20px auto;
+      background: #fff6dc;
+      padding: 20px;
+      border-radius: 40px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      color: #5b5132;
+    }
+
+    .header .back {
+      cursor: pointer;
+    }
+
+    .header .time {
+      font-size: 16px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #3b3422;
+      cursor: pointer;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #f0de9e;
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin-bottom: 15px;
+    }
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      background: transparent;
+      flex: 1;
+      font-size: 16px;
+      margin-left: 10px;
+    }
+
+    .tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      background: #fff4c4;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .tag.active {
+      background-color: #c4a000;
+      color: white;
+    }
+
+    .game-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .game-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed #d1c593;
+      font-size: 16px;
+      color: #3c341e;
+      cursor: pointer;
+    }
+
+    .game-item i {
+      font-style: normal;
+      font-size: 20px;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #877b56;
+      text-align: center;
+    }
+
+    .game-detail {
+      position: absolute;
+      top: 80px;
+      left: 100%;
+      width: 100%;
+      bottom: 0;
+      background: #fff4dc;
+      padding: 20px;
+      border-radius: 40px 40px 0 0;
+      transition: left 0.4s ease;
+      overflow-y: auto;
+      z-index: 10;
+    }
+
+    .game-detail.active {
+      left: 0;
+    }
+
+    .game-detail img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .game-detail h3 {
+      margin: 0;
+    }
+
+    .game-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .box {
+      background: #fef6e4;
+      padding: 10px;
+      border-radius: 10px;
+      width: 48%;
+      font-size: 14px;
+    }
+
+    .bet-section {
+      margin-top: 10px;
+      background: #fef6e4;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .bet-values span {
+      display: inline-block;
+      background: #fff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      margin: 4px;
+      font-size: 13px;
+    }
+
+    .line-control {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .line-control button {
+      padding: 5px 10px;
+      background: #f0de9e;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -50,7 +231,7 @@
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('clock').textContent = `${hours}:${minutes}`;
+      document.getElementById('clock').textContent = ${hours}:${minutes};
     }
     setInterval(updateClock, 1000);
     updateClock();
@@ -60,8 +241,8 @@
       keyword = keyword.toLowerCase();
       document.querySelectorAll('.game-item').forEach(item => {
         const text = item.textContent.toLowerCase();
-        const tags = item.getAttribute('data-tags').split(',');
-        const matchesTag = selectedTag === 'all' || tags.includes(selectedTag);
+        const tag = item.getAttribute('data-tag');
+        const matchesTag = selectedTag === 'all' || tag === selectedTag;
         item.style.display = text.includes(keyword) && matchesTag ? 'flex' : 'none';
       });
     }
@@ -85,104 +266,67 @@
 
       const detailBox = document.getElementById('gameDetail');
       const platforms = game.tags.map(tag =>
-        `<span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">🎰 ${tag.toUpperCase()}</span>`
-      ).join('<br>');
+      <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">🎰 ${tag.toUpperCase()}</span>
+     ).join('<br>');
 
-      detailBox.innerHTML = `
-        <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Close</div>
-        <img src="https://placehold.co/600x200" alt="Game Banner">
-        <h3>${game.name}</h3>
-        <p><strong>Game Name:</strong> ${game.name.replace(/ /g, '')}</p>
-        <div class="game-section">
-          <div class="box">
-            <strong>Game Info</strong><br>
-            Type: ${game.info.type}<br>
-            Payline: <span id="lineCount">${game.info.payline}</span><br>
-            Adjustable Lines: ${game.info.adjustable ? 'Yes' : 'No'}
-          </div>
-          <div class="box">
-            <strong>Platform</strong><br>
-            ${platforms}
-          </div>
-        </div>
-        <div class="bet-section">
-          <strong>Bet Options</strong><br>
-          <div class="bet-values">
-            <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span><span>8.00</span>
-            <span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
-          </div>
-          ${game.info.adjustable ? `
-            <div class="line-control">
-              <button onclick="adjustLines(-1)">-</button>
-              <span id="lineDisplay">${game.info.payline} lines</span>
-              <button onclick="adjustLines(1)">+</button>
-            </div>` : ''
-          }
-        </div>`;
-      detailBox.classList.add('active');
-      window.currentLines = game.info.payline;
+     detailBox.innerHTML = 
+    <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Close</div>
+    <img src="https://placehold.co/600x200" alt="Game Banner">
+    <h3>${game.name}</h3>
+    <p><strong>Game Name:</strong> ${game.name.replace(/ /g, '')}</p>
+    <div class="game-section">
+      <div class="box">
+        <strong>Game Info</strong><br>
+        Type: ${game.info.type}<br>
+        Payline: <span id="lineCount">${game.info.payline}</span><br>
+        Adjustable Lines: ${game.info.adjustable ? 'Yes' : 'No'}
+      </div>
+      <div class="box">
+        <strong>Platform</strong><br>
+        ${platforms}
+      </div>
+    </div>
+    <div class="bet-section">
+      <strong>Bet Options</strong><br>
+      <div class="bet-values">
+        <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span><span>8.00</span>
+        <span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
+      </div>
+      ${game.info.adjustable ? 
+        <div class="line-control">
+          <button onclick="adjustLines(-1)">-</button>
+          <span id="lineDisplay">${game.info.payline} lines</span>
+          <button onclick="adjustLines(1)">+</button>
+        </div> : ''
+      }
+    </div>;
+    detailBox.classList.add('active');
+    window.currentLines = game.info.payline;
     }
 
     function adjustLines(amount) {
       window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
       document.getElementById('lineCount').textContent = window.currentLines;
-      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
+      document.getElementById('lineDisplay').textContent = ${window.currentLines} lines;
     }
 
     const games = [
-      {
-        name: 'FOOTBALL CARNIVAL',
-        tags: ['pussy888', 'mega888', '918kiss'],
-        info: {
-          type: 'Slot',
-          payline: 50,
-          adjustable: false
-        }
-      },
-      {
-        name: 'THAI PARADISE',
-        tags: ['pussy888', 'mega888', '918kiss'],
-        info: {
-          type: 'Slot',
-          payline: 15,
-          adjustable: true
-        }
-      },
-      {
-        name: "WEALTH'S TREASURE",
-        tags: ['pussy888', 'mega888', '918kiss'],
-        info: {
-          type: 'Slot',
-          payline: 20,
-          adjustable: true
-        }
-      },
-      {
-        name: 'LAURA P',
-        tags: ['pussy888'],
-        info: {
-          type: 'Slot',
-          payline: 15,
-          adjustable: true
-        }
-      },
-      {
-        name: 'LAURA',
-        tags: ['mega888', '918kiss'],
-        info: {
-          type: 'Slot',
-          payline: 15,
-          adjustable: true
-        }
-      }
+      { name: 'Wolf Run', tag: '918kiss' },
+      { name: 'Sticky Bandits Wild Return', tag: '918kiss' },
+      { name: 'Six Acrobats', tag: 'mega888' },
+      { name: 'Great88', tag: 'mega888' },
+      { name: 'Wild Fireworks', tag: 'pussy888' },
+      { name: 'Conan', tag: 'pussy888' },
+      { name: 'Floating Dragon', tag: '918kiss' },
+      { name: 'Fortune Tiger', tag: 'mega888' },
     ];
 
     const gameList = document.getElementById('gameList');
     games.forEach(game => {
       const li = document.createElement('li');
       li.className = 'game-item';
-      li.setAttribute('data-tags', game.tags.join(','));
-      li.innerHTML = `<i>🎰</i> ${game.name}`;
+      li.setAttribute('data-tag', game.tag);
+      li.innerHTML = <i>🎰</i> ${game.name};
       li.onclick = () => showGameDetail(game.name);
       gameList.appendChild(li);
     });
