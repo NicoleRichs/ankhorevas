@@ -43,6 +43,7 @@
       font-weight: bold;
       margin-bottom: 10px;
       color: #3b3422;
+      cursor: pointer;
     }
 
     .search-bar {
@@ -119,7 +120,7 @@
       <div id="clock" class="time">--:--</div>
       <div>User</div>
     </div>
-    <div class="title">Find Game</div>
+    <div class="title" onclick="scrollToGames()">Find Game</div>
 
     <div class="search-bar">
       <div>🔍</div>
@@ -184,6 +185,11 @@
           item.style.display = item.getAttribute('data-tag') === tag ? 'flex' : 'none';
         }
       });
+    }
+
+    function scrollToGames() {
+      const list = document.getElementById('gameList');
+      if (list) list.scrollIntoView({ behavior: 'smooth' });
     }
   </script>
 </body>
