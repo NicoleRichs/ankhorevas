@@ -139,11 +139,22 @@
     z-index: 99999; /* pastikan di atas segalanya */
     overflow: hidden;
    }
+  @keyframes blink {
+            0% { color: white; }
+            50% { color: gold; }
+            100% { color: white; }
+        }
+
+        .blinker {
+            font-size: 30px;
+            font-weight: bold;
+            animation: blink 1s infinite;
+        }
 </style>
 </head>
 <body>
 <div id="rain-container"></div>
-<h1 style="text-align:center; color:gold; margin-bottom: 30px;">🎰 LINK DOWNLOAD 🎰</h1>
+<h1 style="text-align:center; color:gold; margin-bottom: 30px;"><span class="blinker">🎰 LINK DOWNLOAD 🎰</span>/h1>
 
 <a href="https://searcfile.github.io/5G88-editor/menu/" class="home-btn">Home</a>
 <div class="container">
