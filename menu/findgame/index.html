@@ -352,6 +352,23 @@
   #currentBet {
   display: none;
 }
+ .game-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.game-title {
+    text-transform: uppercase; /* Menampilkan huruf besar */
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.game-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
   </style>
 </head>
 <body>
@@ -381,6 +398,15 @@
         Might be unstable.
       </div>
       <div class="close-btn" onclick="goBack()">Close</div>
+      <div class="game-container">
+    <h2 class="game-title" id="game-title">PANTHER MOON</h2>
+    <p class="game-name" id="game-name">Game Name: </p>
+</div>
+<select id="game-list" onchange="updateGameName()">
+    <option value="Panther Moon">Panther Moon</option>
+    <option value="Mega Joker">Mega Joker</option>
+    <option value="Great Rhino">Great Rhino</option>
+</select>
     </div>
   </div>
 
@@ -519,7 +545,24 @@
         const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
         return matchTag && matchKeyword;
       });
+   const gameList = {
+    "Panther Moon": "Panther Moon",
+    "Mega Joker": "Mega Joker",
+    "Great Rhino": "Great Rhino"
+    // Tambahkan game lainnya jika perlu
+};
 
+function updateGameName() {
+    const selectedGame = document.getElementById('game-list').value;
+    const gameNameElement = document.getElementById('game-name');
+    const gameTitleElement = document.getElementById('game-title');
+    
+    // Menampilkan Game Name: [nama game] sesuai dengan pilihan
+    gameNameElement.textContent = "Game Name: " + selectedGame;
+    
+    // Menampilkan nama game dalam huruf besar (PANTHER MOON, dsb)
+    gameTitleElement.textContent = selectedGame.toUpperCase();
+}
       filtered.forEach(game => {
         const li = document.createElement('li');
         li.className = 'game-item';
