@@ -524,14 +524,14 @@
     <img src="${image}" alt="${name}" />
     <h3>${name}</h3>
     <div class="detail-box">
-        <div class="platforms">
-          <h3>PLATFORMS</h3>
-          <div class="game-info">
+        <div class="game-info">
           <h3>GAME INFO</h3>
           <p><strong>Type:</strong> ${type}</p>
           <p><strong>Payline:</strong> ${payline}</p>
           <p><strong>Adjustable:</strong> ${adjustable ? 'Yes' : 'No'}</p>
         </div>
+        <div class="platforms">
+          <h3>PLATFORMS</h3>
           <p>${tags.map(tag => tag.toUpperCase()).join('<br>')}</p>
         </div>
       </div>
