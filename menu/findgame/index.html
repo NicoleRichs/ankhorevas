@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -10,7 +10,9 @@
       padding: 0;
       background-color: #f8edc2;
       font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
     }
+
     .container {
       max-width: 400px;
       margin: 20px auto;
@@ -18,7 +20,10 @@
       padding: 20px;
       border-radius: 40px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
     }
+
     .header {
       display: flex;
       justify-content: space-between;
@@ -26,12 +31,12 @@
       margin-bottom: 20px;
       color: #5b5132;
     }
-    .header .back {
+
+    .back {
       cursor: pointer;
+      z-index: 20;
     }
-    .header .time {
-      font-size: 16px;
-    }
+
     .title {
       text-align: center;
       font-size: 24px;
@@ -40,6 +45,7 @@
       color: #3b3422;
       cursor: pointer;
     }
+
     .search-bar {
       display: flex;
       align-items: center;
@@ -48,6 +54,7 @@
       padding: 8px 12px;
       margin-bottom: 15px;
     }
+
     .search-bar input {
       border: none;
       outline: none;
@@ -56,12 +63,14 @@
       font-size: 16px;
       margin-left: 10px;
     }
+
     .tags {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       margin-bottom: 15px;
     }
+
     .tag {
       padding: 6px 12px;
       background: #fff4c4;
@@ -69,14 +78,17 @@
       font-size: 14px;
       cursor: pointer;
     }
+
     .tag.active {
       background-color: #c4a000;
       color: white;
     }
+
     .game-list {
       list-style: none;
       padding: 0;
     }
+
     .game-item {
       display: flex;
       align-items: center;
@@ -87,35 +99,54 @@
       color: #3c341e;
       cursor: pointer;
     }
+
     .game-item i {
       font-style: normal;
       font-size: 20px;
     }
+
     .footer {
       margin-top: 20px;
       font-size: 12px;
       color: #877b56;
       text-align: center;
     }
-    .game-detail {
-      margin-top: 20px;
+
+    /* Slide-in detail panel */
+    .game-detail-panel {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 400px;
+      height: 100%;
       background: #fff4dc;
-      padding: 10px;
-      border-radius: 16px;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+      transition: right 0.3s ease;
+      padding: 20px;
+      z-index: 10;
     }
-    .game-detail img {
+
+    .game-detail-panel.active {
+      right: 0;
+    }
+
+    .game-detail-panel img {
       width: 100%;
       border-radius: 10px;
       margin-bottom: 10px;
     }
-    .game-detail h3 {
+
+    .game-detail-panel h3 {
       margin: 0;
     }
+
     .game-section {
       display: flex;
       justify-content: space-between;
       margin-top: 10px;
     }
+
     .box {
       background: #fef6e4;
       padding: 10px;
@@ -123,12 +154,14 @@
       width: 48%;
       font-size: 14px;
     }
+
     .bet-section {
       margin-top: 10px;
       background: #fef6e4;
       padding: 10px;
       border-radius: 10px;
     }
+
     .bet-values span {
       display: inline-block;
       background: #fff;
@@ -137,6 +170,7 @@
       margin: 4px;
       font-size: 13px;
     }
+
     .line-control {
       display: flex;
       justify-content: center;
@@ -144,6 +178,7 @@
       gap: 10px;
       margin-top: 10px;
     }
+
     .line-control button {
       padding: 5px 10px;
       background: #f0de9e;
@@ -156,10 +191,11 @@
 <body>
   <div class="container">
     <div class="header">
-      <div class="back" onclick="goBack()">⬅ back</div>
-      <div id="clock" class="time">--:--</div>
+      <div class="back" onclick="closeGameDetail()">⬅ back</div>
+      <div id="clock">--:--</div>
       <div>User</div>
     </div>
+
     <div class="title" onclick="scrollToGames()">Find Game</div>
 
     <div class="search-bar">
@@ -176,28 +212,16 @@
 
     <ul class="game-list" id="gameList">
       <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Wolf Run')"><i>🎰</i> Wolf Run</li>
-      <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Sticky Bandits Wild Return')"><i>🎰</i> Sticky Bandits Wild Return</li>
       <li class="game-item" data-tag="mega888" onclick="showGameDetail('Six Acrobats')"><i>🎰</i> Six Acrobats</li>
-      <li class="game-item" data-tag="mega888" onclick="showGameDetail('Great88')"><i>🎰</i> Great88</li>
-      <li class="game-item" data-tag="pussy888" onclick="showGameDetail('Wild Fireworks')"><i>🎰</i> Wild Fireworks</li>
       <li class="game-item" data-tag="pussy888" onclick="showGameDetail('Conan')"><i>🎰</i> Conan</li>
-      <li class="game-item" data-tag="918kiss" onclick="showGameDetail('Floating Dragon')"><i>🎰</i> Floating Dragon</li>
-      <li class="game-item" data-tag="mega888" onclick="showGameDetail('Fortune Tiger')"><i>🎰</i> Fortune Tiger</li>
     </ul>
 
-    <div id="gameDetail" class="game-detail" style="display:none"></div>
-
-    <div class="footer">
-      On Hold Development<br>
-      May be unstable.
-    </div>
+    <div class="footer">On Hold Development<br>May be unstable.</div>
   </div>
 
-  <script>
-    function goBack() {
-      window.history.back();
-    }
+  <div id="gameDetailPanel" class="game-detail-panel"></div>
 
+  <script>
     function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
@@ -206,6 +230,11 @@
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    function scrollToGames() {
+      const list = document.getElementById('gameList');
+      if (list) list.scrollIntoView({ behavior: 'smooth' });
+    }
 
     function filterGames(keyword) {
       const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
@@ -226,21 +255,9 @@
       });
     });
 
-    function scrollToGames() {
-      const list = document.getElementById('gameList');
-      if (list) list.scrollIntoView({ behavior: 'smooth' });
-    }
-
     function showGameDetail(name) {
-      const baseBets = [0.01, 0.02, 0.03, 0.05, 0.10, 0.20, 0.30, 0.50, 1.00, 2.00, 3.00];
-      let lineCount = 40;
-      const detailBox = document.getElementById('gameDetail');
-
-      function generateBetHTML() {
-        return baseBets.map(b => `<span>${(b * lineCount).toFixed(2)}</span>`).join('');
-      }
-
-      detailBox.innerHTML = `
+      const panel = document.getElementById('gameDetailPanel');
+      panel.innerHTML = `
         <img src="https://placehold.co/600x200" alt="Game Banner">
         <h3>${name}</h3>
         <p><strong>GameName:</strong> ${name.replace(/ /g, '')}</p>
@@ -248,44 +265,40 @@
           <div class="box">
             <strong>Game Info</strong><br>
             Type: Slot<br>
-            Payline: Adjustable<br>
+            Payline: 40<br>
             Adjustable Payline: Yes
           </div>
           <div class="box">
             <strong>Platforms</strong><br>
-            <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">🎰 Mega888</span>
+            <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">🎰 ${getPlatform(name)}</span>
           </div>
         </div>
         <div class="bet-section">
           <strong>Game Bet</strong><br>
-          <div class="bet-values" id="betValues">
-            ${generateBetHTML()}
+          <div class="bet-values">
+            <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span>
+            <span>4.00</span><span>8.00</span><span>12.00</span><span>20.00</span>
+            <span>40.00</span><span>80.00</span><span>120.00</span>
           </div>
           <div class="line-control">
-            <button id="minusLine">-</button>
-            <span id="lineCount">${lineCount} lines</span>
-            <button id="plusLine">+</button>
+            <button>-</button>
+            <span>40 lines</span>
+            <button>+</button>
           </div>
         </div>`;
+      panel.classList.add('active');
+    }
 
-      detailBox.style.display = 'block';
+    function closeGameDetail() {
+      const panel = document.getElementById('gameDetailPanel');
+      panel.classList.remove('active');
+    }
 
-      const lineCountDisplay = document.getElementById('lineCount');
-      const betValuesDisplay = document.getElementById('betValues');
-
-      document.getElementById('minusLine').addEventListener('click', () => {
-        if (lineCount > 1) {
-          lineCount--;
-          lineCountDisplay.textContent = `${lineCount} lines`;
-          betValuesDisplay.innerHTML = generateBetHTML();
-        }
-      });
-
-      document.getElementById('plusLine').addEventListener('click', () => {
-        lineCount++;
-        lineCountDisplay.textContent = `${lineCount} lines`;
-        betValuesDisplay.innerHTML = generateBetHTML();
-      });
+    function getPlatform(name) {
+      if (name === "Wolf Run") return "918kiss";
+      if (name === "Six Acrobats") return "Mega888";
+      if (name === "Conan") return "Pussy888";
+      return "Unknown";
     }
   </script>
 </body>
