@@ -78,7 +78,7 @@
     const bet = parseFloat(document.getElementById("betValue").value);
     const tbody = document.querySelector("#gameLog tbody");
 
-    // Reset tapi pertahankan baris Set Score di awal
+    // Reset, tapi pertahankan baris Set Score di awal
     tbody.innerHTML = `
       <tr>
         <td>-</td>
@@ -94,7 +94,7 @@
       // Win random berdasarkan bet yg sama
       const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
       const beginMoney = balance;
-      const endMoney = beginMoney - bet + win;
+      const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
       balance = endMoney;
       lastEndMoney = endMoney;
 
@@ -114,8 +114,8 @@
       `;
     }
 
-    // Hitung set score sesuai EndMoney terakhir, negatif dan absolut
-    const setScore = -Math.abs(lastEndMoney);
+    // SET SCORE: negatif nilai EndMoney baris terakhir
+    const setScore = -Math.abs(parseFloat(lastEndMoney.toFixed(2)));
     document.getElementById("setScoreCell").innerText = `Set score: ${setScore.toFixed(2)}`;
   }
 </script>
