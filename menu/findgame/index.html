@@ -361,6 +361,7 @@
     border-radius: 4px;
     font-weight: bold;
   }
+  
   </style>
 </head>
 <body>
@@ -483,7 +484,10 @@
 }
 function adjustBet(direction) {
   if (!window.currentBets) return;
+
+  // Pindah ke index berikut/previous sesuai tombol
   window.currentBetIndex = Math.max(0, Math.min(window.currentBets.length - 1, window.currentBetIndex + direction));
+
   updateBetDisplay();
 }
 
@@ -528,14 +532,14 @@ function updateBetDisplay() {
      }
       li.setAttribute('data-tag', game.tags.join(' '));
       li.innerHTML = `<i>🎰</i> ${game.name}`;
-     li.onclick = () => showGameDetail(
+    li.onclick = () => showGameDetail(
   game.name,
   game.tags.map(t => t.toUpperCase()),
   game.image,
   game.type,
   game.payline,
   game.adjustable,
-  game.bets || [0.40, 0.80, 1.20, 2.00] // fallback kalau tidak ada
+  game.bets || [0.50, 1.00, 2.00, 5.00, 10.00] // fallback jika tidak ada
 );
     gameList.appendChild(li);
   });
