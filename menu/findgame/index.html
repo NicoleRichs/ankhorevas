@@ -251,7 +251,7 @@
     <input type="text" id="searchBox" placeholder="Search game...">
 
     <div class="platform-tags">
-      <div>All</div>
+      <div class="active-tag">All</div>
       <div>918KISS</div>
       <div>MEGA888</div>
       <div>PUSSY888</div>
@@ -517,11 +517,13 @@
   }
 
   // Fungsi ketika tag platform diklik
-  platformTags.forEach(tag => {
-    tag.addEventListener("click", () => {
+      platformTags.forEach(tag => {
+      tag.addEventListener("click", () => {
       platformTags.forEach(t => t.classList.remove("active-tag")); // Hapus highlight dari tag lain
       tag.classList.add("active-tag"); // Beri highlight pada tag yang dipilih
-      selectedPlatform = tag.textContent.toUpperCase() === "ALL" ? "All" : tag.textContent.toUpperCase(); // Set platform yang dipilih
+      selectedPlatform = tag.textContent.toUpperCase();
+      if (selectedPlatform === "ALL") selectedPlatform = "All";
+ 
       displayGames(); // Tampilkan game sesuai platform yang dipilih
     });
   });
