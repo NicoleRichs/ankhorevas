@@ -254,8 +254,8 @@
    display: flex;
    align-items: center;
    justify-content: center;
-   height: 100vh;
-   overflow-x: hidden;
+   height: 100%;
+   overflow: hidden; 
    margin: 0;
 }  
 .game-detail {
@@ -274,7 +274,7 @@
     max-width: 100%;
   }
   .container {
-   position: absolute;
+   position: relative;
    top: 50%;
    left: 50%;
    margin: 0 auto;
@@ -283,6 +283,9 @@
    padding: 10px;
    box-sizing: border-box;
    overflow: hidden;
+   display: flex;
+   justify-content: center;
+   align-items: center;
  }
 
   .line-controls button {
