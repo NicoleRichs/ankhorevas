@@ -390,6 +390,37 @@
 .platforms p {
   margin: 6px 0;
 }
+ .detail-box {
+  border: 1px solid gold;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 12px;
+  background-color: #111;
+}
+
+.game-info-container {
+  display: flex;
+  justify-content: space-between; /* Membuat kolom game info dan platforms sejajar */
+  align-items: center;
+}
+
+.game-info, .platforms {
+  width: 45%; /* Tentukan lebar kolom */
+}
+
+.game-info h3, .platforms h3 {
+  text-align: center;
+  color: gold;
+}
+
+.game-info p, .platforms p {
+  color: white;
+  text-align: center; /* Teks di tengah */
+}
+
+.game-info p strong, .platforms p strong {
+  color: gold;
+}
   #currentBet {
   display: none;
 }
@@ -422,6 +453,22 @@
         Might be unstable.
       </div>
       <div class="close-btn" onclick="goBack()">Close</div>
+      <div class="detail-box">
+  <div class="game-info-container">
+    <div class="game-info">
+      <h3>GAME INFO</h3>
+      <p><strong>Type:</strong> Slot</p>
+      <p><strong>Payline:</strong> 20</p>
+      <p><strong>Adjustable:</strong> Yes</p>
+    </div>
+    <div class="platforms">
+      <h3>PLATFORMS</h3>
+      <p>918KISS</p>
+      <p>MEGA888</p>
+      <p>PUSSY888</p>
+    </div>
+  </div>
+</div>
     </div>
   </div>
 
