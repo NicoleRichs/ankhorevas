@@ -210,7 +210,7 @@
   <div class="floating-dots"></div>
   <div class="container">
   <div class="header">
-    <a href="5g88-menu.vercel.app" class="home-button">🏠 Home</a>
+    <a href="https://5g88-menu.vercel.app" class="home-button">🏠 Home</a>
     <div class="header-title">Tips Game</div>
   </div>
   <div id="gameSection"></div>
@@ -329,7 +329,16 @@
       const textToCopy = `${name}\n========\n${tips}`;
       navigator.clipboard.writeText(textToCopy).catch(() => alert("Copy failed."));
     }
-
+          function goToPage(url) {
+    // Tambahkan https:// jika belum ada
+    if (!url.startsWith("http")) {
+      url = "https://" + url;
+    }
+    window.location.href = url;
+  }
+     function goToPage(page) {
+     window.location.href = page;
+   }
     setInterval(() => {
       for (const name in tipsList) {
         const auto = document.getElementById(`auto-${name}`);
