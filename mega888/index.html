@@ -26,6 +26,9 @@
       background: #3c8dbc;
       color: white;
     }
+    .log-row {
+    color: rgb(51, 51, 51);
+    }
     button {
       padding: 5px 10px;
       font-size: 13px;
@@ -52,7 +55,7 @@
     }
 
     .set-score-row td {
-      color: #ccc;
+      color: rgb(51, 51, 51);
       font-size: 10px;
       
     }
@@ -162,7 +165,7 @@
 
     logs.forEach(log => {
       rows += `
-        <tr>
+        <tr class="log-row">
           <td>${log.game}</td>
           <td>${log.tableID}</td>
           <td>${log.bet}</td>
