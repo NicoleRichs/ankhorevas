@@ -147,6 +147,9 @@
 
 <button onclick="setNow()">Now (Current Time)</button>
 <span id="nowTime">No time set</span>
+<br><br>
+<label for="manualTime">Atur Manual Waktu Awal:</label>
+<input type="datetime-local" id="manualTime" />
 
 <br><br>
 <button onclick="generateLog()">Change</button>
@@ -203,12 +206,16 @@
   let balance = rnd(3000, 4000);
 
   // Ambil waktu awal dari globalTime
-  let baseTime = globalTime ? new Date(globalTime) : new Date();
+ const manualInput = document.getElementById("manualTime").value;
+ let baseTime = manualInput 
+  ? new Date(manualInput.replace("T", " ") + ":00")
+  : (globalTime ? new Date(globalTime) : new Date());
 
   for(let i = 0; i < 10; i++){
     const beginMoney = balance;
     const win = Math.random() > 0.7 ? rnd(0, selectedPecahan) : 0.00;
     const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
+    document.getElementById("manualTime").value = globalTime.substring(0, 16).replace(" ", "T");
 
     const formattedTime = baseTime.toISOString().replace("T", " ").substring(0, 19);
 
