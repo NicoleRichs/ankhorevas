@@ -328,15 +328,12 @@
 </div>
 
 <script>
-function copyLink(button) {
-  const link = button.getAttribute('data-link');
+function copyLink(event, btn) {
+  event.preventDefault(); // cegah submit atau aksi bawaan
+  const link = btn.getAttribute('data-link');
   navigator.clipboard.writeText(link)
-    .then(() => {
-      alert("Link copied: " + link);
-    })
-    .catch(err => {
-      console.error("Failed to copy link: ", err);
-    });
+    .then(() => alert("Link copied: " + link))
+    .catch(err => console.error("Gagal copy:", err));
 }
 </script>
 </body>
