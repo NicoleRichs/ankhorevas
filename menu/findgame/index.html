@@ -505,7 +505,24 @@
       betValuesBox.appendChild(betDiv);
     });
   }
+   
+   function renderGameList(filteredGames) {
+  const list = document.getElementById('gameList');
+  list.innerHTML = '';
 
+  if (filteredGames.length === 0) {
+    list.innerHTML = '<div class="no-result">No games found</div>';
+    return;
+  }
+
+  filteredGames.forEach((game, index) => {
+    const div = document.createElement('div');
+    div.className = 'game-item';
+    div.textContent = game.name;
+    div.addEventListener('click', () => showGameDetail(game));
+    list.appendChild(div);
+  });
+}
   // Ubah jumlah garis ketika tombol -/+ ditekan
   function changeLine(change) {
     const game = games.find(g => g.name === gameDetail.dataset.gameName);
