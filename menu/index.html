@@ -303,12 +303,12 @@
       <div class="title">Main Menu</div>
     </div>
     <div class="menu">
-      <a class="menu-item" onclick="goToPage('https://5g88-tipsgame.vercel.app')">
-         <a class="icon-wrapper">
+      <div class="menu-item" onclick="goToPage('5g88-tipsgame.vercel.app')">
+         <div class="icon-wrapper">
           <img src="https://png.pngtree.com/png-clipart/20241203/original/pngtree-explore-popular-slot-game-png-image_17523856.png" alt="Tips Game">
-        </a>
+        </div>
         Tips Game
-     </a>
+      </div>
       <div class="menu-item" onclick="goToPage('5g88-findgame.vercel.app')">
         <div class="icon-wrapper">
           <img src="https://png.pngtree.com/png-clipart/20250115/original/pngtree-a-classic-gold-slot-machine-displaying-winning-777-jackpot-combination-png-image_20203157.png" alt="Find Game">
@@ -329,6 +329,13 @@
   </div>
 
   <script>
+      function goToPage(url) {
+    // Tambahkan https:// jika belum ada
+    if (!url.startsWith("http")) {
+      url = "https://" + url;
+    }
+    window.location.href = url;
+  }
      function goToPage(page) {
      window.location.href = page;
    }
