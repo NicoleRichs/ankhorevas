@@ -66,18 +66,21 @@
     }
     @media (max-width: 768px) {
    body {
-    justify-content: flex-start;
-    padding-left: 10px;
-    overflow: hidden;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    height: 100dvh;
    }
   .container {
-    width: 75vw;
-    height: 85vh;
-    max-height: 95vh;
+    width: 90vw;
+    height: auto;
+    max-height: 90vh;
     min-height: unset;
     margin-left: 0;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
   }
 
   .game-detail {
@@ -298,6 +301,10 @@
      color: gold;
     }
     .platform-badge {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     height: 32px;
      padding: 3px 6px;
      border-radius: 6px;
      display: inline-block;
