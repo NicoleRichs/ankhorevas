@@ -467,17 +467,19 @@
 
   // Fungsi untuk menampilkan detail game
   function showGameDetail(game) {
-    gameImg.src = game.image;
-    gameTitle.textContent = game.name;
-    gameName.textContent = game.name;
-    gameType.textContent = "Type: " + game.type;
-    gamePayline.textContent = "Paylines: " + game.payline;
-    gameAdjustable.textContent = "Adjustable Lines: " + (game.adjustable ? "Yes" : "No");
+  const detail = document.getElementById('gameDetail');
+  if (!detail) return;
 
+  detail.innerHTML = `
+    <p><strong>Game Name:</strong> ${game.name}</p>
+    <p><strong>Type:</strong> ${game.type || 'N/A'}</p>
+    <p><strong>Paylines:</strong> ${game.payline || 'N/A'}</p>
+    <p><strong>Adjustable:</strong> ${game.adjustable ? 'Yes' : 'No'}</p>
     selectedLine = 1;
     updateLineDisplay();
     displayBetValues(game);
-
+    `;
+}
     gameTags.innerHTML = "";
     game.tags.forEach(tag => {
       const tagDiv = document.createElement("div");
