@@ -1,313 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Find Game</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f8ebc4;
+      padding: 0;
+      background-color: #f8edc2;
+      font-family: 'Poppins', sans-serif;
     }
 
     .container {
-      max-width: 420px;
-      margin: 0 auto;
-      background: #fff6dd;
-      border-radius: 30px 30px 0 0;
+      max-width: 400px;
+      margin: 20px auto;
+      background: #fff6dc;
       padding: 20px;
-      min-height: 100vh;
+      border-radius: 40px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
     .header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      color: #5b5132;
     }
 
-    .back-btn {
-      background: none;
-      border: none;
+    .header .time {
       font-size: 16px;
-      cursor: pointer;
-      color: #666;
     }
 
     .title {
-      font-weight: bold;
-      font-size: 22px;
       text-align: center;
-      flex: 1;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #3b3422;
     }
 
-    .search-box {
-      margin-top: 15px;
-      padding: 10px;
-      width: 100%;
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #f0de9e;
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin-bottom: 15px;
+    }
+
+    .search-bar input {
       border: none;
-      border-radius: 8px;
-      background: #f1e4a8;
+      outline: none;
+      background: transparent;
+      flex: 1;
       font-size: 16px;
+      margin-left: 10px;
     }
 
-    .platforms {
+    .tags {
       display: flex;
       gap: 10px;
-      margin-top: 10px;
       flex-wrap: wrap;
+      margin-bottom: 15px;
     }
 
-    .platform-btn {
-      padding: 6px 15px;
-      border: none;
+    .tag {
+      padding: 6px 12px;
+      background: #fff4c4;
       border-radius: 20px;
-      background: #f1e4a8;
-      cursor: pointer;
       font-size: 14px;
+      cursor: pointer;
     }
 
-    .platform-btn.active {
-      background: #fff;
-      font-weight: bold;
-      border: 2px solid #e0c66e;
+    .tag.active {
+      background-color: #c4a000;
+      color: white;
     }
 
     .game-list {
-      margin-top: 15px;
+      list-style: none;
+      padding: 0;
     }
 
     .game-item {
       display: flex;
       align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px dotted #aaa;
-      cursor: pointer;
-    }
-
-    .game-item img {
-      width: 24px;
-      margin-right: 10px;
-    }
-
-    .status {
-      font-size: 12px;
-      color: #999;
-      margin-left: 34px;
-    }
-
-    .game-detail {
-      display: none;
-    }
-
-    .game-detail.show {
-      display: block;
-    }
-
-    .game-image {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-
-    .info-box {
-      background: #fff8db;
-      padding: 10px;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
-
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 4px 0;
-    }
-
-    .bet-options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 10px;
-    }
-
-    .bet-button {
-      background: #e9d788;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    .line-control {
-      display: flex;
-      align-items: center;
       gap: 10px;
-      margin-top: 10px;
-    }
-
-    .line-control button {
-      width: 30px;
-      height: 30px;
-      border: none;
-      background: #cbb65f;
-      border-radius: 50%;
-      font-weight: bold;
-      color: white;
-    }
-
-    .line-control span {
+      padding: 10px 0;
+      border-bottom: 1px dashed #d1c593;
       font-size: 16px;
+      color: #3c341e;
+    }
+
+    .game-item i {
+      font-style: normal;
+      font-size: 20px;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #877b56;
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <button class="back-btn" id="backBtn" style="display:none;">← back</button>
-      <div class="title">Find Game</div>
-      <div style="width: 50px;"></div>
+      <div>⬅ back</div>
+      <div class="time">19:28</div>
+      <div>User</div>
+    </div>
+    <div class="title">Find Game</div>
+
+    <div class="search-bar">
+      <div>🔍</div>
+      <input type="text" placeholder="Search">
     </div>
 
-    <!-- Game Detail -->
-    <div id="gameDetail" class="game-detail"></div>
+    <div class="tags">
+      <div class="tag active">All</div>
+      <div class="tag">918kiss</div>
+      <div class="tag">Mega888</div>
+      <div class="tag">Pussy888</div>
+    </div>
 
-    <!-- Game List -->
-    <div id="searchSection">
-      <input type="text" id="search" class="search-box" placeholder="Search..." />
-      <div class="platforms">
-        <button class="platform-btn active" data-platform="All">All</button>
-        <button class="platform-btn" data-platform="918kiss">918kiss</button>
-        <button class="platform-btn" data-platform="Mega888">Mega888</button>
-        <button class="platform-btn" data-platform="Pussy888">Pussy888</button>
-      </div>
-      <div class="game-list" id="gameList"></div>
+    <ul class="game-list">
+      <li class="game-item"><i>🎰</i> Wolf Run</li>
+      <li class="game-item"><i>🎰</i> Sticky Bandits Wild Return</li>
+      <li class="game-item"><i>🎰</i> Six Acrobats</li>
+      <li class="game-item"><i>🎰</i> Great88</li>
+      <li class="game-item"><i>🎰</i> Wild Fireworks</li>
+      <li class="game-item"><i>🎰</i> Conan</li>
+      <li class="game-item"><i>🎰</i> Floating Dragon</li>
+      <li class="game-item"><i>🎰</i> Fortune Tiger</li>
+    </ul>
+
+    <div class="footer">
+      On Hold Development<br>
+      May be unstable.
     </div>
   </div>
-
-  <script>
-    const games = [
-      {
-        name: "Wolf Run",
-        platform: "Mega888",
-        unstable: false,
-        image: "https://via.placeholder.com/300x150?text=Wolf+Run",
-        paylines: 40,
-        adjustable: true,
-        bets: [0.40, 0.80, 1.20, 2.00, 4.00, 8.00, 12.00, 20.00, 40.00, 80.00, 120.00]
-      },
-      {
-        name: "Fortune Tiger",
-        platform: "Mega888",
-        unstable: true,
-        image: "https://via.placeholder.com/300x150?text=Fortune+Tiger",
-        paylines: 40,
-        adjustable: true,
-        bets: [0.40, 0.80, 1.20, 2.00, 4.00, 8.00, 12.00, 20.00]
-      },
-      // Tambahkan game lain sesuai kebutuhan...
-    ];
-
-    const gameList = document.getElementById("gameList");
-    const searchInput = document.getElementById("search");
-    const platformButtons = document.querySelectorAll(".platform-btn");
-    const gameDetail = document.getElementById("gameDetail");
-    const backBtn = document.getElementById("backBtn");
-    const searchSection = document.getElementById("searchSection");
-
-    let currentPlatform = "All";
-
-    function renderGames() {
-      const keyword = searchInput.value.toLowerCase();
-      gameList.innerHTML = "";
-
-      const filtered = games.filter(game => {
-        const matchKeyword = game.name.toLowerCase().includes(keyword);
-        const matchPlatform = currentPlatform === "All" || game.platform === currentPlatform;
-        return matchKeyword && matchPlatform;
-      });
-
-      filtered.forEach(game => {
-        const item = document.createElement("div");
-        item.className = "game-item";
-        item.innerHTML = `
-          <img src="https://img.icons8.com/ios-filled/50/slot-machine.png"/>
-          <div>
-            <strong>${game.name}</strong>
-            ${game.unstable ? '<div class="status">On Hold Development<br>May be unstable.</div>' : ''}
-          </div>
-        `;
-        item.addEventListener("click", () => showGameDetail(game));
-        gameList.appendChild(item);
-      });
-
-      if (filtered.length === 0) {
-        gameList.innerHTML = "<p>No games found.</p>";
-      }
-    }
-
-    function showGameDetail(game) {
-      searchSection.style.display = "none";
-      backBtn.style.display = "inline-block";
-      gameDetail.classList.add("show");
-      gameDetail.innerHTML = `
-        <img src="${game.image}" class="game-image" />
-        <div class="info-box">
-          <div class="info-row"><strong>GameName:</strong> ${game.name}</div>
-          <div class="info-row"><strong>Type:</strong> Slot</div>
-          <div class="info-row"><strong>Payline:</strong> ${game.paylines}</div>
-          <div class="info-row"><strong>Adjustable Payline:</strong> ${game.adjustable ? 'Yes' : 'No'}</div>
-          <div class="info-row"><strong>Platform:</strong> ${game.platform}</div>
-          <div class="info-row"><strong>Game Bet:</strong></div>
-          <div class="bet-options">
-            ${game.bets.map(bet => `<span class="bet-button">${bet.toFixed(2)}</span>`).join('')}
-          </div>
-          <div class="line-control">
-            <button onclick="decreaseLine()">-</button>
-            <span id="lineCount">${game.paylines} lines</span>
-            <button onclick="increaseLine()">+</button>
-          </div>
-        </div>
-        ${game.unstable ? '<div class="status">On Hold Development<br>May be unstable.</div>' : ''}
-      `;
-    }
-
-    function decreaseLine() {
-      const countSpan = document.getElementById("lineCount");
-      let lines = parseInt(countSpan.textContent);
-      if (lines > 1) {
-        lines--;
-        countSpan.textContent = `${lines} lines`;
-      }
-    }
-
-    function increaseLine() {
-      const countSpan = document.getElementById("lineCount");
-      let lines = parseInt(countSpan.textContent);
-      lines++;
-      countSpan.textContent = `${lines} lines`;
-    }
-
-    backBtn.addEventListener("click", () => {
-      gameDetail.classList.remove("show");
-      searchSection.style.display = "block";
-      backBtn.style.display = "none";
-    });
-
-    platformButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        platformButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentPlatform = btn.dataset.platform;
-        renderGames();
-        gameDetail.classList.remove("show");
-      });
-    });
-
-    searchInput.addEventListener("input", () => {
-      renderGames();
-      gameDetail.classList.remove("show");
-    });
-
-    renderGames();
-  </script>
 </body>
 </html>
