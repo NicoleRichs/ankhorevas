@@ -376,6 +376,28 @@
   color: gold;
   border: 1px solid gold;
 }
+ .bet-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.bet-control button {
+  background-color: gold;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.bet-control span {
+  font-size: 18px;
+  font-weight: bold;
+}
   </style>
 </head>
 <body>
@@ -456,11 +478,16 @@ function renderGames() {
 
 function showGameDetail(game) {
   const detailContainer = document.getElementById('gameDetail');
+  let currentBetIndex = 0;
 
-  function renderBetOptions() {
-    return game.lineBet.map((bet, index) => `
-      <span class="bet-option" data-index="${index}">RM ${bet.toFixed(2)}</span>
-    `).join('');
+  function renderBetControl() {
+    return `
+      <div class="bet-control">
+        <button id="decreaseBet">−</button>
+        <span id="currentBet">RM ${game.lineBet[currentBetIndex].toFixed(2)}</span>
+        <button id="increaseBet">+</button>
+      </div>
+    `;
   }
 
   detailContainer.innerHTML = `
@@ -475,24 +502,34 @@ function showGameDetail(game) {
       </div>
       <div class="bet-section">
         <h4>Choose Bet Amount</h4>
-        <div class="bet-values">
-          ${renderBetOptions()}
-        </div>
+        ${renderBetControl()}
       </div>
     </div>
   `;
 
-  // Tambah interaksi setelah render
-  detailContainer.querySelectorAll('.bet-option').forEach(el => {
-    el.addEventListener('click', () => {
-      detailContainer.querySelectorAll('.bet-option').forEach(opt => opt.classList.remove('selected'));
-      el.classList.add('selected');
-    });
+  function updateBetDisplay() {
+    const currentBetEl = document.getElementById('currentBet');
+    if (currentBetEl) {
+      currentBetEl.textContent = `RM ${game.lineBet[currentBetIndex].toFixed(2)}`;
+    }
+  }
+
+  document.getElementById('decreaseBet').addEventListener('click', () => {
+    if (currentBetIndex > 0) {
+      currentBetIndex--;
+      updateBetDisplay();
+    }
+  });
+
+  document.getElementById('increaseBet').addEventListener('click', () => {
+    if (currentBetIndex < game.lineBet.length - 1) {
+      currentBetIndex++;
+      updateBetDisplay();
+    }
   });
 
   detailContainer.classList.add('active');
 }
-
 function closeDetail() {
   document.getElementById('gameDetail').classList.remove('active');
 }
