@@ -220,13 +220,29 @@
   // Ambil waktu dasar dari input manual atau globalTime
   const manualInput = document.getElementById("manualTime").value.trim();
   let baseTime;
-  if (manualInput) {
-    baseTime = new Date(manualInput.replace(" ", "T"));
-  } else if (globalTime) {
-    baseTime = new Date(globalTime.replace(" ", "T"));
+ if (manualInput) {
+  const parts = manualInput.split(" ");
+  if (parts.length === 2) {
+    const [datePart, timePart] = parts;
+    const [year, month, day] = datePart.split("-").map(Number);
+    const [hour, minute, second] = timePart.split(":").map(Number);
+    baseTime = new Date(year, month - 1, day, hour, minute, second);
+  } else {
+    baseTime = new Date(); // fallback jika input salah format
+  }
+} else if (globalTime) {
+  const parts = globalTime.split(" ");
+  if (parts.length === 2) {
+    const [datePart, timePart] = parts;
+    const [year, month, day] = datePart.split("-").map(Number);
+    const [hour, minute, second] = timePart.split(":").map(Number);
+    baseTime = new Date(year, month - 1, day, hour, minute, second);
   } else {
     baseTime = new Date();
   }
+} else {
+  baseTime = new Date();
+}
 
   // Buat 10 log dengan waktu mundur 3–60 detik tiap baris
   for (let i = 0; i < 10; i++) {
