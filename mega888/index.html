@@ -4,46 +4,23 @@
   <meta charset="UTF-8">
   <title>Game Log Generator</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    th, td {
-      padding: 8px;
-      border: 1px solid #ccc;
-      text-align: center;
-    }
-
-    th {
-      background-color: #0073e6;
-      color: white;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #218838;
-    }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 8px; border: 1px solid #ccc; text-align: center; }
+    th { background-color: #0073e6; color: white; }
+    button { padding: 10px 20px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    button:hover { background-color: #218838; }
+    select { padding: 5px 10px; font-size: 16px; margin-left: 10px; }
   </style>
 </head>
 <body>
 
 <h2>Game Log</h2>
+<label for="betGroup">Bet Group:</label>
+<select id="betGroup">
+  <option value="groupA">0.01 – 10.00</option>
+  <option value="groupB">0.02 – 20.00</option>
+</select>
 <button onclick="generateLog()">Change</button>
 
 <table id="gameLog">
@@ -61,14 +38,18 @@
   <tbody>
     <tr>
       <td>-</td>
-      <td colspan="6" id="setScore" style="color: red; font-weight: bold;">Set score: -0.00</td>
+      <td id="setScore" colspan="6" style="color: red; font-weight: bold;">Set score: -0.00</td>
     </tr>
   </tbody>
 </table>
 
 <script>
-  const gameNames = ["Great88", "LuckyBall", "MegaReel", "DragonSlot", "SevenWin"];
-  const betOptions = [1.00, 1.50, 2.00, 2.50, 5.00, 10.00];
+  const gameList = ["Great88", "LuckyBall", "MegaReel", "DragonSlot", "SevenWin"];
+
+  const betGroups = {
+    groupA: [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.25, 0.50, 1.00, 2.50, 5.00, 10.00],
+    groupB: [0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.50, 1.00, 2.00, 5.00, 10.00, 20.00]
+  };
 
   function getRandomFloat(min, max, decimals = 2) {
     return parseFloat((Math.random() * (max - min) + min).toFixed(decimals));
@@ -81,10 +62,13 @@
 
   function generateLog() {
     const tbody = document.querySelector("#gameLog tbody");
+    const selectedGroup = document.getElementById("betGroup").value;
+    const bets = betGroups[selectedGroup];
+
     tbody.innerHTML = `
       <tr>
         <td>-</td>
-        <td colspan="6" id="setScore" style="color: red; font-weight: bold;">Set score: -0.00</td>
+        <td id="setScore" colspan="6" style="color: red; font-weight: bold;">Set score: -0.00</td>
       </tr>
     `;
 
@@ -93,10 +77,10 @@
     let totalWin = 0;
 
     for (let i = 0; i < 10; i++) {
-      const game = gameNames[Math.floor(Math.random() * gameNames.length)];
-      const bet = betOptions[Math.floor(Math.random() * betOptions.length)];
+      const game = gameList[Math.floor(Math.random() * gameList.length)];
+      const bet = bets[Math.floor(Math.random() * bets.length)];
       const winChance = Math.random();
-      const win = winChance > 0.6 ? getRandomFloat(0, bet * 5) : 0.00;
+      const win = winChance > 0.7 ? getRandomFloat(0, bet * 3) : 0.00;
       const beginMoney = currentMoney;
       const endMoney = beginMoney - bet + win;
       const dateTime = getCurrentDateTime();
@@ -120,9 +104,8 @@
     }
 
     const setScore = (totalWin - totalBet).toFixed(2);
-    const scoreColor = setScore >= 0 ? "green" : "red";
-    document.getElementById("setScore").style.color = scoreColor;
-    document.getElementById("setScore").innerText = `Set score: ${setScore >= 0 ? '+' : ''}${setScore}`;
+    document.getElementById("setScore").innerText = `Set score: ${setScore}`;
+    document.getElementById("setScore").style.color = "red"; // always negative visual
   }
 </script>
 
