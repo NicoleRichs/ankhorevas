@@ -456,7 +456,51 @@
         gameList.appendChild(div);
       });
     }
+     document.addEventListener("DOMContentLoaded", function () {
+  const searchInput = document.getElementById("search");
+  const tagButtons = document.querySelectorAll(".tag-button");
+  const gameItems = document.querySelectorAll(".game-item");
 
+  let activeTags = [];
+
+  // Fungsi untuk memfilter game berdasarkan pencarian dan tag
+  function filterGames() {
+    const searchValue = searchInput.value.toLowerCase();
+
+    gameItems.forEach(game => {
+      const title = game.querySelector(".game-title").textContent.toLowerCase();
+      const tags = game.querySelector(".game-tags").textContent.toLowerCase();
+
+      const matchesSearch = title.includes(searchValue);
+      const matchesTags = activeTags.length === 0 || activeTags.some(tag => tags.includes(tag.toLowerCase()));
+
+      if (matchesSearch && matchesTags) {
+        game.style.display = "block";
+      } else {
+        game.style.display = "none";
+      }
+    });
+  }
+
+  // Event listener untuk pencarian
+  searchInput.addEventListener("input", filterGames);
+
+  // Event listener untuk tombol tag
+  tagButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      const tag = this.textContent;
+      this.classList.toggle("active");
+
+      if (this.classList.contains("active")) {
+        activeTags.push(tag);
+      } else {
+        activeTags = activeTags.filter(t => t !== tag);
+      }
+
+      filterGames();
+    });
+  });
+});
 const closeDetail = document.getElementById('closeDetail');
 
 
