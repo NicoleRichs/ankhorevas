@@ -558,16 +558,7 @@
     updateLineDisplay();
     displayBetValues(game);
   }
-    function goToPage(url) {
-    // Tambahkan https:// jika belum ada
-    if (!url.startsWith("http")) {
-      url = "https://" + url;
-    }
-    window.location.href = url;
-  }
-     function goToPage(page) {
-     window.location.href = page;
-   }
+   
   // Fungsi ketika tag platform diklik
       platformTags.forEach(tag => {
       tag.addEventListener("click", () => {
@@ -586,6 +577,17 @@
   });
 
   displayGames(); // Initial display untuk menampilkan semua game
+
+   function goToPage(url) {
+    // Tambahkan https:// jika belum ada
+    if (!url.startsWith("http")) {
+      url = "https://" + url;
+    }
+    window.location.href = url;
+  }
+     function goToPage(page) {
+     window.location.href = page;
+   }
 </script>
 </body>
 </html>
