@@ -390,8 +390,8 @@
     </div>
 </div>
   <script>
-    const games = [
-   {
+   const games = [
+  {
     name: 'SILVER BULLET',
     tags: ['918kiss', 'mega888', 'pussy888'],
     image: 'https://i.imgur.com/3faMy9F.png',
@@ -400,7 +400,7 @@
     adjustable: 'Yes',
     lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
   },
-   {
+  {
     name: 'SILENT SAMURAI',
     tags: ['918kiss', 'mega888', 'pussy888'],
     image: 'https://i.imgur.com/3faMy9F.png',
@@ -418,115 +418,112 @@
     adjustable: 'Yes',
     lineBet: [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00]
   },
-  ];
+];
 
-    function goBack() {
-      document.getElementById('gameDetail').classList.remove('active');
-    }
+function renderGames() {
+  const list = document.getElementById('gameList');
+  list.innerHTML = '';
 
-    function updateClock() {
-      const now = new Date();
-      const h = String(now.getHours()).padStart(2, '0');
-      const m = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('clock').textContent = `${h}:${m}`;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    function filterGames(keyword) {
-     renderGames(keyword);
-    }
-
-    document.querySelectorAll('.tag').forEach(el => {
-      el.addEventListener('click', () => {
-        document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
-        el.classList.add('active');
-        filterGames(document.querySelector('.search-bar input').value);
-      });
-    });
-
-    function scrollToGames() {
-      document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function showGameDetail(name, platforms, imageUrl, type, payline, adjustable) {
-      const box = document.getElementById('gameDetail');
-      const platformTags = platforms.map(p => `<span class="platform-badge plat-${p.toLowerCase().replace(/\s+/g, '')}">🎰 ${p}</span>`
-).join(' ');
-      box.innerHTML = `
-        <div class="close-btn" onclick="goBack()">Close</div>
-        <div class="detail-inner">
-          <img src="${imageUrl}" alt="Game Banner">
-          <h3>${name}</h3>
-          <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
-          <div class="game-section">
-            <div class="box">
-              <strong>Game Info</strong><br>
-              Type: ${type}<br>
-              Payline: <span id="lineCount">${payline}</span><br>
-              Adjustable Lines: ${adjustable}
-            </div>
-            <div class="box">
-              <strong>Platform</strong><br>
-              ${platformTags}
-            </div>
-          </div>
-          <div class="bet-section">
-            <strong>Bet Options</strong><br>
-            <div class="bet-values">
-              <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span>
-              <span>8.00</span><span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
-            </div>
-            <div class="line-control">
-              <button onclick="adjustLines(-1)">-</button>
-              <span id="lineDisplay">${payline} lines</span>
-              <button onclick="adjustLines(1)">+</button>
-            </div>
-          </div>
-        </div>`;
-      box.classList.add('active');
-      window.currentLines = payline;
-    }
-
-    function adjustLines(amount) {
-      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
-      document.getElementById('lineCount').textContent = window.currentLines;
-      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
-    }
-
-    const gameList = document.getElementById('gameList');
-
-    function renderGames(keyword = '') {
-      gameList.innerHTML = '';
-      const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
-      const filtered = games.filter(game => {
-      const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
-      const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
-      return matchTag && matchKeyword;
-    });
-    
-     function displayGameDetails(game) {
-      console.log("Menampilkan detail game:", game);
-     }
-    filtered.forEach((game, index) => {
-      const li = document.createElement('li');
-      li.className = 'game-item';
-      if (keyword === '' && index >= 130) {
-      li.classList.add('hidden'); // Sembunyikan jika lebih dari 8 dan tiada keyword
-     }
-      li.setAttribute('data-tag', game.tags.join(' '));
-      li.innerHTML = `<i>🎰</i> ${game.name}`;
-      li.onclick = () => showGameDetail(
-      game.name,
-      game.tags.map(t => t.toUpperCase()),
-      game.image,
-      game.type,
-      game.payline,
-      game.adjustable
-    );
-    gameList.appendChild(li);
+  games.forEach(game => {
+    const li = document.createElement('li');
+    li.className = 'game-item';
+    li.textContent = game.name;
+    li.onclick = () => showGameDetail(game);
+    list.appendChild(li);
   });
 }
+
+function showGameDetail(game) {
+  const detailContainer = document.getElementById('gameDetail');
+  let currentBetIndex = 0;
+
+  function updateBetDisplay() {
+    const betValue = game.lineBet[currentBetIndex];
+    const totalBet = betValue * game.payline;
+    document.getElementById('currentBet').textContent = `RM ${betValue.toFixed(2)} × ${game.payline} Lines = RM ${totalBet.toFixed(2)}`;
+  }
+
+  window.increaseBet = function () {
+    if (currentBetIndex < game.lineBet.length - 1) {
+      currentBetIndex++;
+      updateBetDisplay();
+    }
+  }
+
+  window.decreaseBet = function () {
+    if (currentBetIndex > 0) {
+      currentBetIndex--;
+      updateBetDisplay();
+    }
+  }
+
+  detailContainer.innerHTML = `
+    <div class="close-btn" onclick="closeDetail()">Close ✖</div>
+    <div class="detail-inner">
+      <img src="${game.image}" alt="${game.name}">
+      <h3>${game.name}</h3>
+      <div class="game-section">
+        <div class="box">Type: ${game.type}</div>
+        <div class="box">Payline: ${game.payline}</div>
+        <div class="box">Adjustable: ${game.adjustable}</div>
+      </div>
+      <div class="bet-section">
+        <h4>Bet Amount</h4>
+        <div class="line-control">
+          <button onclick="decreaseBet()">−</button>
+          <span id="currentBet">RM ${game.lineBet[currentBetIndex].toFixed(2)} × ${game.payline} Lines = RM ${(game.lineBet[currentBetIndex] * game.payline).toFixed(2)}</span>
+          <button onclick="increaseBet()">+</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  detailContainer.classList.add('active');
+}
+
+function closeDetail() {
+  document.getElementById('gameDetail').classList.remove('active');
+}
+
+function filterGames(keyword) {
+  const items = document.querySelectorAll('.game-item');
+  items.forEach(item => {
+    if (item.textContent.toLowerCase().includes(keyword.toLowerCase())) {
+      item.classList.remove('hidden');
+    } else {
+      item.classList.add('hidden');
+    }
+  });
+}
+
+function scrollToGames() {
+  document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
+}
+
+document.querySelectorAll('.tag').forEach(tag => {
+  tag.addEventListener('click', () => {
+    document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+    tag.classList.add('active');
+    const selected = tag.dataset.tag;
+    const items = document.querySelectorAll('.game-item');
+    items.forEach(item => {
+      const game = games.find(g => g.name === item.textContent);
+      if (selected === 'all' || game.tags.includes(selected)) {
+        item.classList.remove('hidden');
+      } else {
+        item.classList.add('hidden');
+      }
+    });
+  });
+});
+
+function updateClock() {
+  const clock = document.getElementById('clock');
+  const now = new Date();
+  clock.textContent = now.toLocaleTimeString();
+}
+setInterval(updateClock, 1000);
+updateClock();
 
 renderGames();
   </script>
