@@ -18,12 +18,17 @@
       margin-top: 300px;
       border: 1px solid #ffd700;
       padding: 20px;
-      border-radius: 8px;
+      border-radius: 12px;
       max-height: 100vh;
       max-width: 70vh;
       justify-content: center;
       align-items: center;
-      
+      box-shadow: 0 0 20px #ffd70088;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .container:hover {
+      transform: scale(1.02);              /* Sedikit membesar saat hover */
+      box-shadow: 0 0 25px #ffd700cc;      /* Bayangan lebih terang */
     }
 
     #searchBox {
