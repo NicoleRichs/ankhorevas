@@ -181,62 +181,65 @@
   }
 
   function generateLog(){
-    const game = document.getElementById("gameSelect").value;
-    const bet = parseFloat(document.getElementById("betValue").value);
-    const tbody = document.querySelector("#gameLog tbody");
+  const game = document.getElementById("gameSelect").value;
+  const bet = parseFloat(document.getElementById("betValue").value);
+  const tbody = document.querySelector("#gameLog tbody");
 
-    let logs = [];
-    let balance = rnd(3000, 4000); // initial balance
+  const pecahanList = betToPecahan[bet.toFixed(2)] || [bet * 2];
+  const selectedPecahan = pecahanList[Math.floor(Math.random() * pecahanList.length)];
 
-    for(let i = 0; i < 10; i++){
-      const beginMoney = balance;
-      const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
-      const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
-      const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
+  let logs = [];
+  let balance = rnd(3000, 4000); // initial balance
 
-      logs.unshift({
-        game,
-        tableID: `<span class="table-id-highlight">0</span>`,
-        bet: bet.toFixed(2),
-        win: win.toFixed(2),
-        beginMoney: beginMoney.toFixed(2),
-        endMoney: endMoney.toFixed(2),
-        dateTime: timeStamp
-      });
+  for(let i = 0; i < 10; i++){
+    const beginMoney = balance;
+    const win = Math.random() > 0.7 ? rnd(0, selectedPecahan) : 0.00;
+    const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
+    const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
-      balance = endMoney; // update balance
-    }
-
-    const setScoreMoney = logs[0].endMoney;
-
-    let rows = `
-      <tr class="set-score-row">
-        <td>-</td>
-        <td class="setscore">Set score: ${(-Math.abs(parseFloat(setScoreMoney))).toFixed(2)}</td>
-        <td class="negatif">-</td>
-        <td class="negatif">-</td>
-        <td class="negatif">-</td>
-        <td class="negatif">-</td>
-        <td>${logs[0].dateTime}</td>
-      </tr>
-    `;
-
-    logs.forEach(log => {
-      rows += `
-        <tr class="log-row">
-          <td>${log.game}</td>
-          <td>${log.tableID}</td>
-          <td>${log.bet}</td>
-          <td>${log.win}</td>
-          <td>${log.beginMoney}</td>
-          <td>${log.endMoney}</td>
-          <td>${log.dateTime}</td>
-        </tr>
-      `;
+    logs.unshift({
+      game,
+      tableID: `<span class="table-id-highlight">0</span>`,
+      bet: bet.toFixed(2),
+      win: win.toFixed(2),
+      beginMoney: beginMoney.toFixed(2),
+      endMoney: endMoney.toFixed(2),
+      dateTime: timeStamp
     });
 
-    tbody.innerHTML = rows;
+    balance = endMoney; // update balance
   }
+
+  const setScoreMoney = logs[0].endMoney;
+
+  let rows = `
+    <tr class="set-score-row">
+      <td>-</td>
+      <td class="setscore">Set score: ${(-Math.abs(parseFloat(setScoreMoney))).toFixed(2)}</td>
+      <td class="negatif">-</td>
+      <td class="negatif">-</td>
+      <td class="negatif">-</td>
+      <td class="negatif">-</td>
+      <td>${logs[0].dateTime}</td>
+    </tr>
+  `;
+
+  logs.forEach(log => {
+    rows += `
+      <tr class="log-row">
+        <td>${log.game}</td>
+        <td>${log.tableID}</td>
+        <td>${log.bet}</td>
+        <td>${log.win}</td>
+        <td>${log.beginMoney}</td>
+        <td>${log.endMoney}</td>
+        <td>${log.dateTime}</td>
+      </tr>
+    `;
+  });
+
+  tbody.innerHTML = rows;
+}
 </script>
 
 </body>
