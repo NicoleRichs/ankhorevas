@@ -583,9 +583,9 @@
     const lineBets = game.bets[selectedLine] || [];
     betValuesBox.innerHTML = "";
     lineBets.forEach(bet => {
-      const betDiv = document.createElement("div");
-      betDiv.textContent = bet;
-      betValuesBox.appendChild(betDiv);
+    const betDiv = document.createElement("div");
+    betDiv.textContent = bet.toFixed(2);
+    betValuesBox.appendChild(betDiv);
     });
   }
    
