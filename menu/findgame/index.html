@@ -371,7 +371,7 @@
 
     <div class="search-bar">
       <div>🔍</div>
-      <input type="text" id="searchInput" oninput="filterGames()">
+      <input type="text" id="searchInput">
     </div>
 
     <div class="tags">
@@ -422,12 +422,12 @@
     gamesToShow.forEach((game, index) => {
       const gameCard = document.createElement("div");
       gameCard.classList.add("game-card");
-      gameCard.innerHTML = `
-        <h3>${game.name}</h3>
-        <p>Provider: ${game.provider}</p>
-        <p>Category: ${game.category}</p>
-        <button onclick="showGameDetails(${index})">View Details</button>
-      `;
+     gameCard.innerHTML = `
+  <h3 class="game-title">${game.name}</h3>
+  <p>Provider: ${game.provider}</p>
+  <p>Category: ${game.category}</p>
+  <button onclick="showGameDetails(${index})">View Details</button>
+`;
       gameList.appendChild(gameCard);
     });
   }
@@ -468,20 +468,7 @@
       : games;
     displayGames(filteredGames);
   });
- function filterGames() {
-  const input = document.getElementById("searchInput");
-  const filter = input.value.toLowerCase();
-  const gameCards = document.querySelectorAll(".game-card");
 
-  gameCards.forEach((card) => {
-    const title = card.querySelector(".game-title").textContent.toLowerCase();
-    if (title.includes(filter)) {
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
-  });
-}
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("searchInput");
 
