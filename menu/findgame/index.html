@@ -19,6 +19,9 @@
       overflow: hidden;
       box-shadow: 0 0 12px rgba(0,0,0,0.2);
     }
+    .game-item.hidden {
+      display: none !important;
+    }
     .header, .footer {
       background: #333;
       color: white;
@@ -390,14 +393,7 @@
     updateClock();
 
     function filterGames(keyword) {
-      const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
-      keyword = keyword.toLowerCase();
-      document.querySelectorAll('.game-item').forEach(item => {
-        const text = item.textContent.toLowerCase();
-        const tag = item.getAttribute('data-tag');
-        const match = selectedTag === 'all' || tag.includes(selectedTag);
-        item.style.display = (text.includes(keyword) && match) ? 'flex' : 'none';
-      });
+     renderGames(keyword);
     }
 
     document.querySelectorAll('.tag').forEach(el => {
@@ -457,21 +453,37 @@
     }
 
     const gameList = document.getElementById('gameList');
-    games.forEach(game => {
+
+    function renderGames(keyword = '') {
+      gameList.innerHTML = '';
+      const selectedTag = document.querySelector('.tag.active').getAttribute('data-tag');
+      const filtered = games.filter(game => {
+      const matchTag = selectedTag === 'all' || game.tags.includes(selectedTag);
+      const matchKeyword = game.name.toLowerCase().includes(keyword.toLowerCase());
+      return matchTag && matchKeyword;
+    });
+
+    filtered.forEach((game, index) => {
       const li = document.createElement('li');
       li.className = 'game-item';
+      if (keyword === '' && index >= 8) {
+      li.classList.add('hidden'); // Sembunyikan jika lebih dari 8 dan tiada keyword
+     }
       li.setAttribute('data-tag', game.tags.join(' '));
       li.innerHTML = `<i>🎰</i> ${game.name}`;
       li.onclick = () => showGameDetail(
-        game.name,
-        game.tags.map(t => t.toUpperCase()),
-        game.image,
-        game.type,
-        game.payline,
-        game.adjustable
-      );
-      gameList.appendChild(li);
-    });
+      game.name,
+      game.tags.map(t => t.toUpperCase()),
+      game.image,
+      game.type,
+      game.payline,
+      game.adjustable
+    );
+    gameList.appendChild(li);
+  });
+}
+
+renderGames();
   </script>
 </body>
 </html>
