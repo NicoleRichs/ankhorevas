@@ -150,11 +150,39 @@
             font-weight: bold;
             animation: blink 0.3s infinite;
         }
+.marquee-container {
+      width: 100%;
+      overflow: hidden;
+      border-top: 2px solid gold;   /* Outline atas */
+      border-bottom: 2px solid gold; /* Outline bawah */
+      padding: 10px 0;
+      box-sizing: border-box;
+      background: #000;
+    }
+
+    .marquee-text {
+      display: inline-block;
+      white-space: nowrap;
+      color: white;
+      font-size: 24px;
+      padding-left: 100%;
+      animation: marquee 15s linear infinite;
+    }
+
+    @keyframes marquee {
+      0%   { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
 </style>
 </head>
 <body>
 <div id="rain-container"></div>
 <h1 style="text-align:center; color:gold; margin-bottom: 30px;"><span class="blinker">🎰 LINK DOWNLOAD 🎰</span></h1>
+ <div class="marquee-container">
+    <div class="marquee-text">
+      🎰 Selamat datang ke laman 5G88 Download Link! Nikmati pengalaman slot terbaik di 918KISS, MEGA888 dan PUSSY888! 🎰
+    </div>
+  </div>
 
 <a href="https://5g88-menu.vercel.app" class="home-btn">Home</a>
 <div class="container">
