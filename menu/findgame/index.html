@@ -261,39 +261,47 @@
     }
 
     function showGameDetail(name) {
+      const game = games.find(g => g.name === name);
+      if (!game) return;
+
       const detailBox = document.getElementById('gameDetail');
-      const gameLines = 40;
-      detailBox.innerHTML = `
-        <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Close</div>
-        <img src="https://placehold.co/600x200" alt="Game Banner">
-        <h3>${name}</h3>
-        <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
-        <div class="game-section">
-          <div class="box">
-            <strong>Game Info</strong><br>
-            Type: Slot<br>
-            Payline: <span id="lineCount">${gameLines}</span><br>
-            Adjustable Lines: Yes
-          </div>
-          <div class="box">
-            <strong>Platform</strong><br>
-            <span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">🎰 Mega888</span>
-          </div>
-        </div>
-        <div class="bet-section">
-          <strong>Bet Options</strong><br>
-          <div class="bet-values">
-            <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span><span>8.00</span>
-            <span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
-          </div>
-          <div class="line-control">
-            <button onclick="adjustLines(-1)">-</button>
-            <span id="lineDisplay">${gameLines} lines</span>
-            <button onclick="adjustLines(1)">+</button>
-          </div>
-        </div>`;
-      detailBox.classList.add('active');
-      window.currentLines = gameLines;
+      const platforms = game.tags.map(tag =>
+      `<span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin-top:4px;">🎰 ${tag.toUpperCase()}</span>`
+     ).join('<br>');
+
+     detailBox.innerHTML = `
+    <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Close</div>
+    <img src="https://placehold.co/600x200" alt="Game Banner">
+    <h3>${game.name}</h3>
+    <p><strong>Game Name:</strong> ${game.name.replace(/ /g, '')}</p>
+    <div class="game-section">
+      <div class="box">
+        <strong>Game Info</strong><br>
+        Type: ${game.info.type}<br>
+        Payline: <span id="lineCount">${game.info.payline}</span><br>
+        Adjustable Lines: ${game.info.adjustable ? 'Yes' : 'No'}
+      </div>
+      <div class="box">
+        <strong>Platform</strong><br>
+        ${platforms}
+      </div>
+    </div>
+    <div class="bet-section">
+      <strong>Bet Options</strong><br>
+      <div class="bet-values">
+        <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span><span>8.00</span>
+        <span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
+      </div>
+      ${game.info.adjustable ? `
+        <div class="line-control">
+          <button onclick="adjustLines(-1)">-</button>
+          <span id="lineDisplay">${game.info.payline} lines</span>
+          <button onclick="adjustLines(1)">+</button>
+        </div>` : ''
+      }
+    </div>`;
+    detailBox.classList.add('active');
+    window.currentLines = game.info.payline;
     }
 
     function adjustLines(amount) {
