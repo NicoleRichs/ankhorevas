@@ -200,13 +200,17 @@
   const selectedPecahan = pecahanList[Math.floor(Math.random() * pecahanList.length)];
 
   let logs = [];
-  let balance = rnd(3000, 4000); // initial balance
+  let balance = rnd(3000, 4000);
+
+  // Ambil waktu awal dari globalTime
+  let baseTime = globalTime ? new Date(globalTime) : new Date();
 
   for(let i = 0; i < 10; i++){
     const beginMoney = balance;
     const win = Math.random() > 0.7 ? rnd(0, selectedPecahan) : 0.00;
     const endMoney = parseFloat((beginMoney - bet + win).toFixed(2));
-    const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
+
+    const formattedTime = baseTime.toISOString().replace("T", " ").substring(0, 19);
 
     logs.unshift({
       game,
@@ -215,10 +219,13 @@
       win: win.toFixed(2),
       beginMoney: beginMoney.toFixed(2),
       endMoney: endMoney.toFixed(2),
-      dateTime: timeStamp
+      dateTime: formattedTime
     });
 
-    balance = endMoney; // update balance
+    balance = endMoney;
+
+    // Mundurkan waktu secara acak 1–7 detik
+    baseTime.setSeconds(baseTime.getSeconds() - Math.floor(Math.random() * 7 + 1));
   }
 
   const setScoreMoney = logs[0].endMoney;
@@ -251,6 +258,7 @@
 
   tbody.innerHTML = rows;
 }
+
 </script>
 
 </body>
