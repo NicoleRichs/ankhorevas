@@ -371,7 +371,7 @@
 
     <div class="search-bar">
       <div>🔍</div>
-      <input type="text" id="searchInput">
+      <input type="text" id="searchInput" oninput="filterGames()">
     </div>
 
     <div class="tags">
@@ -486,19 +486,23 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("searchInput");
+  const searchInput = document.getElementById("searchInput");
+  
+  // Pastikan elemen ditemukan sebelum menambahkan event listener
+  if (searchInput) {
+    searchInput.addEventListener("input", function () {
+      const filter = searchInput.value.toLowerCase();
+      const gameCards = document.querySelectorAll(".game-card");
 
-  input.addEventListener("input", function () {
-    const filter = input.value.toLowerCase();
-    const gameCards = document.querySelectorAll(".game-card");
-
-    gameCards.forEach((card) => {
-      const title = card.querySelector(".game-title").textContent.toLowerCase();
-      card.style.display = title.includes(filter) ? "block" : "none";
+      gameCards.forEach((card) => {
+        const title = card.querySelector(".game-title").textContent.toLowerCase();
+        card.style.display = title.includes(filter) ? "block" : "none";
+      });
     });
-  });
+  } else {
+    console.error('Element #searchInput not found!');
+  }
 });
-
   displayGames(games);
   </script>
 </body>
