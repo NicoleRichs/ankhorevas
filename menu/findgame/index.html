@@ -441,7 +441,8 @@
       document.getElementById('gameList').scrollIntoView({ behavior: 'smooth' });
     }
 
-   function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
+  function showGameDetail(name, tags, image, type, payline, adjustable, bets) {
+  window.currentGame = { name, tags, image, type, payline, adjustable, bets };
   const gameDetail = document.getElementById('gameDetail');
 
   // Inisialisasi state global
