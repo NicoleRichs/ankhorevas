@@ -76,7 +76,18 @@ for (let i = 0; i < logs; i++) {
   });
   currentEnd = beginMoney;
 }
+<select id="gameSelect">
+  <option value="Great88">Great88</option>
+  <option value="SeaWorld">SeaWorld</option>
+</select>
 
+<select id="betSelect"></select>
+
+<button onclick="generateLogs()">Change</button>
+
+<table id="gameLogTable">
+  <!-- Generated logs will appear here -->
+</table>
 // Insert Set Score row
 const setScoreRow = document.createElement("tr");
 setScoreRow.innerHTML = `
@@ -104,6 +115,73 @@ data.forEach(row => {
   `;
   document.getElementById("gameBody").appendChild(tr);
 });
+
+const gameBets = {
+  "Great88": [2.50, 3.00, 5.00],
+  "SeaWorld": [1.00, 2.00, 2.50]
+};
+
+const gameSelect = document.getElementById("gameSelect");
+const betSelect = document.getElementById("betSelect");
+const logTable = document.getElementById("gameLogTable");
+
+// Populate bet dropdown when game is selected
+gameSelect.addEventListener("change", () => {
+  const bets = gameBets[gameSelect.value];
+  betSelect.innerHTML = bets.map(b => `<option value="${b}">${b}</option>`).join('');
+});
+
+// Initial load
+gameSelect.dispatchEvent(new Event("change"));
+
+function generateLogs() {
+  const selectedGame = gameSelect.value;
+  const selectedBet = parseFloat(betSelect.value);
+  const logCount = 10;
+  let logs = [];
+  let endMoney = getRandomStartMoney(); // misal mulai dari angka acak
+
+  for (let i = 0; i < logCount; i++) {
+    const beginMoney = endMoney;
+    const win = randomWinAmount(); // bisa 0.00 sampai 3x bet
+    endMoney = parseFloat((beginMoney - selectedBet + win).toFixed(2));
+    logs.unshift({
+      game: selectedGame,
+      tableId: 0,
+      bet: selectedBet.toFixed(2),
+      win: win.toFixed(2),
+      begin: beginMoney.toFixed(2),
+      end: endMoney.toFixed(2),
+      datetime: new Date().toISOString().slice(0, 19).replace('T', ' ')
+    });
+  }
+
+  // Show Set Score
+  const setScore = logs[0].end;
+  let html = `<tr>
+    <td>-</td><td style="color:red">Set score: -${setScore}</td>
+    <td>-</td><td>-</td><td>-</td><td>-</td><td>${logs[0].datetime}</td>
+  </tr>`;
+
+  // Append logs
+  logs.forEach(log => {
+    html += `<tr>
+      <td>${log.game}</td><td>${log.tableId}</td><td>${log.bet}</td>
+      <td>${log.win}</td><td>${log.begin}</td><td>${log.end}</td><td>${log.datetime}</td>
+    </tr>`;
+  });
+
+  logTable.innerHTML = html;
+}
+
+function getRandomStartMoney() {
+  return parseFloat((3000 + Math.random() * 100).toFixed(2));
+}
+
+function randomWinAmount() {
+  const chance = Math.random();
+  return chance < 0.7 ? 0.00 : parseFloat((Math.random() * 3).toFixed(2));
+}
 </script>
 
 </body>
