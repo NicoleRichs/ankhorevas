@@ -69,9 +69,17 @@
     }
     @media (max-width: 480px) {
      .container {
+      width: 90%;
+      padding: 10px;
       transform: scale(0.85);
       transform-origin: top center;
     }
+   }
+    html, body {
+     margin: 0;
+     padding: 0;
+     height: 100%;
+     overflow: hidden; /* Kunci agar tidak bisa scroll */
    }
     .card {
       width: 100%;
