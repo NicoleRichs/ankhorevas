@@ -66,16 +66,19 @@
 #gameLog td:nth-child(4) {
   width: 5px; /* win */
 }
- .table-id-highlight {
-  display: inline-block;
-  padding: 2px 4px;
-  font-weight: bold;
-  background-color: #d2d6de;
-  color: #000;
-  border-radius: 30px;
-  vertical-align: middle;
-  font-size: 26px; 
-  }
+.table-id-highlight {
+  width: 50px;               /* Panjang */
+  height: 50px;              /* Tinggi - sama untuk bulatan */
+  background-color: #d2d6de; /* Warna latar */
+  color: #000;               /* Warna teks */
+  font-weight: bold;         /* Teks tebal */
+  font-size: 26px;           /* Saiz teks */
+  border-radius: 50%;        /* Buat bentuk bulat */
+  display: flex;             /* Flexbox untuk center teks */
+  justify-content: center;   /* Center secara horizontal */
+  align-items: center;       /* Center secara vertical */
+  margin: 10px auto;         /* Tengah & ada jarak */
+}
     button {
       padding: 5px 10px;
       font-size: 14px;
