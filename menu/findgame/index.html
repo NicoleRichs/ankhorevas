@@ -495,41 +495,31 @@
     }
     
 const payline = 25;
+  const lineBetOptions = [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00];
+  let currentIndex = 0; // Default ke 0.25
 
-// Line Bet dari game kamu
-const lineBetOptions = [0.25, 0.50, 0.75, 1.00, 1.25, 1.75, 2.50, 3.00, 3.75, 5.00, 7.50, 12.50, 15.00, 25.00, 37.50, 50.00, 75.00, 100.00, 200.00, 300.00];
-
-// Mulai dari index pertama (0.25)
-let currentIndex = 0;
-
-// Update tampilan nilai bet
-function updateDisplay() {
-  const currentLineBet = lineBetOptions[currentIndex];
-  const totalBet = currentLineBet * payline;
-
-  document.getElementById("lineBetDisplay").textContent = currentLineBet.toFixed(2);
-  document.getElementById("totalBetDisplay").textContent = totalBet.toFixed(2);
-}
-
-// Fungsi untuk tombol -
-function kurangiBet() {
-  if (currentIndex > 0) {
-    currentIndex--;
-    updateDisplay();
+  function updateDisplay() {
+    const currentLineBet = lineBetOptions[currentIndex];
+    const totalBet = currentLineBet * payline;
+    document.getElementById('lineBetDisplay').textContent = currentLineBet.toFixed(2);
+    document.getElementById('totalBetDisplay').textContent = totalBet.toFixed(2);
   }
-}
 
-// Fungsi untuk tombol +
-function tambahBet() {
-  if (currentIndex < lineBetOptions.length - 1) {
-    currentIndex++;
-    updateDisplay();
+  function kurangiBet() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateDisplay();
+    }
   }
-}
 
-// Jalankan saat awal
-updateDisplay();
+  function tambahBet() {
+    if (currentIndex < lineBetOptions.length - 1) {
+      currentIndex++;
+      updateDisplay();
+    }
+  }
 
+  updateDisplay(); 
     function adjustLines(amount) {
       window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
       document.getElementById('lineCount').textContent = window.currentLines;
