@@ -24,12 +24,13 @@
     position: absolute;
     z-index: -1;
    }
+   .corner-img.right {right: 0;}
+   .corner-img.left {left: 0;}
+   .corner-img {position: fixed;top: 0; width: 60px; height: auto;}
    .img1 {position: fixed; object-fit: cover; top: 0; height: 100vh; left: 0; width: auto; }
    .img2 {position: fixed; object-fit: cover; top: 0; height: 100vh; right: 0; width: auto; }
    .img3 {position: fixed; object-fit: cover; height: 100vh; top: 50%; left: 0; transform: translateY(-50%); width: auto; }
    .img4 {position: fixed; object-fit: cover; height: 100vh; top: 50%; right: 0; transform: translateY(-50%); width: auto; }
-   .img5 {position: fixed; height: auto; top: 0; left: -20px; width: 900px; }
-   .img6 {position: fixed; height: auto; top: 0; right: -20px; width: 900px; }
    .img7 {position: fixed; object-fit: cover; height: 100vh; top: 0; left: 50%; transform: translateX(-50%); width: auto; }
    .img8 {position: fixed; object-fit: cover; height: auto; top: 0; left: 50%; transform: translateX(-50%); width: 250px; }
    .img9 {position: fixed; object-fit: cover; height: 100vh; bottom: 0; left: 50%; transform: translatex(-50%); width: auto; }
@@ -270,8 +271,8 @@
   <img src="https://i.imgur.com/UUIOKtv.png" class="bg-img img2">
   <img src="https://i.imgur.com/bGqb6dJ.png" class="bg-img img3">
   <img src="https://i.imgur.com/MfhKshi.png" class="bg-img img4">
-  <img src="https://i.imgur.com/yPw48fJ.png" class="bg-img img5">
-  <img src="https://i.imgur.com/yIjuipR.png" class="bg-img img6">
+  <img src="https://i.imgur.com/yPw48fJ.png" class="corner-img left">
+  <img src="https://i.imgur.com/yIjuipR.png" class="corner-img right">
   <img src="https://i.imgur.com/w7byhoH.png" class="bg-img img7">
   <img src="https://i.imgur.com/QtwH03L.png" class="bg-img img7">
   <img 
