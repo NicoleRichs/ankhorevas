@@ -40,6 +40,16 @@
    td:nth-child(7) {
      width: 120px; /* Lebar kolom DateTime */
    }
+
+ .table-id-highlight {
+  display: inline-block;
+  padding: 2px 8px;
+  font-weight: bold;
+  background-color: #777;
+  color: #000;
+  border-radius: 10px;
+  vertical-align: middle;
+  }
     button {
       padding: 5px 10px;
       font-size: 13px;
@@ -149,7 +159,7 @@
 
       logs.unshift({
         game,
-        tableID: 0,
+        tableID: `<span class="table-id-highlight">0</span>`,
         bet: bet.toFixed(2),
         win: win.toFixed(2),
         beginMoney: beginMoney.toFixed(2),
