@@ -1,44 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Game Log Generator</title>
   <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
+    body { font-family: Arial, sans-serif; padding:20px; }
+    table { width:100%; border-collapse:collapse; margin-top:10px;}
+    th,td { padding:8px; border:1px solid #ccc; text-align:center;}
+    th { background:#0073e6; color:#fff;}
+    button { padding:8px 15px; font-size:16px; margin-top:10px; margin-right:10px;
+            background:#28a745; color:#fff; border:none; border-radius:5px; cursor:pointer;}
+    button:hover { background:#218838;}
+    select,input { padding:6px 10px; font-size:16px; margin-left:10px;}
+    #nowTime { font-weight:bold; margin-left:10px; color:#0073e6;}
+
+    /* warna negatif merah tanpa border */
+    .set-score-row td {
+      color: black;
     }
-    th, td {
-      border: 1px solid #aaa;
-      padding: 6px 12px;
-      text-align: center;
+    .set-score-row td.negatif {
+      color: red;
+      font-weight: bold;
     }
-    th {
-      background: #1976d2;
-      color: #fff;
-    }
-    .red {
+    .set-score-row td.setscore {
       color: red;
       font-weight: bold;
     }
   </style>
 </head>
 <body>
+
+<h2>Game Log Generator</h2>
+
+<label for="gameSelect">Game:</label>
 <select id="gameSelect">
   <option value="Great88">Great88</option>
-  <option value="SeaWorld">SeaWorld</option>
+  <option value="LuckyBall">LuckyBall</option>
+  <option value="MegaReel">MegaReel</option>
+  <option value="DragonSlot">DragonSlot</option>
+  <option value="SevenWin">SevenWin</option>
 </select>
 
-<select id="betSelect"></select>
+<label for="betValue">Bet:</label>
+<input type="number" id="betValue" value="2.50" step="0.01" min="0.01" max="9999.99" />
 
-<button onclick="generateLogs()">Change</button>
+<button onclick="setNow()">Now (Current Time)</button>
+<span id="nowTime">No time set</span>
 
-<table id="gameLogTable">
-  <!-- Generated logs will appear here -->
-</table>
+<br><br>
+<button onclick="generateLog()">Change</button>
 
-<h3>Game Log Table</h3>
-<table id="gameTable">
+<table id="gameLog">
   <thead>
     <tr>
       <th>GameName</th>
@@ -50,139 +62,79 @@
       <th>DateTime</th>
     </tr>
   </thead>
-  <tbody id="gameBody"></tbody>
+  <tbody>
+  </tbody>
 </table>
 
 <script>
-const gameName = "Great88";
-const tableID = 0;
-const betValue = 2.5;
-const initialEndMoney = 3167.24;
-const logs = 10;
-const dateTime = "2025-05-15 06:15:49";
+  let globalTime = null;
 
-// Win values (bisa diubah sesuai kebutuhan)
-const winValues = [0, 1.6, 0, 0, 0, 0, 0, 0, 6.83, 0];
-
-function formatMoney(value) {
-  return value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-
-let data = [];
-let currentEnd = initialEndMoney;
-
-// Generate backwards
-for (let i = 0; i < logs; i++) {
-  const win = winValues[i];
-  const bet = betValue;
-  const endMoney = currentEnd;
-  const beginMoney = endMoney + bet - win;
-  data.unshift({
-    game: gameName,
-    table: tableID,
-    bet: bet,
-    win: win,
-    begin: beginMoney,
-    end: endMoney,
-    time: dateTime
-  });
-  currentEnd = beginMoney;
-}
-
-// Insert Set Score row
-const setScoreRow = document.createElement("tr");
-setScoreRow.innerHTML = `
-  <td>-</td>
-  <td class="red">Set score: -${formatMoney(initialEndMoney)}</td>
-  <td class="red">-</td>
-  <td class="red">-</td>
-  <td class="red">-</td>
-  <td class="red">-</td>
-  <td>${dateTime}</td>
-`;
-document.getElementById("gameBody").appendChild(setScoreRow);
-
-// Add log rows
-data.forEach(row => {
-  const tr = document.createElement("tr");
-  tr.innerHTML = `
-    <td>${row.game}</td>
-    <td>${row.table}</td>
-    <td>${row.bet.toFixed(2)}</td>
-    <td>${row.win.toFixed(2)}</td>
-    <td>${formatMoney(row.begin)}</td>
-    <td>${formatMoney(row.end)}</td>
-    <td>${row.time}</td>
-  `;
-  document.getElementById("gameBody").appendChild(tr);
-});
-
-const gameBets = {
-  "Great88": [2.50, 3.00, 5.00],
-  "SeaWorld": [1.00, 2.00, 2.50]
-};
-
-const gameSelect = document.getElementById("gameSelect");
-const betSelect = document.getElementById("betSelect");
-const logTable = document.getElementById("gameLogTable");
-
-// Populate bet dropdown when game is selected
-gameSelect.addEventListener("change", () => {
-  const bets = gameBets[gameSelect.value];
-  betSelect.innerHTML = bets.map(b => `<option value="${b}">${b}</option>`).join('');
-});
-
-// Initial load
-gameSelect.dispatchEvent(new Event("change"));
-
-function generateLogs() {
-  const selectedGame = gameSelect.value;
-  const selectedBet = parseFloat(betSelect.value);
-  const logCount = 10;
-  let logs = [];
-  let endMoney = getRandomStartMoney(); // misal mulai dari angka acak
-
-  for (let i = 0; i < logCount; i++) {
-    const beginMoney = endMoney;
-    const win = randomWinAmount(); // bisa 0.00 sampai 3x bet
-    endMoney = parseFloat((beginMoney - selectedBet + win).toFixed(2));
-    logs.unshift({
-      game: selectedGame,
-      tableId: 0,
-      bet: selectedBet.toFixed(2),
-      win: win.toFixed(2),
-      begin: beginMoney.toFixed(2),
-      end: endMoney.toFixed(2),
-      datetime: new Date().toISOString().slice(0, 19).replace('T', ' ')
-    });
+  function setNow(){
+    const now = new Date();
+    globalTime = now.toISOString().replace("T"," ").substring(0,19);
+    document.getElementById("nowTime").innerText = globalTime;
   }
 
-  // Show Set Score
-  const setScore = logs[0].end;
-  let html = `<tr>
-    <td>-</td><td style="color:red">Set score: -${setScore}</td>
-    <td>-</td><td>-</td><td>-</td><td>-</td><td>${logs[0].datetime}</td>
-  </tr>`;
+  function rnd(min, max, dec = 2){
+    return parseFloat((Math.random() * (max - min) + min).toFixed(dec));
+  }
 
-  // Append logs
-  logs.forEach(log => {
-    html += `<tr>
-      <td>${log.game}</td><td>${log.tableId}</td><td>${log.bet}</td>
-      <td>${log.win}</td><td>${log.begin}</td><td>${log.end}</td><td>${log.datetime}</td>
-    </tr>`;
-  });
+  function generateLog(){
+    const game = document.getElementById("gameSelect").value;
+    const bet = parseFloat(document.getElementById("betValue").value);
+    const tbody = document.querySelector("#gameLog tbody");
 
-  logTable.innerHTML = html;
-}
+    let logs = [];
+    let endMoney = rnd(3000, 4000); // nilai terakhir
 
-function getRandomStartMoney() {
-  return parseFloat((3000 + Math.random() * 100).toFixed(2));
-}
+    for(let i = 0; i < 10; i++){
+      const win = Math.random() > 0.7 ? rnd(0, bet * 3) : 0.00;
+      const beginMoney = parseFloat((endMoney + bet - win).toFixed(2));
+      const timeStamp = globalTime || new Date().toISOString().replace("T"," ").substring(0,19);
 
-function randomWinAmount() {
-  const chance = Math.random();
-  return chance < 0.7 ? 0.00 : parseFloat((Math.random() * 3).toFixed(2));
-}
+      logs.unshift({
+        game,
+        tableID: 0,
+        bet: bet.toFixed(2),
+        win: win.toFixed(2),
+        beginMoney: beginMoney.toFixed(2),
+        endMoney: endMoney.toFixed(2),
+        dateTime: timeStamp
+      });
+
+      endMoney = beginMoney;
+    }
+
+    const data2 = logs[0];
+
+    let rows = `
+      <tr class="set-score-row">
+        <td>-</td>
+        <td class="setscore">Set score: ${(-Math.abs(parseFloat(data2.endMoney))).toFixed(2)}</td>
+        <td class="negatif">-</td>
+        <td class="negatif">-</td>
+        <td class="negatif">-</td>
+        <td class="negatif">-</td>
+        <td>${data2.dateTime}</td>
+      </tr>
+    `;
+
+    logs.forEach(log => {
+      rows += `
+        <tr>
+          <td>${log.game}</td>
+          <td>${log.tableID}</td>
+          <td>${log.bet}</td>
+          <td>${log.win}</td>
+          <td>${log.beginMoney}</td>
+          <td>${log.endMoney}</td>
+          <td>${log.dateTime}</td>
+        </tr>
+      `;
+    });
+
+    tbody.innerHTML = rows;
+  }
 </script>
 
 </body>
