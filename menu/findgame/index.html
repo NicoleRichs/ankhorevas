@@ -601,6 +601,25 @@
       document.getElementById('lineDisplay').textContent = `${newLines} lines`;
       updateBetDisplay();
     }
+    const tagButton = document.querySelector(".tag-button");
+    tagButton.addEventListener("click", function () {
+    const selectedTag = "918kiss"; // Tag yang dipilih
+    const filteredGames = games.filter(game => game.tags.includes(selectedTag));
+
+    // Menampilkan game yang difilter
+    displayGames(filteredGames);
+});
+
+function displayGames(games) {
+    const gameList = document.getElementById("game-list");
+    gameList.innerHTML = ""; // Clear previous games
+    games.forEach(game => {
+        const gameItem = document.createElement("div");
+        gameItem.className = "game-item";
+        gameItem.innerHTML = `<h3>${game.name}</h3>`;
+        gameList.appendChild(gameItem);
+    });
+}
 
     function renderGames(keyword = '') {
       const gameList = document.getElementById('gameList');
