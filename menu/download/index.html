@@ -64,7 +64,22 @@
       transform: scale(1.05);
       box-shadow: 0 0 12px gold;
     }
-
+    
+    .copy-notif {
+     position: absolute;
+     bottom: 100%; /* Tampil di atas tombol */
+     left: 50%;
+     transform: translateX(-50%);
+     background: black;
+     color: white;
+     padding: 4px 8px;
+     border-radius: 4px;
+     font-size: 12px;
+     white-space: nowrap;
+     opacity: 0;
+     pointer-events: none;
+     transition: opacity 0.3s;
+}
     @media (max-width: 768px) {
       .game-card {
         width: 45%;
@@ -329,11 +344,16 @@
 
 <script>
 function copyLink(event, element) {
-  event.preventDefault(); // Cegah browser buka link
-  const link = element.getAttribute('href'); // Ambil link dari href
-  navigator.clipboard.writeText(link)
-    .then(() => alert("Link copied to clipboard: " + link))
-    .catch(err => console.error("Copy failed: ", err));
+  event.preventDefault();
+  const link = element.getAttribute('href');
+  navigator.clipboard.writeText(link).then(() => {
+    const notif = element.querySelector('.copy-notif');
+    notif.style.opacity = '1';
+
+    setTimeout(() => {
+      notif.style.opacity = '0';
+    }, 1500);
+  });
 }
 </script>
 </body>
