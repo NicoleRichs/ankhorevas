@@ -108,10 +108,7 @@
 
   <input type="text" id="searchBox" placeholder="Search game...">
 
-  <div class="game-list" id="gameList">
-    <div class="game-item" onclick="showGameDetail('Panther Moon', 'panther.jpg', 'Slot', 25, 'Yes')">Panther Moon</div>
-    <div class="game-item" onclick="showGameDetail('Great Blue', 'greatblue.jpg', 'Slot', 20, 'No')">Great Blue</div>
-  </div>
+  <div class="game-list" id="gameList"></div>
 
   <div class="game-detail" id="gameDetail">
     <img id="gameImg" src="" alt="Game Image">
@@ -133,19 +130,8 @@
   </div>
 
   <script>
-    const gameDetail = document.getElementById('gameDetail');
-    const gameImg = document.getElementById('gameImg');
-    const gameTitle = document.getElementById('gameTitle');
-    const gameName = document.getElementById('gameName');
-    const gameType = document.getElementById('gameType');
-    const gamePayline = document.getElementById('gamePayline');
-    const gameAdjustable = document.getElementById('gameAdjustable');
-    const lineDisplay = document.getElementById('lineDisplay');
-    const betValues = document.getElementById('betValues');
-
-    let currentLine = 1;
-
-    const betLines = {
+    const games = [
+      {
         name: "Panther Moon",
         type: "Slot",
         payline: 20,
@@ -155,16 +141,44 @@
         bets: {
           1: [0.50, 1.00, 2.00, 5.00, 10.00],
           2: [0.10, 10.00, 20.00, 30.00, 40.00]
-        };
+        }
+      }
+    ];
 
+    const gameDetail = document.getElementById('gameDetail');
+    const gameImg = document.getElementById('gameImg');
+    const gameTitle = document.getElementById('gameTitle');
+    const gameName = document.getElementById('gameName');
+    const gameType = document.getElementById('gameType');
+    const gamePayline = document.getElementById('gamePayline');
+    const gameAdjustable = document.getElementById('gameAdjustable');
+    const lineDisplay = document.getElementById('lineDisplay');
+    const betValues = document.getElementById('betValues');
+    const gameList = document.getElementById('gameList');
 
-    function showGameDetail(name, img, type, payline, adjustable) {
-      gameImg.src = img;
-      gameTitle.textContent = name;
-      gameName.textContent = 'Game Name: ' + name;
-      gameType.textContent = 'Type: ' + type;
-      gamePayline.textContent = 'Payline: ' + payline;
-      gameAdjustable.textContent = 'Adjustable Payline: ' + adjustable;
+    let currentGame = null;
+    let currentLine = 1;
+
+    function renderGames() {
+      gameList.innerHTML = '';
+      games.forEach((game, index) => {
+        const div = document.createElement('div');
+        div.className = 'game-item';
+        div.textContent = game.name;
+        div.onclick = () => showGameDetail(index);
+        gameList.appendChild(div);
+      });
+    }
+
+    function showGameDetail(index) {
+      const game = games[index];
+      currentGame = game;
+      gameImg.src = game.image;
+      gameTitle.textContent = game.name;
+      gameName.textContent = 'Game Name: ' + game.name;
+      gameType.textContent = 'Type: ' + game.type;
+      gamePayline.textContent = 'Payline: ' + game.payline;
+      gameAdjustable.textContent = 'Adjustable Payline: ' + (game.adjustable ? 'Yes' : 'No');
       currentLine = 1;
       updateBetValues();
       lineDisplay.textContent = 'Line: ' + currentLine;
@@ -172,8 +186,9 @@
     }
 
     function changeLine(delta) {
+      if (!currentGame) return;
       const newLine = currentLine + delta;
-      if (betLines[newLine]) {
+      if (currentGame.bets[newLine]) {
         currentLine = newLine;
         lineDisplay.textContent = 'Line: ' + currentLine;
         updateBetValues();
@@ -181,7 +196,8 @@
     }
 
     function updateBetValues() {
-      betValues.textContent = 'Bet Values: ' + betLines[currentLine].join(', ');
+      if (!currentGame) return;
+      betValues.textContent = 'Bet Values: ' + currentGame.bets[currentLine].join(', ');
     }
 
     document.getElementById('searchBox').addEventListener('input', function () {
@@ -191,6 +207,8 @@
         item.style.display = item.textContent.toLowerCase().includes(keyword) ? 'block' : 'none';
       });
     });
+
+    renderGames();
   </script>
 </body>
 </html>
