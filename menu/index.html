@@ -10,10 +10,7 @@
       margin: 0;
       padding: 0;
       background-color: #000;
-      font-family: 'Arial', sans-serif;
-      display: flex;          
-      align-items: center;
-      justify-content: center;    
+      font-family: 'Arial', sans-serif;   
       height: 100vh;
       overflow: hidden;
       position: relative;
@@ -27,15 +24,15 @@
     position: absolute;
     z-index: 1;
    }
-   .img1 {position: fixed; object-fit: cover; top: 0; left: 0; width: 300px; }
-   .img2 {position: fixed; object-fit: cover; top: 0; right: 0; width: 300px; }
-   .img3 {position: fixed; top: 0; left: 0; width: 200px; }
-   .img4 {position: fixed; top: 0; right: 0; width: 200px; }
-   .img5 {position: fixed; top: 50%; left: 0; transform: translateY(-50%); width: 200px; }
-   .img6 {position: fixed; top: 50%; right: 0; transform: translateY(-50%); width: 200px; }
-   .img7 {position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 250px; }
-   .img8 { bottom: 0; left: 50%; transform: translateX(-50%); width: 250px; }
-   .img9 { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; }
+   .img1 {position: fixed; object-fit: cover; top: 0; left: 0; width: 500px; }
+   .img2 {position: fixed; object-fit: cover; top: 0; right: 0; width: 500px; }
+   .img3 {position: fixed; top: 0; left: 0; width: 500px; }
+   .img4 {position: fixed; top: 0; right: 0; width: 500px; }
+   .img5 {position: fixed; top: 50%; left: 0; transform: translateY(-50%); width: 500px; }
+   .img6 {position: fixed; top: 50%; right: 0; transform: translateY(-50%); width: 500px; }
+   .img7 {position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 500px; }
+   .img8 { bottom: 0; left: 50%; transform: translateX(-50%); width: 500px; }
+   .img9 { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 500px; }
     .floating-dots {
       position: fixed;
       width: 100%;
@@ -146,6 +143,10 @@
   }
   }
     .menu-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background-color: #000;
       width: 21vw;
       min-height: 800px;
