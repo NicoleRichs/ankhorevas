@@ -499,32 +499,41 @@ const payline = 25;
   let currentIndex = 0; // Default ke 0.25
 
   function updateDisplay() {
-    const currentLineBet = lineBetOptions[currentIndex];
-    const totalBet = currentLineBet * payline;
-    document.getElementById('lineBetDisplay').textContent = currentLineBet.toFixed(2);
-    document.getElementById('totalBetDisplay').textContent = totalBet.toFixed(2);
-  }
+  const currentLineBet = lineBetOptions[currentIndex];
+  const totalBet = currentLineBet * window.currentLines;  // Sesuaikan total bet dengan payline
+  document.getElementById('lineBetDisplay').textContent = currentLineBet.toFixed(2);
+  document.getElementById('totalBetDisplay').textContent = totalBet.toFixed(2);
+}
 
   function kurangiBet() {
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateDisplay();
-    }
+  if (currentIndex > 0) {
+    currentIndex--;
+    updateDisplay();
   }
+}
 
-  function tambahBet() {
-    if (currentIndex < lineBetOptions.length - 1) {
-      currentIndex++;
-      updateDisplay();
-    }
+function tambahBet() {
+  if (currentIndex < lineBetOptions.length - 1) {
+    currentIndex++;
+    updateDisplay();
   }
+}
 
   updateDisplay(); 
     function adjustLines(amount) {
-      window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
-      document.getElementById('lineCount').textContent = window.currentLines;
-      document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
-    }
+  window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
+  document.getElementById('lineCount').textContent = window.currentLines;
+  document.getElementById('lineDisplay').textContent = `${window.currentLines} lines`;
+
+  // Perbarui tampilan bet options setelah payline diubah
+  updateBetOptions();
+}
+  function updateBetOptions() {
+  const currentLineBet = lineBetOptions[currentIndex];
+  const totalBet = currentLineBet * window.currentLines;
+  document.getElementById('lineBetDisplay').textContent = currentLineBet.toFixed(2);
+  document.getElementById('totalBetDisplay').textContent = totalBet.toFixed(2);
+}
 
     const gameList = document.getElementById('gameList');
 
