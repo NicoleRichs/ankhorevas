@@ -147,6 +147,16 @@
       text-align: center;
       color: #777;
     }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 16px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #5b5132;
+      font-weight: bold;
+      z-index: 20;
+    }
   </style>
 </head>
 <body>
@@ -219,45 +229,44 @@
     }
 
     function showGameDetail(name, platforms, imageUrl) {
-      const detailBox = document.getElementById('gameDetail');
-      const gameLines = 40;
-      const platformTags = platforms.map(p => `<span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin:4px 4px 0 0;">🎰 ${p}</span>`).join(' ');
-      detailBox.innerHTML = `
-        <div class="detail-inner">
-          <div style="margin-bottom:10px; cursor:pointer; color:#5b5132; font-weight:bold;" onclick="goBack()">⬅ Close</div>
-          <img src="${imageUrl}" alt="Game Banner">
-          <h3>${name}</h3>
-          <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
-          <div class="game-section">
-            <div class="box">
-              <strong>Game Info</strong><br>
-              Type: Slot<br>
-              Payline: <span id="lineCount">${gameLines}</span><br>
-              Adjustable Lines: Yes
-            </div>
-            <div class="box">
-              <strong>Platform</strong><br>
-              ${platformTags}
-            </div>
-          </div>
-          <div class="bet-section">
-            <strong>Bet Options</strong><br>
-            <div class="bet-values">
-              <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span>
-              <span>8.00</span><span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
-            </div>
-            <div class="line-control">
-              <button onclick="adjustLines(-1)">-</button>
-              <span id="lineDisplay">${gameLines} lines</span>
-              <button onclick="adjustLines(1)">+</button>
-            </div>
-          </div>
+  const detailBox = document.getElementById('gameDetail');
+  const gameLines = 40;
+  const platformTags = platforms.map(p => `<span style="background:#fff;padding:3px 6px;border-radius:6px;display:inline-block;margin:4px 4px 0 0;">🎰 ${p}</span>`).join(' ');
+  detailBox.innerHTML = `
+    <div class="close-btn" onclick="goBack()">❌</div>
+    <div class="detail-inner">
+      <img src="${imageUrl}" alt="Game Banner">
+      <h3>${name}</h3>
+      <p><strong>Game Name:</strong> ${name.replace(/ /g, '')}</p>
+      <div class="game-section">
+        <div class="box">
+          <strong>Game Info</strong><br>
+          Type: Slot<br>
+          Payline: <span id="lineCount">${gameLines}</span><br>
+          Adjustable Lines: Yes
         </div>
-      `;
-      detailBox.classList.add('active');
-      window.currentLines = gameLines;
-    }
-
+        <div class="box">
+          <strong>Platform</strong><br>
+          ${platformTags}
+        </div>
+      </div>
+      <div class="bet-section">
+        <strong>Bet Options</strong><br>
+        <div class="bet-values">
+          <span>0.40</span><span>0.80</span><span>1.20</span><span>2.00</span><span>4.00</span>
+          <span>8.00</span><span>12.00</span><span>20.00</span><span>40.00</span><span>80.00</span><span>120.00</span>
+        </div>
+        <div class="line-control">
+          <button onclick="adjustLines(-1)">-</button>
+          <span id="lineDisplay">${gameLines} lines</span>
+          <button onclick="adjustLines(1)">+</button>
+        </div>
+      </div>
+    </div>
+  `;
+  detailBox.classList.add('active');
+  window.currentLines = gameLines;
+}
     function adjustLines(amount) {
       window.currentLines = Math.max(1, Math.min(100, window.currentLines + amount));
       document.getElementById('lineCount').textContent = window.currentLines;
