@@ -11,21 +11,7 @@
       color: #ffd700;
       margin: 0;
       padding: 20px;
-    }
-
-    .platform-tags {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .platform-tags div {
-      padding: 10px 20px;
-      border: 2px solid #ffd700;
-      border-radius: 8px;
-      cursor: pointer;
-      text-transform: uppercase;
+      text-align: center;
     }
 
     #searchBox {
@@ -37,13 +23,29 @@
       color: #ffd700;
       margin: 0 auto 20px auto;
       display: block;
-      text-align: center;
+    }
+
+    .platform-tags {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+
+    .platform-tags div {
+      padding: 10px 20px;
+      border: 2px solid #ffd700;
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
     }
 
     .game-list {
       display: flex;
       flex-direction: column;
       gap: 10px;
+      align-items: center;
+      margin-top: 20px;
     }
 
     .game-item {
@@ -52,6 +54,8 @@
       cursor: pointer;
       background: #222;
       color: #ffd700;
+      width: 90%;
+      max-width: 500px;
     }
 
     .game-detail {
@@ -66,6 +70,7 @@
       padding: 20px;
       transition: right 0.4s ease-in-out;
       z-index: 999;
+      text-align: left;
     }
 
     .game-detail.active {
@@ -103,13 +108,13 @@
   </style>
 </head>
 <body>
+  <input type="text" id="searchBox" placeholder="Search game...">
+
   <div class="platform-tags">
     <div>918KISS</div>
     <div>MEGA888</div>
     <div>PUSSY888</div>
   </div>
-
-  <input type="text" id="searchBox" placeholder="Search game...">
 
   <div class="game-list" id="gameList"></div>
 
