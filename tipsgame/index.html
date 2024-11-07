@@ -1,25 +1,160 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Editor Resit</title>
-
-  <!-- Preload fonts -->
-  <link rel="preload" href="fonts/font1.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/font2.woff2" as="font" type="font/woff2" crossorigin>
-
-  <!-- Preload images -->
-  <link rel="preload" as="image" href="images/icon.svg" fetchpriority="high">
-
-  <!-- CSS styles -->
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Optional: analytics or scripts -->
-  <script defer src="js/script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tips Game</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <h1>Selamat Datang</h1>
-  <p>Ini halaman HTML dengan struktur head yang lebih professional.</p>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.layout_app__EsRjK {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.layout_top__vweVn {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+}
+
+.header_mail_suggestion__cKVLC {
+  display: flex;
+  align-items: center;
+}
+
+.mini-button_button__pvAKu img {
+  margin-right: 10px;
+}
+
+.header-mail_box__uxxYV {
+  flex-grow: 1;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #5cb85c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4cae4c;
+}
+
+.content-layout_layout__n8NkQ {
+  padding: 20px;
+}
+
+.button_button__5EIiE {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.button_button__5EIiE img {
+  margin-right: 10px;
+}
+
+.tips-game-container_container__Qpeb8 {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.output-container___6lWE {
+  margin-bottom: 20px;
+}
+
+.output-header_container__RDNji {
+  margin-bottom: 10px;
+}
+
+.output-main_main__2S475 {
+  margin-bottom: 10px;
+  min-height: 100px;
+}
+
+.output-bottom_bottom__8TtU8 {
+  font-size: 12px;
+  color: #777;
+}
+<body class="__className_22c318">
+  <div class="layout_app__EsRjK">
+    <div class="layout_top__vweVn">
+      <header class="header_header__2pZKc">
+        <div class="header-mail_suggestion__cKVLC">
+          <div class="mini-button_button__pvAKu">
+            <img alt="Mail" src="svg/mail.svg" width="16" height="16">
+          </div>
+          <div class="header-mail_box__uxxYV">
+            <h2 class="header-mail_title__OhSvh">Suggestion Box</h2>
+            <div class="header-mail_message___yxQU">
+              <textarea spellcheck="false" placeholder="Type your suggestion here..."></textarea>
+            </div>
+            <button class="submit-button_submit__GjZKn">
+              <span>Send!</span>
+            </button>
+          </div>
+        </div>
+        <time class="header-date_date__iX49J">15:42</time>
+        <div class="header-user_user__ty7Hu"><span>User</span></div>
+      </header>
+    </div>
+
+    <main class="layout_main__ABI2k">
+      <section class="content-layout_layout__n8NkQ">
+        <div class="content-layout_header__yVob0">
+          <div class="content-layout_left__VASQb">
+            <a href="/">
+              <div class="button_button__5EIiE">
+                <img alt="Arrow Left" src="svg/arrow-left.svg" width="16" height="16">
+                <span>back</span>
+              </div>
+            </a>
+          </div>
+          <div class="content-title_title__mmgaS"><h1>Tips Game</h1></div>
+        </div>
+
+        <div class="content-layout_content__Jvx6U">
+          <div class="tips-game-container_container__Qpeb8">
+            <div class="card-container_container__AkEPM">
+              <div class="output_container___6lWE">
+                <div class="output-header_container__RDNji">
+                  <textarea class="output-header_header__bL1FN">918KISS\n========</textarea>
+                </div>
+                <div class="output-main_container__HTsSA">
+                  <textarea class="output-main_main__2S475" style="font-weight:400;font-style:normal">
+WOLF HUNTERS
+NIAN NIAN YOU YU
+PAN JIN LIAN</textarea>
+                </div>
+                <div class="output-bottom_bottom__8TtU8">
+                  <span>Last Updated on 14:58 02/05/25</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
