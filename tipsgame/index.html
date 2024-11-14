@@ -4,104 +4,106 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tips Game</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .layout_app__EsRjK {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .layout_top__vweVn {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+    }
+
+    .header-mail_suggestion__cKVLC {
+      display: flex;
+      align-items: center;
+    }
+
+    .mini-button_button__pvAKu img {
+      margin-right: 10px;
+    }
+
+    .header-mail_box__uxxYV {
+      flex-grow: 1;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #5cb85c;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #4cae4c;
+    }
+
+    .content-layout_layout__n8NkQ {
+      padding: 20px;
+    }
+
+    .button_button__5EIiE {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .button_button__5EIiE img {
+      margin-right: 10px;
+    }
+
+    .tips-game-container_container__Qpeb8 {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .output-container___6lWE {
+      margin-bottom: 20px;
+    }
+
+    .output-header_container__RDNji {
+      margin-bottom: 10px;
+    }
+
+    .output-main_main__2S475 {
+      margin-bottom: 10px;
+      min-height: 100px;
+    }
+
+    .output-bottom_bottom__8TtU8 {
+      font-size: 12px;
+      color: #777;
+    }
+  </style>
 </head>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
-}
-
-.layout_app__EsRjK {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-.layout_top__vweVn {
-  background-color: #333;
-  color: white;
-  padding: 10px 20px;
-}
-
-.header_mail_suggestion__cKVLC {
-  display: flex;
-  align-items: center;
-}
-
-.mini-button_button__pvAKu img {
-  margin-right: 10px;
-}
-
-.header-mail_box__uxxYV {
-  flex-grow: 1;
-}
-
-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-button {
-  background-color: #5cb85c;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #4cae4c;
-}
-
-.content-layout_layout__n8NkQ {
-  padding: 20px;
-}
-
-.button_button__5EIiE {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.button_button__5EIiE img {
-  margin-right: 10px;
-}
-
-.tips-game-container_container__Qpeb8 {
-  background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.output-container___6lWE {
-  margin-bottom: 20px;
-}
-
-.output-header_container__RDNji {
-  margin-bottom: 10px;
-}
-
-.output-main_main__2S475 {
-  margin-bottom: 10px;
-  min-height: 100px;
-}
-
-.output-bottom_bottom__8TtU8 {
-  font-size: 12px;
-  color: #777;
-}
 <body class="__className_22c318">
   <div class="layout_app__EsRjK">
     <div class="layout_top__vweVn">
       <header class="header_header__2pZKc">
         <div class="header-mail_suggestion__cKVLC">
           <div class="mini-button_button__pvAKu">
+            <!-- Mail Icon (SVG) -->
             <img alt="Mail" src="svg/mail.svg" width="16" height="16">
           </div>
           <div class="header-mail_box__uxxYV">
@@ -125,6 +127,7 @@ button:hover {
           <div class="content-layout_left__VASQb">
             <a href="/">
               <div class="button_button__5EIiE">
+                <!-- Arrow Left Icon (SVG) -->
                 <img alt="Arrow Left" src="svg/arrow-left.svg" width="16" height="16">
                 <span>back</span>
               </div>
