@@ -2,162 +2,70 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tips Game</title>
+  <title>Tips Game Random</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
+      background: #121212;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
     }
 
-    .layout_app__EsRjK {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    .layout_top__vweVn {
-      background-color: #333;
-      color: white;
-      padding: 10px 20px;
-    }
-
-    .header-mail_suggestion__cKVLC {
-      display: flex;
-      align-items: center;
-    }
-
-    .mini-button_button__pvAKu img {
-      margin-right: 10px;
-    }
-
-    .header-mail_box__uxxYV {
-      flex-grow: 1;
-    }
-
-    textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-
-    button {
-      background-color: #5cb85c;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #4cae4c;
-    }
-
-    .content-layout_layout__n8NkQ {
-      padding: 20px;
-    }
-
-    .button_button__5EIiE {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .button_button__5EIiE img {
-      margin-right: 10px;
-    }
-
-    .tips-game-container_container__Qpeb8 {
-      background-color: white;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .output-container___6lWE {
-      margin-bottom: 20px;
-    }
-
-    .output-header_container__RDNji {
-      margin-bottom: 10px;
-    }
-
-    .output-main_main__2S475 {
-      margin-bottom: 10px;
+    .tip-box {
+      background: #1e1e1e;
+      padding: 30px;
+      margin-top: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px #00ff99;
+      font-size: 1.2em;
       min-height: 100px;
     }
 
-    .output-bottom_bottom__8TtU8 {
-      font-size: 12px;
-      color: #777;
+    button {
+      padding: 15px 30px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 10px;
+      background-color: #00ff99;
+      color: #000;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #00cc77;
     }
   </style>
 </head>
-<body class="__className_22c318">
-  <div class="layout_app__EsRjK">
-    <div class="layout_top__vweVn">
-      <header class="header_header__2pZKc">
-        <div class="header-mail_suggestion__cKVLC">
-          <div class="mini-button_button__pvAKu">
-            <!-- Mail Icon (SVG) -->
-            <img alt="Mail" src="svg/mail.svg" width="16" height="16">
-          </div>
-          <div class="header-mail_box__uxxYV">
-            <h2 class="header-mail_title__OhSvh">Suggestion Box</h2>
-            <div class="header-mail_message___yxQU">
-              <textarea spellcheck="false" placeholder="Type your suggestion here..."></textarea>
-            </div>
-            <button class="submit-button_submit__GjZKn">
-              <span>Send!</span>
-            </button>
-          </div>
-        </div>
-        <time class="header-date_date__iX49J">15:42</time>
-        <div class="header-user_user__ty7Hu"><span>User</span></div>
-      </header>
-    </div>
+<body>
 
-    <main class="layout_main__ABI2k">
-      <section class="content-layout_layout__n8NkQ">
-        <div class="content-layout_header__yVob0">
-          <div class="content-layout_left__VASQb">
-            <a href="/">
-              <div class="button_button__5EIiE">
-                <!-- Arrow Left Icon (SVG) -->
-                <img alt="Arrow Left" src="svg/arrow-left.svg" width="16" height="16">
-                <span>back</span>
-              </div>
-            </a>
-          </div>
-          <div class="content-title_title__mmgaS"><h1>Tips Game</h1></div>
-        </div>
-
-        <div class="content-layout_content__Jvx6U">
-          <div class="tips-game-container_container__Qpeb8">
-            <div class="card-container_container__AkEPM">
-              <div class="output_container___6lWE">
-                <div class="output-header_container__RDNji">
-                  <textarea class="output-header_header__bL1FN">918KISS\n========</textarea>
-                </div>
-                <div class="output-main_container__HTsSA">
-                  <textarea class="output-main_main__2S475" style="font-weight:400;font-style:normal">
-WOLF HUNTERS
-NIAN NIAN YOU YU
-PAN JIN LIAN</textarea>
-                </div>
-                <div class="output-bottom_bottom__8TtU8">
-                  <span>Last Updated on 14:58 02/05/25</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+  <h1>🎮 Tips Game Hari Ini</h1>
+  <button onclick="tampilkanTips()">Dapatkan Tips</button>
+  <div class="tip-box" id="kotakTips">
+    Tekan tombol untuk melihat tips game!
   </div>
+
+  <script>
+    const daftarTips = [
+      "Gunakan karakter dengan speed tinggi untuk elak serangan musuh.",
+      "Jangan bazirkan booster – guna hanya bila perlu!",
+      "Selalu upgrade senjata selepas 3 stage.",
+      "Kumpul koin di setiap level, jangan biar ketinggalan.",
+      "Gunakan shield bila HP di bawah 30%.",
+      "Boss level memerlukan strategi, jangan hanya spam attack!",
+      "Main bersama team lebih berkesan daripada solo.",
+      "Jangan lupa claim hadiah harian untuk dapat item rare.",
+      "Cuba semua karakter untuk tahu kekuatan masing-masing.",
+      "Kadang retreat lebih baik dari kalah!"
+    ];
+
+    function tampilkanTips() {
+      const randomIndex = Math.floor(Math.random() * daftarTips.length);
+      const tips = daftarTips[randomIndex];
+      document.getElementById('kotakTips').innerText = tips;
+    }
+  </script>
+
 </body>
 </html>
