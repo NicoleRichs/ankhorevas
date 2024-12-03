@@ -5,67 +5,91 @@
   <title>Tips Game Random</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #121212;
+      font-family: sans-serif;
+      background: #111;
       color: #fff;
       text-align: center;
       padding: 50px;
     }
-
-    .tip-box {
-      background: #1e1e1e;
-      padding: 30px;
-      margin-top: 20px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px #00ff99;
-      font-size: 1.2em;
-      min-height: 100px;
-    }
-
     button {
-      padding: 5px 10px;
-      font-size: 1.1em;
+      padding: 10px 20px;
+      font-size: 18px;
+      background: #28a745;
+      color: #fff;
       border: none;
-      border-radius: 10px;
-      background-color: #00ff99;
-      color: #000;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s;
+      margin: 5px;
     }
-
-    button:hover {
-      background-color: #00cc77;
+    .tips-container {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .tip-box {
+      background: #222;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: left;
+    }
+    .copy-all-btn {
+      background-color: #007bff;
     }
   </style>
 </head>
 <body>
 
-  <h1>🎮 Tips Game Hari Ini</h1>
-  <button onclick="tampilkanTips()">Dapatkan Tips</button>
-  <div class="tip-box" id="kotakTips">
-    Tekan tombol untuk melihat tips game!
-  </div>
+<h1>🎮 Dapatkan 5 Tips Game Rawak!</h1>
+<button onclick="generateTips()">🎲 Dapatkan Tips</button>
+<button class="copy-all-btn" onclick="copyAllTips()">📋 Salin Semua</button>
 
-  <script>
-    const daftarTips = [
-      "Gunakan karakter dengan speed tinggi untuk elak serangan musuh.",
-      "Jangan bazirkan booster – guna hanya bila perlu!",
-      "Selalu upgrade senjata selepas 3 stage.",
-      "Kumpul koin di setiap level, jangan biar ketinggalan.",
-      "Gunakan shield bila HP di bawah 30%.",
-      "Boss level memerlukan strategi, jangan hanya spam attack!",
-      "Main bersama team lebih berkesan daripada solo.",
-      "Jangan lupa claim hadiah harian untuk dapat item rare.",
-      "Cuba semua karakter untuk tahu kekuatan masing-masing.",
-      "Kadang retreat lebih baik dari kalah!"
-    ];
+<div class="tips-container" id="tipsContainer"></div>
 
-    function tampilkanTips() {
-      const randomIndex = Math.floor(Math.random() * daftarTips.length);
-      const tips = daftarTips[randomIndex];
-      document.getElementById('kotakTips').innerText = tips;
+<script>
+  const tipsList = [
+    "Gunakan senjata jarak jauh untuk musuh kuat.",
+    "Selalu simpan sebelum masuk kawasan boss.",
+    "Periksa sudut untuk item tersembunyi.",
+    "Upgrade armor dulu sebelum senjata.",
+    "Gunakan stealth untuk misi rahsia.",
+    "Baca dialog NPC untuk petunjuk penting.",
+    "Kumpul potion sebelum jelajah dungeon.",
+    "Serang dari belakang untuk bonus damage.",
+    "Jangan abaikan skill tree!",
+    "Gunakan peta untuk rancang laluan."
+  ];
+
+  let currentTips = [];
+
+  function generateTips() {
+    const container = document.getElementById("tipsContainer");
+    container.innerHTML = "";
+
+    currentTips = [...tipsList].sort(() => 0.5 - Math.random()).slice(0, 5);
+
+    currentTips.forEach(tip => {
+      const box = document.createElement("div");
+      box.className = "tip-box";
+      box.textContent = tip;
+      container.appendChild(box);
+    });
+  }
+
+  function copyAllTips() {
+    if (currentTips.length === 0) {
+      alert("Sila klik 'Dapatkan Tips' dahulu.");
+      return;
     }
-  </script>
+    const allText = currentTips.join('\n');
+    navigator.clipboard.writeText(allText).then(() => {
+      alert("✔️ Semua tips telah disalin ke clipboard!");
+    });
+  }
+</script>
 
 </body>
 </html>
