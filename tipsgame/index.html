@@ -2,125 +2,183 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>5G88 Tips</title>
   <style>
     body {
+      background-color: #f5ecd7;
       font-family: 'Segoe UI', sans-serif;
-      background: #fffbe9;
-      color: #3e3e3e;
-      padding: 20px;
-    }
-    .container {
+      margin: 0;
+      padding: 0;
       display: flex;
-      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
-    .panel {
+
+    .app {
+      background: #fff9ec;
+      border-radius: 20px;
+      width: 400px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .tips-box {
+      display: flex;
+      justify-content: space-between;
       background: #f0e6c8;
-      padding: 15px;
-      border-radius: 10px;
-      min-width: 200px;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
     }
+
+    .tips-list {
+      background: #f0e6c8;
+      border-radius: 6px;
+      padding: 10px;
+      min-height: 60px;
+      margin-top: 5px;
+    }
+
     .actions {
       background: #d6d3f0;
-      padding: 15px;
-      border-radius: 10px;
+      padding: 10px;
+      border-radius: 8px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
+      align-items: flex-start;
     }
+
+    .actions.orange { background: #f3c77c; }
+    .actions.blue { background: #a8c4eb; }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
     button {
-      padding: 10px;
+      padding: 6px 10px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      font-size: 14px;
     }
-    .generate {
+
+    .generate-btn {
       background-color: #4caf50;
       color: white;
     }
-    .copy {
+
+    .copy-btn {
       background-color: #3e3e3e;
       color: white;
     }
+
     .timestamp {
-      margin-top: 20px;
-      font-size: 0.9em;
+      font-size: 0.8em;
       color: #777;
+      margin-top: 10px;
       font-style: italic;
       border-top: 1px dashed #999;
-      padding-top: 10px;
+      padding-top: 6px;
     }
+
     input[type="number"] {
       width: 60px;
-      padding: 5px;
+      padding: 4px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
     }
   </style>
 </head>
 <body>
 
-  <h2>Tips Game</h2>
-
-  <div class="container">
-    <div class="panel">
-      <div id="platform"><strong>918KISS</strong></div>
-      <div id="tipsList" style="margin-top: 10px;"></div>
-    </div>
-
-    <div class="actions">
-      <label>
-        Jumlah:
-        <input type="number" id="tipCount" value="3" min="1" max="10">
-      </label>
-      <button class="generate" onclick="generateTips()">Generate</button>
-      <button class="copy" onclick="copyTips()">Copy</button>
-    </div>
+<div class="app">
+  <div class="header">
+    <h2>Tips Game</h2>
   </div>
 
-  <div class="timestamp" id="timestamp"></div>
+  <div class="tips-box">
+    <div>
+      <strong id="platform">918KISS</strong>
+      <div class="tips-list" id="tipsList"></div>
+      <div class="timestamp" id="timestamp"></div>
+    </div>
+    <div class="actions" id="actionPanel">
+      <div class="row">
+        <strong>Actions</strong>
+        <label>
+          <input type="checkbox" id="autoSwitch" onchange="toggleAutoSwitch(this)"> 🕒
+        </label>
+      </div>
+      <input type="number" id="tipCount" value="3" min="1" max="10">
+      <button class="generate-btn" onclick="generateTips()">✍️</button>
+      <button class="copy-btn" onclick="copyTips()">📋</button>
+    </div>
+  </div>
+  <div style="text-align:center; font-size: 0.85em; margin-top:10px;">
+    On Hold Development<br>May be unstable.
+  </div>
+</div>
 
-  <script>
-    const allTips = [
-      "SPARTA", "MONEY FEVER", "WEALTH'S TREASURE",
-      "LUCKY DRAGON", "BONANZA BLAST", "GOLDEN TIGER",
-      "ZEUS'S FURY", "JACKPOT RUSH", "SWEET BONANZA",
-      "DIAMOND MINE"
-    ];
+<script>
+  const allTips = [
+    "SPARTA", "MONEY FEVER", "WEALTH'S TREASURE",
+    "LUCKY DRAGON", "BONANZA BLAST", "GOLDEN TIGER",
+    "ZEUS'S FURY", "JACKPOT RUSH", "SWEET BONANZA",
+    "DIAMOND MINE", "SEA WORLD", "HIGHWAY KINGS", "LOTUS LEGEND", "NITRO"
+  ];
 
-    function generateTips() {
-      const count = parseInt(document.getElementById("tipCount").value);
-      const shuffled = allTips.sort(() => 0.5 - Math.random());
-      const selected = shuffled.slice(0, count);
+  let autoSwitchInterval = null;
 
-      const listDiv = document.getElementById("tipsList");
-      listDiv.innerHTML = selected.map(tip => `<div>${tip}</div>`).join("");
+  function generateTips() {
+    const count = parseInt(document.getElementById("tipCount").value);
+    const shuffled = [...allTips].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, count);
+    document.getElementById("tipsList").innerHTML = selected.map(t => `<div>${t}</div>`).join("");
+    updateTimestamp();
+  }
 
-      updateTimestamp();
+  function copyTips() {
+    const platform = document.getElementById("platform").innerText.trim();
+    const tips = Array.from(document.querySelectorAll("#tipsList div"))
+                      .map(el => el.innerText)
+                      .join("\n");
+    const fullText = `${platform}\n${tips}`;
+    navigator.clipboard.writeText(fullText)
+      .then(() => alert("Berhasil disalin!"));
+  }
+
+  function updateTimestamp() {
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2, '0');
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    const mo = String(now.getMonth() + 1).padStart(2, '0');
+    const yy = now.getFullYear().toString().slice(2);
+    document.getElementById("timestamp").innerText = `Last Updated on ${hh}:${mm} ${dd}/${mo}/20${yy}`;
+  }
+
+  function toggleAutoSwitch(checkbox) {
+    if (checkbox.checked) {
+      autoSwitchInterval = setInterval(generateTips, 60000);
+    } else {
+      clearInterval(autoSwitchInterval);
     }
+  }
 
-    function copyTips() {
-      const platform = document.getElementById("platform").innerText.trim();
-      const tips = Array.from(document.querySelectorAll("#tipsList div"))
-                        .map(el => el.innerText)
-                        .join("\n");
-      const textToCopy = `${platform}\n${tips}`;
-
-      navigator.clipboard.writeText(textToCopy)
-        .then(() => alert("Berhasil disalin!"))
-        .catch(() => alert("Clipboard gagal! Pastikan browser mendukung."));
-    }
-
-    function updateTimestamp() {
-      const now = new Date();
-      const hh = now.getHours().toString().padStart(2, '0');
-      const mm = now.getMinutes().toString().padStart(2, '0');
-      const dd = now.getDate().toString().padStart(2, '0');
-      const mo = (now.getMonth() + 1).toString().padStart(2, '0');
-      const yy = now.getFullYear().toString().slice(2);
-
-      document.getElementById("timestamp").innerText = 
-        `Last Updated on ${hh}:${mm} ${dd}/${mo}/20${yy}`;
-    }
-  </script>
+  // Auto generate on first load
+  generateTips();
+</script>
 
 </body>
 </html>
