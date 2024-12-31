@@ -1,171 +1,126 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>5G88 Tips</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #fdf6e3;
-      color: #333;
-      padding: 40px;
+      background: #fffbe9;
+      color: #3e3e3e;
+      padding: 20px;
     }
-
-    h1 {
-      text-align: center;
-      font-size: 28px;
-      margin-bottom: 30px;
-      font-weight: bold;
-    }
-
     .container {
       display: flex;
-      justify-content: center;
       gap: 20px;
-      max-width: 800px;
-      margin: auto;
     }
-
-    .tips-section, .control-section {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 20px;
-      background: #f1e9c9;
-      min-width: 300px;
+    .panel {
+      background: #f0e6c8;
+      padding: 15px;
+      border-radius: 10px;
+      min-width: 200px;
     }
-
-    .tips-section {
-      flex: 2;
-    }
-
-    .tips-section h3 {
-      margin-top: 0;
-      background: #e7dca0;
-      padding: 10px;
-      border-radius: 5px;
-      font-weight: normal;
-    }
-
-    .tip-item {
-      padding: 6px 0;
-      font-size: 16px;
-      border-bottom: 1px dashed #aaa;
-    }
-
-    .control-section {
-      flex: 1;
-      background: #dcd7e3;
-    }
-
-    .control-header {
+    .actions {
+      background: #d6d3f0;
+      padding: 15px;
+      border-radius: 10px;
       display: flex;
-      justify-content: space-between;
-      margin-bottom: 15px;
-      font-weight: bold;
+      flex-direction: column;
+      gap: 10px;
     }
-
-    input[type="number"] {
-      width: 100%;
-      padding: 8px;
-      font-size: 16px;
-      margin-bottom: 15px;
-      border: none;
-      border-radius: 5px;
-    }
-
-    .button {
-      display: block;
-      width: 100%;
+    button {
       padding: 10px;
-      font-size: 16px;
-      margin-bottom: 10px;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
     }
-
-    .generate-btn {
-      background-color: #7ec27e;
+    .generate {
+      background-color: #4caf50;
       color: white;
     }
-
-    .copy-btn {
-      background-color: #786e58;
+    .copy {
+      background-color: #3e3e3e;
       color: white;
     }
-
-    .footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 12px;
-      font-style: italic;
+    .timestamp {
+      margin-top: 20px;
+      font-size: 0.9em;
       color: #777;
+      font-style: italic;
+      border-top: 1px dashed #999;
+      padding-top: 10px;
     }
-
+    input[type="number"] {
+      width: 60px;
+      padding: 5px;
+    }
   </style>
 </head>
 <body>
 
-<h1>Tips Game</h1>
+  <h2>Tips Game</h2>
 
-<div class="container">
-  <div class="tips-section">
-    <h3>918KISS</h3>
-    <div id="tipsOutput">
-      <!-- Tips akan muncul di sini -->
+  <div class="container">
+    <div class="panel">
+      <div id="platform"><strong>918KISS</strong></div>
+      <div id="tipsList" style="margin-top: 10px;"></div>
+    </div>
+
+    <div class="actions">
+      <label>
+        Jumlah:
+        <input type="number" id="tipCount" value="3" min="1" max="10">
+      </label>
+      <button class="generate" onclick="generateTips()">Generate</button>
+      <button class="copy" onclick="copyTips()">Copy</button>
     </div>
   </div>
 
-  <div class="control-section">
-    <div class="control-header">
-      <span>Actions</span>
-      <label><input type="checkbox" disabled> ⏱</label>
-    </div>
-    <input type="number" id="tipCount" min="1" max="10" value="3">
-    <button class="button generate-btn" onclick="generateTips()">🎲 Generate</button>
-    <button class="button copy-btn" onclick="copyTips()">📋 Copy</button>
-  </div>
-</div>
+  <div class="timestamp" id="timestamp"></div>
 
-<div class="footer">
-  Last Updated on 17:14 02/05/25
-</div>
+  <script>
+    const allTips = [
+      "SPARTA", "MONEY FEVER", "WEALTH'S TREASURE",
+      "LUCKY DRAGON", "BONANZA BLAST", "GOLDEN TIGER",
+      "ZEUS'S FURY", "JACKPOT RUSH", "SWEET BONANZA",
+      "DIAMOND MINE"
+    ];
 
-<script>
-  const allTips = [
-    "SPARTA", "MONEY FEVER", "WEALTH'S TREASURE",
-    "LUCKY DRAGON", "BONANZA BLAST", "GOLDEN TIGER",
-    "ZEUS'S FURY", "JACKPOT RUSH", "SWEET BONANZA",
-    "DIAMOND MINE"
-  ];
+    function generateTips() {
+      const count = parseInt(document.getElementById("tipCount").value);
+      const shuffled = allTips.sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, count);
 
-  let currentTips = [];
+      const listDiv = document.getElementById("tipsList");
+      listDiv.innerHTML = selected.map(tip => `<div>${tip}</div>`).join("");
 
-  function generateTips() {
-    const count = parseInt(document.getElementById('tipCount').value) || 3;
-    const output = document.getElementById('tipsOutput');
-    const shuffled = [...allTips].sort(() => 0.5 - Math.random());
-    currentTips = shuffled.slice(0, count);
-
-    output.innerHTML = '';
-    currentTips.forEach(tip => {
-      const div = document.createElement('div');
-      div.className = 'tip-item';
-      div.textContent = tip;
-      output.appendChild(div);
-    });
-  }
-
-  function copyTips() {
-    if (currentTips.length === 0) {
-      alert('Sila tekan "Generate" dahulu.');
-      return;
+      updateTimestamp();
     }
-    navigator.clipboard.writeText(currentTips.join('\n')).then(() => {
-      alert('✔️ Semua tips telah disalin ke clipboard!');
-    });
-  }
-</script>
+
+    function copyTips() {
+      const platform = document.getElementById("platform").innerText.trim();
+      const tips = Array.from(document.querySelectorAll("#tipsList div"))
+                        .map(el => el.innerText)
+                        .join("\n");
+      const textToCopy = `${platform}\n${tips}`;
+
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => alert("Berhasil disalin!"))
+        .catch(() => alert("Clipboard gagal! Pastikan browser mendukung."));
+    }
+
+    function updateTimestamp() {
+      const now = new Date();
+      const hh = now.getHours().toString().padStart(2, '0');
+      const mm = now.getMinutes().toString().padStart(2, '0');
+      const dd = now.getDate().toString().padStart(2, '0');
+      const mo = (now.getMonth() + 1).toString().padStart(2, '0');
+      const yy = now.getFullYear().toString().slice(2);
+
+      document.getElementById("timestamp").innerText = 
+        `Last Updated on ${hh}:${mm} ${dd}/${mo}/20${yy}`;
+    }
+  </script>
 
 </body>
 </html>
