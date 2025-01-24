@@ -1,179 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Game</title>
+  <meta charset="UTF-8">
+  <title>Tips Game</title>
   <style>
     body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f1d9;
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f9f1d1;
+      padding: 0;
       display: flex;
       justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      padding: 20px;
+      align-items: flex-start;
     }
-
-    h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-
     .container {
-      background: white;
-      border-radius: 16px;
+      background-color: #fffbe8;
+      border-radius: 20px;
       padding: 20px;
-      width: 90%;
-      max-width: 600px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px;
+      width: 360px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      animation: fadeSlideIn 0.8s ease;
     }
-
     .header {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .tip-box {
+      background-color: #f2e5b4;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeSlideIn 0.5s ease forwards;
+    }
+    .tips {
+      margin: 10px 0;
+      transition: all 0.3s ease;
+    }
+    .last-updated {
+      font-size: 12px;
+      font-style: italic;
+      text-align: center;
+      margin-top: 10px;
+      color: #777;
+    }
+    .card {
       display: flex;
       justify-content: space-between;
-      font-weight: bold;
-      background: #eee0af;
-      padding: 8px 12px;
-      border-radius: 8px 8px 0 0;
+      align-items: center;
+      border-top: 1px dashed #aaa;
+      padding-top: 10px;
+      margin-top: 10px;
     }
-
-    .tips {
-      background: #f6eecb;
-      padding: 12px;
-      min-height: 60px;
-    }
-
-    .footer {
-      font-size: 12px;
-      color: #555;
-      text-align: right;
-      margin-top: 6px;
-    }
-
     .actions {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 10px;
-      background: #e3e3f7;
-      padding: 10px;
-      border-radius: 0 0 8px 8px;
+      background-color: #4439a9;
+      color: white;
+      padding: 5px;
+      border-radius: 5px;
+      width: 100px;
+      animation: fadeSlideIn 0.6s ease;
     }
-
     .actions input {
       width: 50px;
-      padding: 4px;
       text-align: center;
+      margin: 5px 0;
+    }
+    .btn {
+      margin: 3px;
+      padding: 5px 10px;
       border: none;
       border-radius: 4px;
-    }
-
-    .actions button {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
       cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+    .copy-btn {
+      background-color: #6a5;
+      color: white;
+    }
+    .generate-btn {
+      background-color: #888;
+      color: white;
+    }
+    .auto-switch {
+      display: flex;
+      align-items: center;
+    }
+    .auto-switch input {
+      margin-left: 5px;
     }
 
-    .generate { background: #71c08c; }
-    .copy { background: #8a7764; color: white; }
-    .toggle { background: transparent; cursor: pointer; }
-    .platform-group { margin-bottom: 20px; }
+    @keyframes fadeSlideIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
-  <h2>Tips Game</h2>
-  <div id="gameTips"></div>
-  <p style="font-style: italic; color: #888">On Hold Development<br/>May be unstable.</p>
+  <div class="container">
+    <div class="header">Tips Game</div>
+    <div id="gameSection"></div>
+  </div>
 
   <script>
-    const data = {
-      '918KISS': ['SPARTA', 'MONEY FEVER', 'WEALTH'S TREASURE', 'SEA WORLD', 'DOLPHIN GOLD'],
-      'MEGA888': ['LOTUS LEGEND', 'HIGHWAY KINGS', 'NITRO', 'GREAT BLUE', 'FIVE DRAGONS'],
-      'PUSSY888': ['ALADDIN', 'PIRATE KING', 'DRAGON GOLD', 'FISH HUNTER', 'TIGER HEART']
+    const tipsList = {
+      "918KISS": ["SPARTA", "MONEY FEVER", "WEALTH'S TREASURE", "SEA WORLD", "CRAZY MONKEY"],
+      "MEGA888": ["LOTUS LEGEND", "HIGHWAY KINGS", "NITRO", "LUCKY PANDA", "BURNING FLAME"],
+      "PUSSY888": ["THUNDER GOD", "GREAT BLUE", "FIRE STRIKE", "PANDA", "DRAGON GOLD"]
     };
 
-    const tipCount = 3;
-    const root = document.getElementById('gameTips');
+    function randomTips(arr, count) {
+      const shuffled = [...arr].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count);
+    }
 
-    let autoTimers = {};
+    function createGameCard(name, tipsCount = 3) {
+      const container = document.createElement("div");
+      const tipBox = document.createElement("div");
+      tipBox.className = "tip-box";
+      tipBox.innerHTML = `<strong>${name}</strong><div class="tips" id="tips-${name}"></div>`;
+      container.appendChild(tipBox);
 
-    function createSection(platform, color = '#778bdd') {
-      const container = document.createElement('div');
-      container.className = 'container';
+      const card = document.createElement("div");
+      card.className = "card";
 
-      const header = document.createElement('div');
-      header.className = 'header';
-      header.textContent = platform;
-      container.appendChild(header);
+      const actionBox = document.createElement("div");
+      actionBox.className = "actions";
 
-      const tipsBox = document.createElement('div');
-      tipsBox.className = 'tips';
-      tipsBox.id = `${platform}-tips`;
-      container.appendChild(tipsBox);
+      actionBox.innerHTML = `
+        <div>Actions</div>
+        <div class="auto-switch">
+          ⏲️ <input type="checkbox" id="auto-${name}">
+        </div>
+        <input type="number" min="1" max="5" value="${tipsCount}" id="count-${name}">
+        <button class="btn generate-btn" onclick="generateTips('${name}')">⟳</button>
+        <button class="btn copy-btn" onclick="copyTips('${name}')">📋</button>
+      `;
 
-      const footer = document.createElement('div');
-      footer.className = 'footer';
-      footer.id = `${platform}-time`;
-      container.appendChild(footer);
+      card.appendChild(actionBox);
+      container.appendChild(card);
 
-      const actions = document.createElement('div');
-      actions.className = 'actions';
-      actions.style.background = color;
+      const updated = document.createElement("div");
+      updated.className = "last-updated";
+      updated.id = `updated-${name}`;
+      container.appendChild(updated);
 
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.value = tipCount;
+      document.getElementById("gameSection").appendChild(container);
 
-      const toggle = document.createElement('button');
-      toggle.textContent = '⏲️';
-      toggle.className = 'toggle';
-      let auto = false;
-      toggle.onclick = () => {
-        auto = !auto;
-        if (auto) {
-          autoTimers[platform] = setInterval(() => generateTips(platform, tipsBox, footer, input.value), 60000);
-        } else {
-          clearInterval(autoTimers[platform]);
+      generateTips(name);
+    }
+
+    function generateTips(name) {
+      const count = parseInt(document.getElementById(`count-${name}`).value);
+      const tips = randomTips(tipsList[name], count);
+      const tipsDiv = document.getElementById(`tips-${name}`);
+      tipsDiv.innerHTML = "";
+
+      tips.forEach((tip, index) => {
+        const tipItem = document.createElement("div");
+        tipItem.textContent = tip;
+        tipItem.style.opacity = 0;
+        tipItem.style.transform = "translateY(10px)";
+        tipsDiv.appendChild(tipItem);
+        setTimeout(() => {
+          tipItem.style.transition = "all 0.3s ease";
+          tipItem.style.opacity = 1;
+          tipItem.style.transform = "translateY(0)";
+        }, index * 100);
+      });
+
+      const now = new Date();
+      document.getElementById(`updated-${name}`).innerText =
+        `Last Updated on ${now.getHours()}:${now.getMinutes().toString().padStart(2, "0")} ${now.toLocaleDateString("en-GB")}`;
+    }
+
+    function copyTips(name) {
+      const tips = document.getElementById(`tips-${name}`).innerText;
+      const textToCopy = `${name}\n${tips}`;
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => alert("Copied!"))
+        .catch(() => alert("Copy failed."));
+    }
+
+    setInterval(() => {
+      for (const name in tipsList) {
+        const auto = document.getElementById(`auto-${name}`);
+        if (auto && auto.checked) {
+          generateTips(name);
         }
-      };
+      }
+    }, 60000);
 
-      const generateBtn = document.createElement('button');
-      generateBtn.textContent = '✍️';
-      generateBtn.className = 'generate';
-      generateBtn.onclick = () => generateTips(platform, tipsBox, footer, input.value);
-
-      const copyBtn = document.createElement('button');
-      copyBtn.textContent = '📋';
-      copyBtn.className = 'copy';
-      copyBtn.onclick = () => copyTips(platform, tipsBox);
-
-      actions.appendChild(toggle);
-      actions.appendChild(input);
-      actions.appendChild(generateBtn);
-      actions.appendChild(copyBtn);
-
-      container.appendChild(actions);
-      root.appendChild(container);
+    for (const name in tipsList) {
+      createGameCard(name);
     }
-
-    function generateTips(platform, tipsBox, footer, count) {
-      const tips = data[platform];
-      const chosen = tips.sort(() => 0.5 - Math.random()).slice(0, count);
-      tipsBox.textContent = chosen.join('\n');
-      footer.textContent = `Last Updated on ${new Date().toLocaleTimeString()} ${new Date().toLocaleDateString()}`;
-    }
-
-    function copyTips(platform, tipsBox) {
-      const text = `${platform}\n${tipsBox.textContent.trim()}`;
-      navigator.clipboard.writeText(text).then(() => alert('Tips copied!'));
-    }
-
-    createSection('918KISS', '#7a78b5');
-    createSection('MEGA888', '#f7aa45');
-    createSection('PUSSY888', '#65a4c2');
   </script>
 </body>
 </html>
