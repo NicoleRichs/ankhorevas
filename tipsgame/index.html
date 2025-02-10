@@ -11,8 +11,6 @@
       padding: 0;
       display: flex;
       justify-content: center;
-      align-items: center;
-      min-height: 100vh;
     }
     .container {
       background-color: #fffbe8;
@@ -43,38 +41,11 @@
     }
 
     .tip-box {
+      background-color: #f2e5b4;
       flex: 1;
       padding: 10px;
       border-radius: 5px;
       animation: fadeSlideIn 0.6s ease;
-      color: white;
-    }
-
-    .tip-box strong {
-      display: block;
-      font-size: 16px;
-      margin-bottom: 2px;
-      text-transform: uppercase;
-    }
-
-    .tip-box::after {
-      content: "=======";
-      display: block;
-      color: #fff;
-      font-size: 12px;
-      margin: 4px 0;
-    }
-
-    .tip-box.mega888 {
-      background-color: orange;
-    }
-
-    .tip-box.pussy888 {
-      background-color: skyblue;
-    }
-
-    .tip-box["918kiss"], .tip-box.kiss918, .tip-box.918kiss {
-      background-color: #9b59b6;
     }
 
     .tips {
@@ -82,6 +53,7 @@
     }
 
     .actions {
+      background-color: #4439a9;
       color: white;
       padding: 10px;
       border-radius: 8px;
@@ -99,18 +71,19 @@
       width: 50px;
       text-align: center;
       margin: 6px 0;
+
     }
 
     .actions.918kiss {
-      background-color: #605ca8;
+      background-color: #605ca8; /* Merah */
     }
 
     .actions.mega888 {
-      background-color: #f39c12;
+      background-color: #f39c12; /* Biru */
     }
 
     .actions.pussy888 {
-      background-color: #3c8dbc;
+       background-color: #3c8dbc; /* Ungu */
     }
 
     .auto-switch {
@@ -118,7 +91,7 @@
       align-items: center;
       margin-top: 4px;
     }
-
+ 
     .auto-switch input {
       margin-left: 5px;
     }
@@ -187,7 +160,7 @@
       row.className = "tip-area";
 
       const tipBox = document.createElement("div");
-      tipBox.className = `tip-box ${name.toLowerCase()}`;
+      tipBox.className = "tip-box";
       tipBox.innerHTML = `<strong>${name}</strong><div class="tips" id="tips-${name}"></div>`;
 
       const actionBox = document.createElement("div");
