@@ -71,19 +71,18 @@
       width: 50px;
       text-align: center;
       margin: 6px 0;
-
     }
 
     .actions.918kiss {
-      background-color: #605ca8; /* Merah */
+      background-color: #605ca8; /* Biru untuk 918KISS */
     }
 
     .actions.mega888 {
-      background-color: #f39c12; /* Biru */
+      background-color: #f39c12; /* Oranye untuk MEGA888 */
     }
 
     .actions.pussy888 {
-       background-color: #3c8dbc; /* Ungu */
+      background-color: #3c8dbc; /* Biru Muda untuk PUSSY888 */
     }
 
     .auto-switch {
@@ -91,7 +90,7 @@
       align-items: center;
       margin-top: 4px;
     }
- 
+
     .auto-switch input {
       margin-left: 5px;
     }
@@ -128,6 +127,13 @@
       color: #777;
     }
 
+    .divider {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
     @keyframes fadeSlideIn {
       0% { opacity: 0; transform: translateY(10px); }
       100% { opacity: 1; transform: translateY(0); }
@@ -161,7 +167,11 @@
 
       const tipBox = document.createElement("div");
       tipBox.className = "tip-box";
-      tipBox.innerHTML = `<strong>${name}</strong><div class="tips" id="tips-${name}"></div>`;
+      tipBox.innerHTML = `
+        <strong>${name}</strong>
+        <div class="divider">=====</div>
+        <div class="tips" id="tips-${name}"></div>
+      `;
 
       const actionBox = document.createElement("div");
       actionBox.className = `actions ${name.toLowerCase()}`;
@@ -215,7 +225,8 @@
 
     function copyTips(name) {
       const tips = document.getElementById(`tips-${name}`).innerText;
-      const textToCopy = `${name}\n${tips}`;
+      const divider = document.querySelector(`#${name} .divider`).innerText; // Ambil teks garis =====
+      const textToCopy = `${name}\n${divider}\n${tips}`;  // Menyertakan nama game, garis, dan tips
       navigator.clipboard.writeText(textToCopy)
         .then(() => alert("Copied!"))
         .catch(() => alert("Copy failed."));
