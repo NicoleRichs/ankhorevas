@@ -12,6 +12,7 @@
       display: flex;
       justify-content: center;
     }
+
     .container {
       background-color: #fffbe8;
       border-radius: 20px;
@@ -20,6 +21,7 @@
       width: 380px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+
     .header {
       text-align: center;
       font-size: 24px;
@@ -46,6 +48,7 @@
       padding: 10px;
       border-radius: 5px;
       animation: fadeSlideIn 0.6s ease;
+      text-align: center; /* Tengah semua isi tip-box */
     }
 
     .tips {
@@ -73,15 +76,15 @@
     }
 
     .actions.918kiss {
-      background-color: #605ca8; /* Biru untuk 918KISS */
+      background-color: #605ca8;
     }
 
     .actions.mega888 {
-      background-color: #f39c12; /* Oranye untuk MEGA888 */
+      background-color: #f39c12;
     }
 
     .actions.pussy888 {
-      background-color: #3c8dbc; /* Biru Muda untuk PUSSY888 */
+      background-color: #3c8dbc;
     }
 
     .auto-switch {
@@ -225,8 +228,7 @@
 
     function copyTips(name) {
       const tips = document.getElementById(`tips-${name}`).innerText;
-      const divider = document.querySelector(`#${name} .divider`).innerText; // Ambil teks garis =====
-      const textToCopy = `${name}\n${divider}\n${tips}`;  // Menyertakan nama game, garis, dan tips
+      const textToCopy = `${name}\n=====\n${tips}`;
       navigator.clipboard.writeText(textToCopy)
         .then(() => alert("Copied!"))
         .catch(() => alert("Copy failed."));
