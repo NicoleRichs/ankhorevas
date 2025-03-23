@@ -229,7 +229,7 @@
 
     function copyTips(name) {
       const tips = document.getElementById(`tips-${name}`).innerText;
-      const textToCopy = `${name}\n=====\n${tips}`;
+      const textToCopy = `${name}\n========\n${tips}`;
       navigator.clipboard.writeText(textToCopy)
         .then(() => alert("Copied!"))
         .catch(() => alert("Copy failed."));
