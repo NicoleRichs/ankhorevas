@@ -35,90 +35,61 @@
       margin-top: 15px;
     }
 
-    .tip-area {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      animation: fadeSlideIn 0.8s ease;
-    }
-
-    .tip-box {
-      background-color: #fdf4d8;
-      flex: 1;
-      padding: 10px;
-      border-radius: 5px;
-      animation: fadeSlideIn 0.6s ease;
+    .platform-title {
+      font-size: 20px;
+      font-weight: bold;
       text-align: center;
-      color: #333;
-    }
-
-    .tips {
-      margin-top: 6px;
-    }
-
-    .actions {
-      color: white;
+      background-color: #eee0aa;
       padding: 10px;
       border-radius: 8px;
-      width: 100px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    .tips-box {
+      background-color: #fdf4d8;
+      border-radius: 10px;
+      padding: 10px;
+      max-height: 100px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .action-row {
       display: flex;
-      flex-direction: column;
+      justify-content: space-around;
       align-items: center;
+      gap: 6px;
     }
 
-    .actions div:first-child {
-      font-weight: bold;
+    .action-row .btn,
+    .action-row input,
+    .action-row label {
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
     }
 
-    .actions input[type="number"] {
-      width: 50px;
+    .action-row input[type="number"] {
+      width: 40px;
       text-align: center;
-      margin: 6px 0;
-    }
-
-    .actions.g-918kiss {
-      background-color: #6a5acd;
-    }
-
-    .actions.g-mega888 {
-      background-color: #f39c12; /* Oranye */
-    }
-
-    .actions.g-pussy888 {
-      background-color: #3c8dbc; /* Biru Muda */
-    }
-
-    .auto-switch {
-      display: flex;
-      align-items: center;
-      margin-top: 4px;
-    }
-
-    .auto-switch input {
-      margin-left: 5px;
     }
 
     .btn {
-      margin: 4px 0;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: transform 0.2s ease, background-color 0.3s ease;
-      color: white;
+      padding: 6px 10px;
       font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    .btn:hover {
-      transform: scale(1.05);
-      filter: brightness(1.1);
-    }
-
-    .generate-btn {
+    .btn.generate-btn {
       background-color: #888;
     }
 
-    .copy-btn {
+    .btn.copy-btn {
       background-color: #28a745;
     }
 
@@ -166,32 +137,48 @@
       const card = document.createElement("div");
       card.className = "game-card";
 
-      const row = document.createElement("div");
-      row.className = "tip-area";
+      // Platform Title
+      const title = document.createElement("div");
+      title.className = "platform-title";
+      title.textContent = name;
+      card.appendChild(title);
 
-      const tipBox = document.createElement("div");
-      tipBox.className = "tip-box";
-      tipBox.innerHTML = `
-        <strong>${name}</strong>
-        <div class="divider">=====</div>
-        <div class="tips" id="tips-${name}"></div>
-      `;
+      // Tips Box
+      const tipsBox = document.createElement("div");
+      tipsBox.className = "tips-box";
+      tipsBox.id = `tips-${name}`;
+      card.appendChild(tipsBox);
 
-      const actionBox = document.createElement("div");
-      actionBox.className = `actions g-${name.toLowerCase()}`;
-      actionBox.innerHTML = `
-        <div>Actions</div>
-        <div class="auto-switch">
-          ⏲️ <input type="checkbox" id="auto-${name}">
-        </div>
-        <input type="number" min="1" max="5" value="${tipsCount}" id="count-${name}">
-        <button class="btn generate-btn" onclick="generateTips('${name}')">⟳</button>
-        <button class="btn copy-btn" onclick="copyTips('${name}')">📋</button>
-      `;
+      // Action Row
+      const actionRow = document.createElement("div");
+      actionRow.className = "action-row";
 
-      row.appendChild(tipBox);
-      row.appendChild(actionBox);
-      card.appendChild(row);
+      const autoSwitch = document.createElement("label");
+      autoSwitch.innerHTML = `⏲️ <input type="checkbox" id="auto-${name}">`;
+
+      const countInput = document.createElement("input");
+      countInput.type = "number";
+      countInput.min = "1";
+      countInput.max = "5";
+      countInput.value = tipsCount;
+      countInput.id = `count-${name}`;
+
+      const generateBtn = document.createElement("button");
+      generateBtn.className = "btn generate-btn";
+      generateBtn.textContent = "⟳";
+      generateBtn.onclick = () => generateTips(name);
+
+      const copyBtn = document.createElement("button");
+      copyBtn.className = "btn copy-btn";
+      copyBtn.textContent = "📋";
+      copyBtn.onclick = () => copyTips(name);
+
+      actionRow.appendChild(autoSwitch);
+      actionRow.appendChild(countInput);
+      actionRow.appendChild(generateBtn);
+      actionRow.appendChild(copyBtn);
+
+      card.appendChild(actionRow);
 
       const updated = document.createElement("div");
       updated.className = "last-updated";
