@@ -46,6 +46,12 @@
       margin-bottom: 10px;
     }
 
+    .tip-area {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
     .tips-box {
       background-color: #fdf4d8;
       border-radius: 10px;
@@ -54,14 +60,19 @@
       overflow-y: auto;
       border: 1px solid #ccc;
       font-size: 14px;
-      margin-bottom: 10px;
+      width: 75%;
     }
 
-    .action-row {
+    .action-box {
       display: flex;
-      justify-content: space-around;
-      align-items: center;
+      flex-direction: column;
       gap: 6px;
+      justify-content: flex-start;
+      align-items: center;
+      width: 20%;
+      background-color: #ddd;
+      padding: 10px;
+      border-radius: 10px;
     }
 
     .action-row .btn,
@@ -143,15 +154,19 @@
       title.textContent = name;
       card.appendChild(title);
 
+      // Tip Area
+      const row = document.createElement("div");
+      row.className = "tip-area";
+
       // Tips Box
       const tipsBox = document.createElement("div");
       tipsBox.className = "tips-box";
       tipsBox.id = `tips-${name}`;
-      card.appendChild(tipsBox);
+      row.appendChild(tipsBox);
 
-      // Action Row
-      const actionRow = document.createElement("div");
-      actionRow.className = "action-row";
+      // Action Box
+      const actionBox = document.createElement("div");
+      actionBox.className = "action-box";
 
       const autoSwitch = document.createElement("label");
       autoSwitch.innerHTML = `⏲️ <input type="checkbox" id="auto-${name}">`;
@@ -173,12 +188,14 @@
       copyBtn.textContent = "📋";
       copyBtn.onclick = () => copyTips(name);
 
-      actionRow.appendChild(autoSwitch);
-      actionRow.appendChild(countInput);
-      actionRow.appendChild(generateBtn);
-      actionRow.appendChild(copyBtn);
+      actionBox.appendChild(autoSwitch);
+      actionBox.appendChild(countInput);
+      actionBox.appendChild(generateBtn);
+      actionBox.appendChild(copyBtn);
 
-      card.appendChild(actionRow);
+      row.appendChild(actionBox);
+
+      card.appendChild(row);
 
       const updated = document.createElement("div");
       updated.className = "last-updated";
