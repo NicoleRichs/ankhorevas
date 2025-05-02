@@ -75,6 +75,19 @@
       border-radius: 10px;
     }
 
+    /* Add custom colors for each platform */
+    .action-box.mega888 {
+      background-color: #ff7f50; /* Example color for Mega888 (orange) */
+    }
+
+    .action-box["918KISS"] {
+      background-color: #ff6347; /* Example color for 918KISS (tomato) */
+    }
+
+    .action-box.pussy888 {
+      background-color: #32cd32; /* Example color for Pussy888 (lime green) */
+    }
+
     .action-row .btn,
     .action-row input,
     .action-row label {
@@ -167,6 +180,15 @@
       // Action Box
       const actionBox = document.createElement("div");
       actionBox.className = "action-box";
+
+      // Add custom color class based on the platform name
+      if (name === "MEGA888") {
+        actionBox.classList.add("mega888");
+      } else if (name === "918KISS") {
+        actionBox.classList.add("918KISS");
+      } else if (name === "PUSSY888") {
+        actionBox.classList.add("pussy888");
+      }
 
       const autoSwitch = document.createElement("label");
       autoSwitch.innerHTML = `⏲️ <input type="checkbox" id="auto-${name}">`;
