@@ -39,7 +39,6 @@
       font-size: 20px;
       font-weight: bold;
       text-align: center;
-      background-color: #eee0aa;
       padding: 10px;
       border-radius: 8px;
       border: 1px solid #ccc;
@@ -183,13 +182,16 @@
 
       // Add custom color class based on the platform name
       if (name === "MEGA888") {
-        actionBox.classList.add("mega888");
-      } else if (name === "918KISS") {
-        actionBox.classList.add("918KISS");
-      } else if (name === "PUSSY888") {
-        actionBox.classList.add("pussy888");
-      }
-
+      title.style.backgroundColor = "#f39c12";  // Orange
+      title.style.color = "#fff"; // Supaya teks kontras
+    } else if (name === "918KISS") {
+      title.style.backgroundColor = "#605ca8";  // Ungu
+      title.style.color = "#fff";
+    } else if (name === "PUSSY888") {
+      title.style.backgroundColor = "#3c8dbc";  // Biru
+      title.style.color = "#fff";
+    }
+  
       const autoSwitch = document.createElement("label");
       autoSwitch.innerHTML = `⏲️ <input type="checkbox" id="auto-${name}">`;
 
