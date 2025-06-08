@@ -180,6 +180,14 @@
       const actionBox = document.createElement("div");
       actionBox.className = "action-box";
 
+      // Warna background sesuai platform
+      if (name === "MEGA888") {
+      actionBox.style.backgroundColor = "#f39c12";
+    } else if (name === "918KISS") {
+      actionBox.style.backgroundColor = "#605ca8";
+    } else if (name === "PUSSY888") {
+      actionBox.style.backgroundColor = "#3c8dbc";
+    }
       // Add custom color class based on the platform name
       if (name === "MEGA888") {
       title.style.backgroundColor = "#f39c12";  // Orange
