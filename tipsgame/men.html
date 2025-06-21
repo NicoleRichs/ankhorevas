@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f1d9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .menu-container {
+      background-color: #fffbe8;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .menu-btn {
+      padding: 12px 24px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      background-color: #f4c542;
+      color: #333;
+      width: 200px;
+      text-align: center;
+    }
+
+    .menu-btn:hover {
+      background-color: #f1b600;
+    }
+  </style>
+</head>
+<body>
+  <div class="menu-container">
+    <button class="menu-btn" onclick="goToPage('tips.html')">Tips Game</button>
+    <button class="menu-btn" onclick="goToPage('find.html')">Find Game</button>
+  </div>
+
+  <script>
+    function goToPage(page) {
+      window.location.href = page;
+    }
+  </script>
+</body>
+</html>
