@@ -109,7 +109,23 @@
       margin-top: 10px;
       color: #777;
     }
-
+     
+    .home-button {
+     position: fixed;
+     top: 15px;
+     left: 15px;
+     background-color: #333;
+     color: white;
+     padding: 8px 12px;
+     border-radius: 8px;
+     text-decoration: none;
+     font-weight: bold;
+     z-index: 1000;
+     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .home-button:hover {
+      background-color: #555;
+    }
     @keyframes fadeSlideIn {
       0% { opacity: 0; transform: translateY(10px); }
       100% { opacity: 1; transform: translateY(0); }
@@ -120,6 +136,7 @@
   <div class="container">
     <div class="header">Tips Game</div>
     <div id="gameSection"></div>
+    <a href="index.html" class="home-button">🏠 Home</a>
   </div>
 
   <script>
