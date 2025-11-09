@@ -2,53 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Menu</title>
+  <title>Main Menu</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f1d9;
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .menu-container {
-      background-color: #fffbe8;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background-color: #f8f1d9;
+      font-family: 'Arial', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      justify-content: space-between;
+      height: 100vh;
     }
 
-    .menu-btn {
-      padding: 12px 24px;
-      font-size: 18px;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      background-color: #f4c542;
-      color: #333;
-      width: 200px;
+    .header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+      color: #5a5240;
+      font-size: 14px;
+    }
+
+    .title {
       text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #3e2f1c;
     }
 
-    .menu-btn:hover {
-      background-color: #f1b600;
+    .menu {
+      display: flex;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .menu-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      color: #3e2f1c;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .menu-item img {
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      background-color: #eee;
+      object-fit: cover;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .footer {
+      font-size: 14px;
+      color: #6d614d;
+      text-align: center;
+      margin-bottom: 15px;
     }
   </style>
 </head>
 <body>
-  <div class="menu-container">
-    <button class="menu-btn" onclick="goToPage('tipsgame')">Tips Game</button>
-    <button class="menu-btn" onclick="goToPage('find.html')">Find Game</button>
+  <div class="header">
+    <div>📩</div>
+    <div>12:13</div>
+    <div>User</div>
+  </div>
+
+  <div class="title">Main Menu</div>
+
+  <div class="menu">
+    <div class="menu-item" onclick="goToPage('tipsgame')">
+      <img src="https://img.icons8.com/color/100/slot-machine.png" alt="Tips Game">
+      Tips Game
+    </div>
+    <div class="menu-item" onclick="goToPage('find.html')">
+      <img src="https://img.icons8.com/color/100/slot-machine-2.png" alt="Find Game">
+      Find Game
+    </div>
+  </div>
+
+  <div class="footer">
+    On Hold Development<br>May be unstable.
   </div>
 
   <script>
