@@ -10,10 +10,23 @@
       background-color: #f8f1d9;
       font-family: 'Arial', sans-serif;
       display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .menu-container {
+      background-color: #fffbe8;
+      width: 90%;
+      max-width: 500px;
+      padding: 20px;
+      border-radius: 60px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      height: 100vh;
+      height: 90%;
     }
 
     .header {
@@ -29,14 +42,13 @@
       text-align: center;
       font-size: 24px;
       font-weight: bold;
-      margin-top: 10px;
       color: #3e2f1c;
     }
 
     .menu {
       display: flex;
       gap: 30px;
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     .menu-item {
@@ -71,36 +83,37 @@
       font-size: 14px;
       color: #6d614d;
       text-align: center;
-      margin-bottom: 15px;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div>📩</div>
-    <div>12:13</div>
-    <div>User</div>
-  </div>
-
-  <div class="title">Main Menu</div>
-
-  <div class="menu">
-    <div class="menu-item" onclick="goToPage('tipsgame')">
-      <div class="icon-wrapper" style="background-color: #f4dd72;">
-        <img src="https://img.icons8.com/color/100/slot-machine.png" alt="Tips Game">
-      </div>
-      Tips Game
+  <div class="menu-container">
+    <div class="header">
+      <div>📩</div>
+      <div>12:13</div>
+      <div>User</div>
     </div>
-    <div class="menu-item" onclick="goToPage('find.html')">
-      <div class="icon-wrapper" style="background-color: #a694d8;">
-        <img src="https://img.icons8.com/color/100/slot-machine-2.png" alt="Find Game">
-      </div>
-      Find Game
-    </div>
-  </div>
 
-  <div class="footer">
-    On Hold Development<br>May be unstable.
+    <div class="title">Main Menu</div>
+
+    <div class="menu">
+      <div class="menu-item" onclick="goToPage('tipsgame')">
+        <div class="icon-wrapper" style="background-color: #f4dd72;">
+          <img src="https://img.icons8.com/color/100/slot-machine.png" alt="Tips Game">
+        </div>
+        Tips Game
+      </div>
+      <div class="menu-item" onclick="goToPage('find.html')">
+        <div class="icon-wrapper" style="background-color: #a694d8;">
+          <img src="https://img.icons8.com/color/100/slot-machine-2.png" alt="Find Game">
+        </div>
+        Find Game
+      </div>
+    </div>
+
+    <div class="footer">
+      On Hold Development<br>May be unstable.
+    </div>
   </div>
 
   <script>
