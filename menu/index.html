@@ -31,20 +31,24 @@
     .header {
       width: 100%;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: center;
       padding: 10px 20px;
       color: #5a5240;
       font-size: 14px;
     }
 
     .title {
-      text-align: center;
       font-size: 24px;
       font-weight: bold;
       color: #3e2f1c;
+    }
+    .top-bar {
+     width: 100%;
+     display: flex;
+     justify-content: space-between;
       margin-bottom: 5px;
     }
-
     .menu {
       display: flex;
       gap: 30px;
@@ -89,12 +93,13 @@
 <body>
   <div class="menu-container">
     <div class="header">
-      <div>📩</div>
-      <div id="clock">--:--</div>
-      <div>User</div>
-    </div>
-
-    <div class="title">Main Menu</div>
+  <div class="top-bar">
+    <div>📩</div>
+    <div id="clock">--:--</div>
+    <div>User</div>
+  </div>
+  <div class="title">Main Menu</div>
+</div>
 
     <div class="menu">
       <div class="menu-item" onclick="goToPage('tipsgame')">
