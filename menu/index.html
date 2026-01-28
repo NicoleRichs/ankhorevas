@@ -43,16 +43,18 @@
       font-weight: bold;
       color: #3e2f1c;
     }
+
     .top-bar {
-     width: 100%;
-     display: flex;
-     justify-content: space-between;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
       margin-bottom: 5px;
     }
+
     .menu {
       display: flex;
       gap: 30px;
-      margin-top: 2px;
+      margin-top: 5px; /* Didekatkan ke tulisan Main Menu */
     }
 
     .menu-item {
@@ -93,13 +95,13 @@
 <body>
   <div class="menu-container">
     <div class="header">
-  <div class="top-bar">
-    <div>📩</div>
-    <div id="clock">--:--</div>
-    <div>User</div>
-  </div>
-  <div class="title">Main Menu</div>
-</div>
+      <div class="top-bar">
+        <div>📩</div>
+        <div id="clock">--:--</div>
+        <div>User</div>
+      </div>
+      <div class="title">Main Menu</div>
+    </div>
 
     <div class="menu">
       <div class="menu-item" onclick="goToPage('tipsgame')">
