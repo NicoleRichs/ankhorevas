@@ -18,7 +18,8 @@
     .menu-container {
       background-color: #fffbe8;
       width: 400px;
-      height: 500px;
+      max-width: 95%;
+      height: auto;
       padding: 20px;
       border-radius: 40px;
       box-shadow: 0 0 20px rgba(0,0,0,0.05);
@@ -54,7 +55,9 @@
     .menu {
       display: flex;
       gap: 30px;
-      margin-top: 5px; /* Didekatkan ke tulisan Main Menu */
+      margin-top: 5px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .menu-item {
@@ -89,6 +92,25 @@
       font-size: 14px;
       color: #6d614d;
       text-align: center;
+      margin-top: 20px;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 400px) {
+      .menu {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .icon-wrapper {
+        width: 80px;
+        height: 80px;
+      }
+
+      .icon-wrapper img {
+        width: 50px;
+        height: 50px;
+      }
     }
   </style>
 </head>
@@ -128,7 +150,6 @@
       window.location.href = page;
     }
 
-    // Real-time clock
     function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
