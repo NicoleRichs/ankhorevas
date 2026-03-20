@@ -23,8 +23,10 @@
     }
 
     .header {
+      display: flex;
       text-align: center;
-      font-size: 24px;
+      justify-content: flex-start;
+      gap: 10px;
       font-weight: bold;
       font-size: 24px;
       margin-bottom: 20px;
@@ -112,7 +114,6 @@
     }
      
     .home-button {
-     position: absolute;
      top: 40px;
      left: 650px;
      background-color: #3498db;
@@ -135,8 +136,7 @@
 </head>
 <body>
   <div class="container">
-    <a href="https://searcfile.github.io/5G88-editor/menu/" class="home-button">🏠 Home</a>
-    <div class="header">Tips Game</div>
+    <div class="header"><a href="https://searcfile.github.io/5G88-editor/menu/" class="home-button">🏠 Home</a>Tips Game</div>
     <div id="gameSection"></div>
   </div>
 
