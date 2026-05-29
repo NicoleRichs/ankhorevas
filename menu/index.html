@@ -65,12 +65,21 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      color: #3e2f1c;
+      color: gold;
       font-weight: 600;
       font-size: 16px;
       cursor: pointer;
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
     }
-
+    .menu-item:hover {
+      color: white;
+    }
+    .menu-item:hover .icon-wrapper {
+      background-color: white;
+    }
+    .menu-item:hover .icon-wrapper img {
+      filter: brightness(0) invert(1);
+    }
     .icon-wrapper {
       width: 100px;
       height: 100px;
@@ -135,13 +144,13 @@
     </div>
     <div class="menu">
       <div class="menu-item" onclick="goToPage('tipsgame')">
-        <div class="icon-wrapper" style="background-color: #000;">
+        <div class="icon-wrapper">
           <img src="https://png.pngtree.com/png-clipart/20241203/original/pngtree-explore-popular-slot-game-png-image_17523856.png" alt="Tips Game">
         </div>
         Tips Game
       </div>
       <div class="menu-item" onclick="goToPage('find.html')">
-        <div class="icon-wrapper" style="background-color: #000;">
+        <div class="icon-wrapper">
           <img src="https://png.pngtree.com/png-clipart/20250115/original/pngtree-a-classic-gold-slot-machine-displaying-winning-777-jackpot-combination-png-image_20203157.png" alt="Find Game">
         </div>
         Find Game
