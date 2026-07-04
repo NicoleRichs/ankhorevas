@@ -26,12 +26,15 @@
       display: flex;
       text-align: center;
       justify-content: flex-start;
-      gap: 10px;
+      gap: 12px;
       font-weight: bold;
       font-size: 24px;
       margin-bottom: 20px;
     }
-
+    .header-title {
+      flex-grow: 1;
+      text-align: left;
+    }
     .game-card {
       border-top: 1px dashed #aaa;
       padding-top: 15px;
@@ -114,11 +117,9 @@
     }
      
     .home-button {
-     top: 40px;
-     left: 650px;
      background-color: #000;
      color: gold;
-     padding: 4px 8px;
+     padding: 4px 10px;
      border-radius: 6px;
      text-decoration: none;
      font-weight: bold;
@@ -139,8 +140,11 @@
 </head>
 <body>
   <div class="container">
-    <div class="header"><a href="https://searcfile.github.io/5G88-editor/menu/" class="home-button">🏠 Home</a>Tips Game</div>
-    <div id="gameSection"></div>
+  <div class="header">
+  <a href="https://searcfile.github.io/5G88-editor/menu/" class="home-button">🏠 Home</a>
+  <div class="header-title">Tips Game</div>
+  </div>
+  <div id="gameSection"></div>
   </div>
 
   <script>
